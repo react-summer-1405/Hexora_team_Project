@@ -1,21 +1,21 @@
 
-@import url(https://db.onlinewebfonts.com/c/ae238c3ee498c52a23aab0d9f5e94d6b?family=dana-fanum+regular);
 @font-face {
-    font-family: "dana-fanum regular";
-    src: url("https://db.onlinewebfonts.com/t/ae238c3ee498c52a23aab0d9f5e94d6b.eot");
-    src: url("https://db.onlinewebfonts.com/t/ae238c3ee498c52a23aab0d9f5e94d6b.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/ae238c3ee498c52a23aab0d9f5e94d6b.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/ae238c3ee498c52a23aab0d9f5e94d6b.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/ae238c3ee498c52a23aab0d9f5e94d6b.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/ae238c3ee498c52a23aab0d9f5e94d6b.svg#dana-fanum regular")format("svg");
+  font-family: "Dana";
+  src: url("../font/dana-fanum regular/dana-fanum regular.ttf") format("woff2");
+  font-weight: 400;
+  font-display: swap;
 }
 
-
+@font-face {
+  font-family: "Dana";
+  src: url("../font/dana-fanum bold/dana-fanum bold.ttf") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
 
 
 :root {
   
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -30,7 +30,7 @@
 
 body {
   margin: 0;
-  font-family: "dana-fanum regular";
+  font-family: "Dana";
   direction: rtl;
 }
 
@@ -46,30 +46,7 @@ body {
   box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-weight: 500;
-  color: var(--text-h);
-}
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
 p {
   margin: 0;
 }
