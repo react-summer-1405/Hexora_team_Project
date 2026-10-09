@@ -1,3 +1,4 @@
+import Button from "../../../../common/Button"
 
 const HeroButton = () => {
   return (
@@ -6,7 +7,7 @@ const HeroButton = () => {
          <i> همین حالا</i>
          <i> شروع کن به یادگیری!</i>
         </span>
-<span className="rounded-full bg-bg-dark text-text-white px-5 py-3 transition transition-300 cursor-pointer hover:bg-surface-dark hover:-translate-y-0.5  hover:shadow-[0_5px_10px_1px_#666] active:shadow-[0_5px_20px_1px_#666] active:translate-y-0" >جدید ترین دوره ها</span>
+        <Button content='جديد ترین دوره ها'/>
       </div>
   )
 }
