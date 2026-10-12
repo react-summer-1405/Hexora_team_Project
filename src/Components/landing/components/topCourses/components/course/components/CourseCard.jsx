@@ -1,12 +1,14 @@
-import BottomCard from "./BottomCard"
-import TopCard from "./TopCard"
+import BottomCard from "./BottomCourseCard"
+import TopCard from "./TopCourseCard"
 
-const CourseCard = ({ course, index }) => {
-    const { name, teacher, price, level, subject } = course;
+const CourseCard = ({ course }) => {
+    const { title, teacherName, cost:price, levelName, statusName:subject , imageAddress:image } = course;
+   
+    
   return (
-                <div  key={index}  className="min-w-80 h-91 cursor-pointer hover:scale-105  transition duration-300 rounded-4xl">
-                    <TopCard level={level} subject={subject} />
-                    <BottomCard name={name} teacher={teacher} price={price} />
+                <div  className=" w-80 h-91 cursor-pointer  hover:-translate-y-2 transition duration-300 rounded-4xl" dir="rtl" >
+                    <TopCard levelName={levelName} subject={subject} image={image} />
+                    <BottomCard title={title} teacherName={teacherName} price={price} />
 
         </div>
   )

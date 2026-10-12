@@ -1,17 +1,17 @@
-import Button from '../../../../common/Button'
-import TopCourses from './TopCourses';
+import Button from "../../../../common/Button";
+import Topic from "../../../../common/Topic";
+import TopCourses from "./TopCourses";
 
 const TopCoursesSection = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-10 mt-30">
-    <h3 className='text-3xl font-bold text-center '>دوره های برتر هفته</h3>
-    <TopCourses/>
+    <div className="flex flex-col items-center justify-center gap-10 ">
+      <Topic content="دوره های برتر هفته"/>
+   
+      <TopCourses />
 
-<Button content="مشاهده بیشتر"/>
-    
-    
+      <Button content="مشاهده بیشتر" color="bg-lightDark" />
     </div>
-  )
-}
+  );
+};
 
-export default TopCoursesSection
+export default TopCoursesSection;
