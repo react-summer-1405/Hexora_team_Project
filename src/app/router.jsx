@@ -5,7 +5,8 @@ import MainLayout from "../Components/layouts/MainLayout";
 
 const router = createBrowserRouter([
  {path:'/', element:<MainLayout/>, children:[
-    {index:true , element:<LandingPage/>,},
+     {index:true , element:<LandingPage/>,},
+     
  ]}
 ]);
 
