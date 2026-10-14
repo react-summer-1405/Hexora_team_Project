@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme{
+    
+  /* --- Brand & Primary Colors --- */
+  --color-primary: #3772ff;
+  --color-primary-hover: #295bcc;
+
+  /* --- General & Backgrounds --- */
+  --color-bg-main: #fcfcfc;
+  --color-bg-light: #f6f6f6;
+  --color-bg-dark: #242424;
+  --color-bg-lightDark: #353535;
+  --color-surface-dark: #2f2f2f;
+
+  
+  
+
+  /* --- Typography & Text Colors --- */
+  --color-text-dark: #2f2f2f;
+  --color-text-muted: #707070;
+  --color-text-light: #f1f1f1;
+  --color-text-white: #fcfcfc;
+  --color-title-black: #000000;
+
+  /* --- Borders & States --- */
+  --color-border: #dcdcdc;
+  --color-disabled: #dcdcdc;
+
+  /* --- Status & Accents --- */
+  --color-danger: #ff5353;
+  --color-warning-yellow: #fcff46;
+  --color-account-yellow: #ffde37;
+  --color-badge-purple: #ff37f5;
+}
