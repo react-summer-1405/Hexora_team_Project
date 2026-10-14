@@ -1,5 +1,5 @@
 
-import Topic from "../../../../common/Topic";
+import Topic from "../../../../common/texts/Topic";
 import ServicesDivisions from "./ServicesDivisions";
 
 const PresentServices = () => {

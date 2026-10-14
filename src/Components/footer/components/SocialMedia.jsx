@@ -7,8 +7,8 @@ const SocialMedia = () => {
   const  socialMediaIcons = [twitter,youtube,telegram,instagram]
 
   return (
-    <div className='flex gap-6 min-w-42.4 order-2  lg:order-1'>
-        {socialMediaIcons.map((icon)=> <img src={icon}/>)}
+    <div className='flex gap-6 min-w-42.4 order-2  lg:order-1 cursor-pointer'>
+        {socialMediaIcons.map((icon , index)=> <img src={icon} key={index}/>)}
 
 
     </div>

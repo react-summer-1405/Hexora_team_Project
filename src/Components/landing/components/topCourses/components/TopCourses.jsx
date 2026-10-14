@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCoursesTop } from "../../../../../core/services/home/getCoursesTop";
 
 import warningIcon from '../../../../../assets/icons/Triangle_Warning.svg';
-import PendingCards from "../../../../common/PendingCards";
+import PendingCard from "../../../../common/PendingCard";
 
 const TopCourses = () => {
 
@@ -46,7 +46,10 @@ const TopCourses = () => {
 
   if (isPending)
   return (
-<PendingCards/>
+ <div className="flex flex-row flex-wrap gap-6">
+        
+     <PendingCard/>
+      </div>
   );
   
   if (isError)

@@ -5,42 +5,11 @@ import { useState } from "react";
 import { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getBlogsTop } from "../../../../../core/services/home/getBlogsTop";
-import PendingCards from "../../../../common/PendingCards";
 import warningIcon from "../../../../../assets/icons/Triangle_Warning.svg";
+import PendingCard from "../../../../common/PendingCard";
 
 const TopBlogsList = () => {
-  const blogs = [
-    {
-      name: "وزه ریکت حیس",
-      teacher: "استاد",
-      date: "22 اردیبهشت 1403",
-      view: "300",
-    },
-    {
-      name: "وزه ریکت حیس",
-      teacher: "استاد",
-      date: "22 اردیبهشت 1403",
-      view: "300",
-    },
-    {
-      name: "وزه ریکت حیس",
-      teacher: "استاد",
-      date: "22 اردیبهشت 1403",
-      view: "300",
-    },
-    {
-      name: "وزه ریکت حیس",
-      teacher: "استاد",
-      date: "22 اردیبهشت 1403",
-      view: "300",
-    },
-    {
-      name: "وزه ریکت حیس",
-      teacher: "استاد",
-      date: "22 اردیبهشت 1403",
-      view: "300",
-    },
-  ];
+ 
 
   const [index, setIndex] = useState(0);
   const trackRef = useRef(null);
@@ -69,7 +38,7 @@ const TopBlogsList = () => {
     });
   }, [index, topBlogs]);
 
-  if (isPending) return <PendingCards />;
+  if (isPending) return <PendingCard />;
 
   if (isError)
     return (

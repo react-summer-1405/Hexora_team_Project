@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 const NavigationBar = () => {
   const navItems = [
     { name: "خانه", link: "/" },
@@ -10,12 +12,13 @@ const NavigationBar = () => {
     <div className="hidden sm:flex flex-row items-center justify-center  rounded-full text-xs lg:text-base font-medium bg-bg-dark text-text-white">
       <div className="mx-6 my-3 flex flex-row items-center justify-center gap-6 ">
         {navItems.map((item, index) => (
-          <div
+          <NavLink
             key={index}
+            to={item.link}
             className=" cursor-pointer w-max  hover:text-primary-hover transition-all duration-300"
           >
             {item.name}
-          </div>
+          </NavLink>
         ))}
       </div>
       <div className="bg-primary py-2 px-4 w-max rounded-full cursor-pointer m-1">

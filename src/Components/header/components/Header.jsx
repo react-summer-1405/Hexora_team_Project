@@ -1,5 +1,5 @@
 import NavigationBar from "./NavigationBar";
-import Title from "./Title";
+import Title from "./TitleSite";
 import Toolbar from "./Toolbar";
 
 const Header = () => {

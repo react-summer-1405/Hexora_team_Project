@@ -31,7 +31,7 @@ Api_Client.interceptors.response.use(
 
         const message = response?.data?.message;
 
-console.log(message);
+console.log("message of response =>",message);
 
 
         return response

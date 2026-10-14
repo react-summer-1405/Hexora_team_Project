@@ -1,4 +1,4 @@
-import Title from "../../header/components/Title";
+import Title from "../../header/components/TitleSite";
 import MiddlePart from "./MiddlePart";
 import SocialMedia from "./SocialMedia";
 

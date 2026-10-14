@@ -12,7 +12,7 @@ const LandingPage = () => {
     <HeroSection/>
     <Purposes/>
     <PresentServices/>
-    <TopCoursesSection/>
+     <TopCoursesSection/> 
     <TopBlogsSection/>
     <TopTeachersSection/>
     

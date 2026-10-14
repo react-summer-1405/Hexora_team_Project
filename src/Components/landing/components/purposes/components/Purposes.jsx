@@ -1,4 +1,4 @@
-import Topic from "../../../../common/Topic"
+import Topic from "../../../../common/texts/Topic"
 import PurposeDivisions from "./PurposeDivisions"
 
 function Purposes() {

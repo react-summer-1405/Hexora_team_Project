@@ -1,4 +1,4 @@
-const Title = () => {
+const TitleSite = () => {
   return (
     <div className=" flex flex-row items-center justify-center ">
       <div className="bg-[url('../../assets/icons/Untitled-1.svg')] bg-center bg-no-repeat bg-contain  w-10 h-10"></div>
@@ -7,4 +7,4 @@ const Title = () => {
   );
 };
 
-export default Title;
+export default TitleSite;

@@ -1,5 +1,5 @@
 import Button from "../../../../common/Button"
-import Topic from "../../../../common/Topic"
+import Topic from "../../../../common/texts/Topic"
 import TopBlogsList from "./TopBlogsList"
 
 const TopBlogsSection = () => {
