@@ -12,18 +12,17 @@ export default function RegisterInfoPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const phoneNumber = location.state?.phoneNumber ?? "";
+  const email = location.state?.email ?? "";
   const isVerified = location.state?.verified === true;
 
-  //   useEffect(() => {
-  //     if (!phoneNumber || !isVerified) {
-  //       navigate("/auth/register", { replace: true });
-  //     }
-  //   }, [phoneNumber, isVerified, navigate]);
+  useEffect(() => {
+    if (!email || !isVerified) {
+      navigate("/auth/register", { replace: true });
+    }
+  }, [email, isVerified, navigate]);
 
   const registerMutation = useMutation({
     mutationFn: registerApi,
-
     onSuccess: () => {
       navigate("/auth/login", {
         replace: true,
@@ -36,22 +35,25 @@ export default function RegisterInfoPage() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      phoneNumber: "",
       password: "",
     },
 
     validate: (values) => {
       const errors = {};
-      const email = values.email.trim();
+      const phoneNumber = values.phoneNumber.trim();
 
-      if (!email) {
-        errors.email = "لطفاً ایمیل خود را وارد کنید.";
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errors.email = "لطفاً یک ایمیل معتبر وارد کنید.";
+      if (!phoneNumber) {
+        errors.phoneNumber = "لطفاً شماره همراه خود را وارد کنید.";
+      } else if (!/^09\d{9}$/.test(phoneNumber)) {
+        errors.phoneNumber =
+          "لطفاً یک شماره معتبر وارد کنید (مثال: 09123456789).";
       }
 
       if (!values.password) {
         errors.password = "لطفاً رمز عبور خود را وارد کنید.";
+      } else if (values.password.length < 6) {
+        errors.password = "رمز عبور باید حداقل ۶ کاراکتر باشد.";
       }
 
       return errors;
@@ -59,9 +61,9 @@ export default function RegisterInfoPage() {
 
     onSubmit: (values) => {
       registerMutation.mutate({
+        gmail: email,
+        phoneNumber: values.phoneNumber.trim(),
         password: values.password,
-        gmail: values.email.trim(),
-        phoneNumber,
       });
     },
   });
@@ -70,16 +72,14 @@ export default function RegisterInfoPage() {
     registerMutation.error?.response?.data?.message ||
     registerMutation.error?.message;
 
-  //api is not complete
-
-  //   if (!phoneNumber || !isVerified) {
-  //     return null;
-  //   }
+  if (!email || !isVerified) {
+    return null;
+  }
 
   return (
     <div
       dir="rtl"
-      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-6 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:pl-6 md:pr-[96px]"
+      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:py-6 md:px-8 lg:px-12 xl:px-24"
     >
       <div className="mb-2 flex w-full items-center justify-end md:hidden">
         <button
@@ -91,36 +91,38 @@ export default function RegisterInfoPage() {
         </button>
       </div>
 
-      <div className="w-full max-w-[514px]">
-        <AuthProgress steps={registerProgressSteps} activeStep={3} />
-      </div>
+      <AuthProgress steps={registerProgressSteps} activeStep={3} />
 
-      <div className="mt-4 flex w-full flex-col items-center gap-2 text-center md:mt-10 md:items-start md:text-right">
-        <h1 className="w-full text-[26px] font-semibold text-text-dark md:text-[28px]">
-          وارد کردن اطلاعات شخصی
-        </h1>
+      {/* فرم ریسپانسیو و وسط‌چین */}
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-col items-center"
+      >
+        <div className="mt-2 flex w-full max-w-[398px] flex-col items-center gap-2 text-center md:mt-0 md:items-start md:text-right">
+          <h1 className="w-full text-[26px] font-bold text-text-dark md:text-[28px]">
+            تکمیل اطلاعات حساب
+          </h1>
+          <p className="w-full text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
+            لطفاً شماره همراه و رمز عبور خود را برای نهایی کردن ثبت‌نام وارد
+            کنید.
+          </p>
+        </div>
 
-        <p className="w-full max-w-[346px] text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
-          لطفاً اطلاعات اولیه خواسته شده را وارد کنید.
-        </p>
-      </div>
-
-      <form onSubmit={formik.handleSubmit} className="flex w-full flex-col">
-        <div className="mt-6 flex w-full max-w-[398px] flex-col gap-4">
+        <div className="mt-8 flex w-full max-w-[398px] flex-col gap-4 md:mt-6">
           <InputGroup
-            id="email"
-            label="ایمیل"
-            type="email"
-            placeholder="ایمیل خود را وارد کنید"
-            value={formik.values.email}
+            id="phoneNumber"
+            label="شماره همراه"
+            type="tel"
+            placeholder="مثال: 09123456789"
+            value={formik.values.phoneNumber}
             onChange={formik.handleChange}
+            error={
+              (formik.touched.phoneNumber || formik.submitCount > 0) &&
+              formik.errors.phoneNumber
+                ? formik.errors.phoneNumber
+                : null
+            }
           />
-
-          {formik.submitCount > 0 && formik.errors.email && (
-            <p className="text-sm text-red-600" role="alert">
-              {formik.errors.email}
-            </p>
-          )}
 
           <InputGroup
             id="password"
@@ -129,13 +131,13 @@ export default function RegisterInfoPage() {
             placeholder="رمز عبور خود را وارد کنید"
             value={formik.values.password}
             onChange={formik.handleChange}
+            error={
+              (formik.touched.password || formik.submitCount > 0) &&
+              formik.errors.password
+                ? formik.errors.password
+                : null
+            }
           />
-
-          {formik.submitCount > 0 && formik.errors.password && (
-            <p className="text-sm text-red-600" role="alert">
-              {formik.errors.password}
-            </p>
-          )}
         </div>
 
         {registerMutation.isError && (
@@ -147,22 +149,20 @@ export default function RegisterInfoPage() {
           </p>
         )}
 
-        <div className="mt-8 w-full max-w-[398px]">
+        <div className="mt-8 w-full max-w-[398px] md:mt-4">
           <Button type="submit" disabled={registerMutation.isPending}>
             {registerMutation.isPending
-              ? "در حال ثبت‌نام..."
+              ? "در حال ایجاد حساب..."
               : "تأیید و ایجاد حساب"}
           </Button>
         </div>
 
-        <div className="flex w-full max-w-[398px] justify-center">
+        <div className="flex w-full max-w-[398px] justify-center md:flex">
           <button
             type="button"
             onClick={() =>
               navigate("/auth/register-verification", {
-                state: {
-                  phoneNumber,
-                },
+                state: { email },
               })
             }
             className="mt-6 flex h-10 w-[141px] cursor-pointer items-center justify-center rounded-[34px] border border-[#dcdcdc] bg-[#fcfcfc] text-sm font-semibold text-primary transition-colors hover:bg-gray-50 md:text-base"

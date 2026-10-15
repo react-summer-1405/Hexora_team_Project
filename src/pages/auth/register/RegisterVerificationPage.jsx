@@ -12,14 +12,15 @@ export default function RegisterVerificationPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const phoneNumber = location.state?.phoneNumber ?? "";
+  // دریافت ایمیل ارسال شده از صفحه ثبت‌نام
+  const email = location.state?.email ?? "";
   const [secondsLeft, setSecondsLeft] = useState(60);
 
   useEffect(() => {
-    if (!phoneNumber) {
+    if (!email) {
       navigate("/auth/register", { replace: true });
     }
-  }, [phoneNumber, navigate]);
+  }, [email, navigate]);
 
   useEffect(() => {
     if (secondsLeft <= 0) {
@@ -38,11 +39,10 @@ export default function RegisterVerificationPage() {
 
   const verifyMutation = useMutation({
     mutationFn: verifyMessageApi,
-
     onSuccess: (_, variables) => {
       navigate("/auth/register-info", {
         state: {
-          phoneNumber: variables.phoneNumber,
+          email: variables.email,
           verified: true,
         },
       });
@@ -53,20 +53,16 @@ export default function RegisterVerificationPage() {
     initialValues: {
       verifyCode: "",
     },
-
     validate: (values) => {
       const errors = {};
-
       if (!values.verifyCode.trim()) {
         errors.verifyCode = "لطفاً کد تأیید را وارد کنید.";
       }
-
       return errors;
     },
-
     onSubmit: (values) => {
       verifyMutation.mutate({
-        phoneNumber,
+        email,
         verifyCode: values.verifyCode.trim(),
       });
     },
@@ -76,33 +72,46 @@ export default function RegisterVerificationPage() {
     verifyMutation.error?.response?.data?.message ||
     verifyMutation.error?.message;
 
-  if (!phoneNumber) {
+  if (!email) {
     return null;
   }
 
   return (
     <div
       dir="rtl"
-      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-6 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:pl-6 md:pr-[96px]"
+      className="flex w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:max-w-[748px] md:py-6 md:px-8 lg:px-12 xl:px-24"
     >
-      <AuthProgress steps={registerProgressSteps} activeStep={2} />
-
-      <div className="mt-4 flex w-full flex-col items-center gap-2 text-center md:mt-10 md:items-start md:text-right">
-        <h1 className="w-full text-[26px] font-semibold text-text-dark md:text-[28px]">
-          تأیید کد ارسال شده
-        </h1>
-
-        <p className="w-full max-w-[346px] text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
-          لطفاً کد ارسال شده به شماره همراه{" "}
-          <span dir="ltr" className="inline-block text-primary">
-            {phoneNumber}
-          </span>{" "}
-          را وارد کنید.
-        </p>
+      <div className="mb-2 flex w-full items-center justify-end md:hidden">
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="flex items-center justify-center rounded-full border border-[#e5e7eb] px-3 py-1.5 text-[13px] font-semibold text-primary transition-colors hover:bg-gray-50"
+        >
+          صفحه اصلی
+        </button>
       </div>
 
-      <form onSubmit={formik.handleSubmit} className="flex w-full flex-col">
-        <div className="mt-6 flex w-full max-w-[398px] flex-col gap-4">
+      <AuthProgress steps={registerProgressSteps} activeStep={2} />
+
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-col items-center"
+      >
+        <div className="mt-2 flex w-full max-w-[398px] flex-col items-center gap-2 text-center md:mt-0 md:items-start md:text-right">
+          <h1 className="w-full text-[26px] font-bold text-text-dark md:text-[28px]">
+            تأیید کد ارسال شده
+          </h1>
+
+          <p className="w-full text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
+            لطفاً کد ارسال شده به ایمیل{" "}
+            <span dir="ltr" className="inline-block text-primary">
+              {email}
+            </span>{" "}
+            را وارد کنید.
+          </p>
+        </div>
+
+        <div className="mt-8 flex w-full max-w-[398px] flex-col gap-4 md:mt-6">
           <InputGroup
             id="verifyCode"
             label="کد تأیید"
@@ -110,13 +119,13 @@ export default function RegisterVerificationPage() {
             placeholder="کد تأیید خود را وارد کنید"
             value={formik.values.verifyCode}
             onChange={formik.handleChange}
+            error={
+              (formik.touched.verifyCode || formik.submitCount > 0) &&
+              formik.errors.verifyCode
+                ? formik.errors.verifyCode
+                : null
+            }
           />
-
-          {formik.submitCount > 0 && formik.errors.verifyCode && (
-            <p className="text-sm text-red-600" role="alert">
-              {formik.errors.verifyCode}
-            </p>
-          )}
         </div>
 
         <div className="mt-3 flex w-full max-w-[398px] justify-start">
@@ -137,7 +146,7 @@ export default function RegisterVerificationPage() {
           </p>
         )}
 
-        <div className="mt-4 w-full max-w-[398px]">
+        <div className="mt-8 w-full max-w-[398px] md:mt-4">
           <Button type="submit" disabled={verifyMutation.isPending}>
             {verifyMutation.isPending ? "در حال بررسی..." : "تأیید"}
           </Button>
