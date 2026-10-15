@@ -18,9 +18,11 @@ export default function AuthLayout() {
 
   if (isMobile) {
     return (
+      // min-h-screen removed havaset bashe ekhtelal nandaze
+
       <div
         dir="rtl"
-        className="flex items-center justify-center min-h-screen bg-bg-main p-4"
+        className="flex items-center justify-center bg-bg-main p-4"
       >
         <Outlet />
       </div>
@@ -28,41 +30,40 @@ export default function AuthLayout() {
   }
 
   return (
-    <div
-      dir="rtl"
-      className="flex items-center justify-center min-h-screen bg-bg-main p-6"
-    >
-      <div className="w-full max-w-[1600px] bg-white rounded-3xl shadow-lg border border-[var(--color-border)] p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col gap-6 p-6 w-full max-w-[748px] min-h-[704px] border border-[var(--color-border)] rounded-2xl">
+    // min-h-screen removed havaset bashe ekhtelal nandaze
+    <div dir="rtl" className="flex  items-start justify-center px-6 pt-3 pb-3">
+      <div className="w-full max-w-[1600px] rounded-3xl bg-white p-8 shadow-lg">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="flex min-h-[704px] w-full max-w-[748px] flex-col gap-6 rounded-2xl p-6">
             <Outlet />
           </div>
 
-          <div className="flex flex-col border border-[var(--color-border)] rounded-2xl p-6 w-full max-w-[748px] min-h-[704px] bg-text-light">
-            <div className="flex items-center gap-3 mt-2">
+          <div className="flex min-h-[704px] w-full max-w-[748px] flex-col rounded-2xl bg-text-light p-6">
+            <div className="mt-2 flex items-center gap-3">
               <img
                 src={bahrLogo}
                 alt="Bahr Logo"
-                className="w-[42px] h-[40px]"
+                className="h-[40px] w-[42px]"
               />
               <img
                 src={bahrlogotext}
                 alt="Bahr Logo Text"
-                className="w-[189px] h-[38px]"
+                className="h-[38px] w-[189px]"
               />
             </div>
 
-            <p className="text-[32px] font-bold text-title-black mt-12">
+            <p className="mt-12 text-[32px] font-bold text-title-black">
               شروع یک ماجراجویی
             </p>
-            <p className="text-xl text-text-muted mt-2">
+
+            <p className="mt-2 text-xl text-text-muted">
               هر دوره‌ای که بخوای رو به راحتی پیدا کن و یاد بگیر
             </p>
 
             <img
               src={computerImg}
               alt="computer"
-              className="w-full max-w-[368px] h-auto mr-auto mt-auto ml-[190px] mb-[75px]"
+              className="mb-[75px] ml-[190px] mt-auto h-auto w-full max-w-[368px] mr-auto"
             />
           </div>
         </div>

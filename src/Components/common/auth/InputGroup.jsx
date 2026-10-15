@@ -8,12 +8,13 @@ export default function InputGroup({
   value,
   onChange,
   labelClassName = "",
+  error,
 }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex w-full flex-col gap-2">
       <label
         htmlFor={id}
-        className={`text-base text-text-dark font-semibold ${labelClassName}`}
+        className={`w-full text-right text-[13px] font-semibold text-text-dark md:text-base ${labelClassName}`}
       >
         {label}
       </label>
@@ -24,8 +25,17 @@ export default function InputGroup({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full max-w-[398px] h-12 px-4 border border-[var(--color-border)] rounded-3xl focus:outline-none focus:ring-2 focus:ring-primary"
+        className={`h-12 w-full rounded-3xl border px-4 focus:outline-none focus:ring-2 ${
+          error
+            ? "border-red-500 focus:ring-red-500"
+            : "border-[var(--color-border)] focus:ring-primary"
+        }`}
       />
+      {error && (
+        <span className="text-right text-xs text-red-500 mt-1 pl-2">
+          {error}
+        </span>
+      )}
     </div>
   );
 }

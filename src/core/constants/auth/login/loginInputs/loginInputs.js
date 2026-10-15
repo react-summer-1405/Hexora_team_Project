@@ -1,9 +1,9 @@
 export const loginInputs = [
   {
-    id: "email",
-    label: "شماره همراه یا ایمیل",
-    type: "text",
-    placeholder: "شماره همراه یا ایمیل خود را وارد کنید",
+    id: "phoneOrGmail",
+    label: "ایمیل",
+    type: "email",
+    placeholder: "ایمیل خود را وارد کنید",
   },
   {
     id: "password",

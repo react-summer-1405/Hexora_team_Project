@@ -38,7 +38,7 @@ export default function AuthProgress({ steps = [], activeStep }) {
             className="flex w-full min-w-0 flex-1 flex-col items-center gap-2 md:items-start md:gap-1"
           >
             <div
-              className={`h-1.5 w-full rounded-full md:h-2 md:max-w-[246px] ${
+              className={`h-[8px] w-full rounded-full md:max-w-[246px] ${
                 isActive ? "bg-primary" : "bg-[#E5E7EB] md:bg-disabled"
               } ${isPrevious ? "opacity-50" : ""}`}
             />

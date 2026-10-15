@@ -16,7 +16,7 @@ export default function LoginPage() {
   const loginMutation = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
-      console.log("ورود موفقیت‌آمیز بود:", data);
+      console.log("ورود موفقیت‌آمیز بود (ریسپانس سرور):", data);
 
       if (data?.token) {
         setItem("token", data.token);
@@ -26,8 +26,8 @@ export default function LoginPage() {
     },
     onError: (error) => {
       console.error(
-        "خطا در ورود:",
-        error.response?.data?.message || "مشکلی پیش آمد",
+        "خطا در ورود (ریسپانس سرور):",
+        error.response?.data?.message || error.message || "مشکلی پیش آمد",
       );
     },
   });
@@ -38,17 +38,43 @@ export default function LoginPage() {
       password: "",
       rememberMe: false,
     },
+    validate: (values) => {
+      console.log("مقادیر فرم:", values);
+
+      const errors = {};
+      const emailValue = values.phoneOrGmail.trim();
+
+      if (!emailValue) {
+        errors.phoneOrGmail = "لطفاً ایمیل خود را وارد کنید.";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
+        errors.phoneOrGmail = "لطفاً یک ایمیل معتبر وارد کنید.";
+      }
+
+      if (!values.password) {
+        errors.password = "لطفاً رمز عبور خود را وارد کنید.";
+      }
+
+      console.log("خطاهای اعتبارسنجی:", errors);
+
+      return errors;
+    },
     onSubmit: (values) => {
-      loginMutation.mutate(values);
+      console.log("فرم ارسال شد:", values);
+
+      loginMutation.mutate({
+        phoneOrGmail: values.phoneOrGmail.trim(),
+        password: values.password,
+        rememberMe: values.rememberMe,
+      });
     },
   });
-
   return (
     <div
       dir="rtl"
-      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:py-6 md:pl-6 md:pr-8 lg:pr-12 xl:pr-24"
+      className="flex w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:py-6 md:px-8 lg:px-12 xl:px-24"
     >
       <AuthProgress steps={loginProgressSteps} activeStep={1} />
+
       <div className="mb-2 flex w-full items-center justify-end md:hidden">
         <button
           type="button"
@@ -59,32 +85,43 @@ export default function LoginPage() {
         </button>
       </div>
 
-      <form onSubmit={formik.handleSubmit} className="flex w-full flex-col">
-        <div className="mt-2 flex flex-col items-center gap-2 text-center md:mt-0 md:items-start md:text-right">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-col items-center"
+      >
+        <div className="mt-2 flex w-full max-w-[398px] flex-col items-start gap-2 text-right md:mt-0">
           <h1 className="text-[26px] font-bold text-text-dark md:text-[28px]">
             خوش برگشتی!
           </h1>
 
-          <p className="w-full max-w-[346px] text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
-            لطفاً شماره همراه یا ایمیل و رمز عبور خود را برای ورود به حساب
-            کاربری وارد کنید.
+          <p className="w-full text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
+            لطفاً ایمیل و رمز عبور خود را برای ورود به حساب کاربری وارد کنید.
           </p>
         </div>
 
-        <div className="mt-8 flex w-full flex-col gap-4 md:mt-6">
+        <div className="mt-8 flex w-full max-w-[398px] flex-col gap-4 md:mt-6">
           {loginInputs.map((input) => (
             <InputGroup
               key={input.id}
               id={input.id}
-              label={input.label}
-              labelClassName="pr-[96px] md:pr-[120px]"
-              type={input.type}
-              placeholder={input.placeholder}
+              label={input.id === "phoneOrGmail" ? "ایمیل" : input.label}
+              type={input.id === "phoneOrGmail" ? "email" : input.type}
+              placeholder={
+                input.id === "phoneOrGmail"
+                  ? "ایمیل خود را وارد کنید"
+                  : input.placeholder
+              }
               value={formik.values[input.id] ?? ""}
               onChange={formik.handleChange}
+              error={
+                formik.submitCount > 0 && formik.errors[input.id]
+                  ? formik.errors[input.id]
+                  : null
+              }
             />
           ))}
         </div>
+
         <div className="mt-6 flex w-full max-w-[398px] flex-wrap items-center justify-between gap-x-3 gap-y-3 md:mt-4">
           <div className="flex items-center gap-2">
             <input
@@ -95,7 +132,6 @@ export default function LoginPage() {
               onChange={formik.handleChange}
               className="h-4 w-4 shrink-0 cursor-pointer rounded border-gray-300 bg-gray-100 accent-primary"
             />
-
             <label
               htmlFor="rememberMe"
               className="cursor-pointer text-[13px] font-bold text-text-dark md:text-base md:font-semibold"
@@ -122,7 +158,6 @@ export default function LoginPage() {
           <span className="text-center text-[13px] font-bold text-text-dark md:text-base">
             حساب کاربری ندارید؟
           </span>
-
           <Link
             to="/auth/register"
             className="text-center text-[13px] font-bold text-primary hover:underline md:text-base"

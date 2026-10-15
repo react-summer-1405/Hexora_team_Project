@@ -59,33 +59,36 @@ export default function LoginVerification() {
   return (
     <div
       dir="rtl"
-      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:py-6 md:pl-6 md:pr-8 lg:pr-12 xl:pr-24"
+      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:py-6 md:px-8 lg:px-12 xl:px-24"
     >
       <div className="mb-2 flex w-full items-center justify-end md:hidden">
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="flex items-center justify-center rounded-full border border-[#e5e7eb] px-3 py-1.5 text-[13px] font-semibold text-primary transition-colors hover:bg-gray-50"
+          className="flex items-center justify-center gap-1.5 rounded-full border border-[#e5e7eb] px-3 py-1.5 text-[13px] font-semibold text-primary transition-colors hover:bg-gray-50"
         >
           صفحه اصلی
         </button>
       </div>
 
-      <AuthProgress steps={loginProgressSteps} />
+      <AuthProgress steps={loginProgressSteps} activeStep={2} />
 
-      <form onSubmit={formik.handleSubmit} className="flex w-full flex-col">
-        <div className="mt-2 flex flex-col items-center gap-2 text-center md:mt-0 md:items-start md:text-right">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-col items-center"
+      >
+        <div className="mt-2 flex w-full max-w-[398px] flex-col items-start gap-2 text-right md:mt-0">
           <h1 className="text-[26px] font-bold text-text-dark md:text-[28px]">
             تأیید کد دو مرحله‌ای!
           </h1>
 
-          <p className="w-full max-w-[346px] text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
+          <p className="w-full text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
             کد دو مرحله‌ای به شماره همراه یا ایمیل شما ارسال شده است. لطفاً کد
             را وارد کنید.
           </p>
         </div>
 
-        <div className="mt-8 flex w-full flex-col gap-4 md:mt-6">
+        <div className="mt-8 flex w-full max-w-[398px] flex-col gap-4 md:mt-6">
           <InputGroup
             id="code"
             label="کد دو مرحله‌ای"
@@ -93,13 +96,12 @@ export default function LoginVerification() {
             placeholder="کد دو مرحله‌ای خود را وارد کنید"
             value={formik.values.code}
             onChange={formik.handleChange}
+            error={
+              formik.submitCount > 0 && formik.errors.code
+                ? formik.errors.code
+                : null
+            }
           />
-
-          {formik.touched.code && formik.errors.code && (
-            <p className="text-sm text-red-600" role="alert">
-              {formik.errors.code}
-            </p>
-          )}
         </div>
 
         {loginMutation.isError && (
@@ -117,11 +119,11 @@ export default function LoginVerification() {
           </Button>
         </div>
 
-        <div className="flex w-full max-w-[398px] justify-center">
+        <div className="mt-6 flex w-full max-w-[398px] justify-center">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="mt-6 flex h-10 w-[141px] cursor-pointer items-center justify-center rounded-[34px] border border-[#dcdcdc] bg-[#fcfcfc] text-sm font-semibold text-primary transition-colors hover:bg-gray-50 md:text-base"
+            className="flex h-10 w-[141px] cursor-pointer items-center justify-center rounded-[34px] border border-[#dcdcdc] bg-[#fcfcfc] text-[13px] font-semibold text-primary transition-colors hover:bg-gray-50 md:text-base"
           >
             بازگشت
           </button>
