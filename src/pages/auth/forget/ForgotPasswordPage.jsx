@@ -4,26 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 // import toast from "react-hot-toast";
 import { forgotPasswordApi } from "../../../core/services/auth/login";
-
 import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
-import { forgotPasswordProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import { loginProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
 
-export default function ForgotPasswordPage() {
+export default function ForgetPasswordPage() {
   const navigate = useNavigate();
 
-  const forgotPasswordMutation = useMutation({
+  const forgetPasswordMutation = useMutation({
     mutationFn: forgotPasswordApi,
-    onSuccess: () => {
-      toast.success("لینک بازیابی رمز عبور به ایمیل شما ارسال شد.");
+    onSuccess: (data, variables) => {
+      // toast.success(
+      //   data?.message || "لینک بازیابی رمز عبور به ایمیل شما ارسال شد."
+      // );
 
-      navigate("/auth/login", { replace: true });
-    },
-    onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message || "ارسال لینک با خطا مواجه شد.";
-      toast.error(errorMessage);
+      navigate("/auth/reset-password", {
+        state: {
+          email: variables.email,
+        },
+      });
     },
   });
 
@@ -31,6 +31,7 @@ export default function ForgotPasswordPage() {
     initialValues: {
       email: "",
     },
+
     validate: (values) => {
       const errors = {};
       const email = values.email.trim();
@@ -43,79 +44,53 @@ export default function ForgotPasswordPage() {
 
       return errors;
     },
-    onSubmit: (values) => {
-      forgotPasswordMutation.mutate({
-        email: values.email.trim(),
 
-        baseUrl: window.location.origin + "/auth/reset-password",
+    onSubmit: (values) => {
+      forgetPasswordMutation.mutate({
+        email: values.email.trim(),
+        baseUrl: `${window.location.origin}/auth/reset-password`,
       });
     },
   });
 
-  const HomeIcon = () => (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-      <polyline points="9 22 9 12 15 12 15 22"></polyline>
-    </svg>
-  );
-
-  const ChevronLeftIcon = () => (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-  );
+  const errorMessage =
+    forgetPasswordMutation.error?.response?.data?.message ||
+    forgetPasswordMutation.error?.response?.data?.errors?.[0]?.msg ||
+    forgetPasswordMutation.error?.message;
 
   return (
     <div
       dir="rtl"
-      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-6 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:pl-6 md:pr-[96px]"
+      className="flex min-h-screen w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:py-6 md:px-8 lg:px-12 xl:px-24"
     >
       <div className="mb-2 flex w-full items-center justify-end md:hidden">
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="flex items-center justify-center gap-1.5 rounded-full border border-[#e5e7eb] px-3 py-1.5 text-[13px] font-semibold text-primary transition-colors hover:bg-gray-50"
+          className="flex items-center justify-center rounded-full border border-[#e5e7eb] px-3 py-1.5 text-[13px] font-semibold text-primary transition-colors hover:bg-gray-50"
         >
-          <HomeIcon />
           صفحه اصلی
         </button>
       </div>
 
-      <div className="w-full max-w-[514px]">
-        <AuthProgress steps={forgotPasswordProgressSteps} activeStep={1} />
-      </div>
+      <AuthProgress steps={loginProgressSteps} activeStep={1} />
 
-      <div className="mt-4 flex w-full flex-col items-center gap-2 text-center md:mt-10 md:items-start md:text-right">
-        <h1 className="w-full text-[26px] font-bold text-text-dark md:text-[28px]">
-          فراموشی رمزعبور!
-        </h1>
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-col items-center"
+      >
+        <div className="mt-2 flex w-full max-w-[398px] flex-col items-center gap-2 text-center md:mt-0 md:items-start md:text-right">
+          <h1 className="w-full text-[26px] font-bold text-text-dark md:text-[28px]">
+            فراموشی رمز عبور
+          </h1>
 
-        <p className="w-full max-w-[346px] mt-2 text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
-          اگر رمزعبور خود را فراموش کرده‌اید ایمیل خود را وارد کنید تا لینک صفحه
-          تغییر رمزعبور برای شما ارسال شود
-        </p>
-      </div>
+          <p className="w-full text-[13px] font-medium leading-relaxed text-text-muted md:text-base">
+            لطفاً ایمیل خود را وارد کنید تا لینک بازیابی رمز عبور برای شما ارسال
+            شود.
+          </p>
+        </div>
 
-      <form onSubmit={formik.handleSubmit} className="flex w-full flex-col">
-        <div className="mt-6 flex w-full max-w-[398px] flex-col gap-4">
+        <div className="mt-8 flex w-full max-w-[398px] flex-col gap-4 md:mt-6">
           <InputGroup
             id="email"
             label="ایمیل"
@@ -123,31 +98,54 @@ export default function ForgotPasswordPage() {
             placeholder="ایمیل خود را وارد کنید"
             value={formik.values.email}
             onChange={formik.handleChange}
+            error={
+              (formik.touched.email || formik.submitCount > 0) &&
+              formik.errors.email
+                ? formik.errors.email
+                : null
+            }
           />
-
-          {formik.submitCount > 0 && formik.errors.email && (
-            <p className="text-sm text-red-600" role="alert">
-              {formik.errors.email}
-            </p>
-          )}
         </div>
 
-        <div className="mt-8 w-full max-w-[398px]">
-          <Button type="submit" disabled={forgotPasswordMutation.isPending}>
-            {forgotPasswordMutation.isPending
+        {forgetPasswordMutation.isError && (
+          <p
+            className="mt-4 w-full max-w-[398px] text-right text-sm leading-relaxed text-red-600"
+            role="alert"
+          >
+            {errorMessage ||
+              "ارسال درخواست بازیابی رمز عبور با خطا مواجه شد. دوباره تلاش کنید."}
+          </p>
+        )}
+
+        <div className="mt-8 w-full max-w-[398px] md:mt-4">
+          <Button type="submit" disabled={forgetPasswordMutation.isPending}>
+            {forgetPasswordMutation.isPending
               ? "در حال ارسال..."
-              : "ارسال لینک"}
+              : "ارسال لینک بازیابی"}
           </Button>
         </div>
 
-        <div className="flex w-full max-w-[398px] justify-center md:justify-center">
+        <div className="mt-6 flex w-full max-w-[398px] flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
+          <span className="text-center text-[13px] font-bold text-text-dark md:text-base">
+            رمز عبور خود را به خاطر دارید؟
+          </span>
+
           <button
             type="button"
             onClick={() => navigate("/auth/login")}
-            className="mt-6 flex h-10 w-[141px] cursor-pointer items-center justify-center gap-1.5 rounded-[34px] border border-[#dcdcdc] bg-[#fcfcfc] text-sm font-semibold text-primary transition-colors hover:bg-gray-50 md:text-base"
+            className="cursor-pointer text-center text-[13px] font-bold text-primary hover:underline md:text-base"
           >
-            <ChevronLeftIcon />
-            <span>بازگشت</span>
+            ورود به حساب کاربری
+          </button>
+        </div>
+
+        <div className="hidden w-full max-w-[398px] justify-center md:flex">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="mt-6 flex h-10 w-[141px] cursor-pointer items-center justify-center rounded-[34px] border border-[#dcdcdc] bg-[#fcfcfc] font-semibold text-primary transition-colors hover:bg-gray-50"
+          >
+            بازگشت
           </button>
         </div>
       </form>

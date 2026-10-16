@@ -9,6 +9,7 @@ export const sendVerifyMessageApi = async ({ email }) => {
   const response = await Api_Client.post("/Sign/SendVerifyMessage", {
     gmail: email,
   });
+
   return response.data;
 };
 
@@ -25,12 +26,20 @@ export const registerApi = async (data) => {
   return response.data;
 };
 
-export const forgotPasswordApi = async (data) => {
-  const response = await Api_Client.post("/Sign/ForgetPassword", data);
+export const forgotPasswordApi = async ({ email, baseUrl }) => {
+  const response = await Api_Client.post("/Sign/ForgetPassword", {
+    email: email.trim(),
+    baseUrl,
+  });
+
   return response.data;
 };
+export const resetPasswordApi = async ({ email, newPassword, resetValue }) => {
+  const response = await Api_Client.post("/Sign/Reset", {
+    gmail: email.trim(),
+    newPassword,
+    resetValue: resetValue.trim(),
+  });
 
-export const resetPasswordApi = async (data) => {
-  const response = await Api_Client.post("/Sign/Reset", data);
   return response.data;
 };

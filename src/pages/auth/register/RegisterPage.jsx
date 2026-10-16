@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { sendVerifyMessageApi } from "../../../core/services/auth/sendVerifyMessage.js";
+import { sendVerifyMessageApi } from "../../../core/services/auth/login.js";
 import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
