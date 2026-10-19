@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const NavigationBar = () => {
+  const navigate =useNavigate()
   const navItems = [
     { name: "خانه", link: "/" },
     { name: "دوره ها", link: "/courses" },
@@ -21,7 +22,7 @@ const NavigationBar = () => {
           </NavLink>
         ))}
       </div>
-      <div className="bg-primary py-2 px-4 w-max rounded-full cursor-pointer m-1">
+      <div className="bg-primary py-2 px-4 w-max rounded-full cursor-pointer m-1" onClick={()=>{navigate('/auth/login')}}>
         ثبت نام یا ورود
       </div>
     </div>
