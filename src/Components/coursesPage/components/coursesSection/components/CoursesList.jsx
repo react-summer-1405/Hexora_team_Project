@@ -6,9 +6,6 @@ import PendingCard from "../../../../common/PendingCard";
 
 const CoursesList = ({ page, sortParams, filters }) => {
   const rowsOfPage = 3;
-  console.log("filtersssss", filters);
-
-  console.log("sortParams", sortParams);
 
   const { data, isError, error, isPending, refetch, isFetching } = useQuery({
     queryKey: ["coursesByPagination", page, rowsOfPage, sortParams, filters],

@@ -6,12 +6,12 @@ const InfoItem = ({ label, value, variant }) => {
   purple:"bg-badge-purple text-text-white"
 };
   return (
-    <div className="flex flex-col items-start justify-center gap-3 py-4 px-8 border-l border-border last:border-l-0">
-      <span className="text-text-muted text-sm font-medium">{label}</span>
+    <div className="flex flex-col items-start justify-start gap-3 py-4 px-8 border-l border-border last:border-l-0">
+      <span className="text-text-muted text-sm font-medium whitespace-nowrap">{label}</span>
 
       {variant ? (
         <span
-          className={`rounded-[32px] text-base font-medium py-1 px-3 ${badgeStyles[variant]}`}
+          className={`rounded-[32px] ${value.length > 20 ? "whitespace-normal":"whitespace-nowrap"}  text-base font-medium py-1 px-3 ${badgeStyles[variant]}`}
         >
           {value}
         </span>
