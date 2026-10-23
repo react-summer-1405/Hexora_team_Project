@@ -16,9 +16,16 @@ const NavigationBar = () => {
           <NavLink
             key={index}
             to={item.link}
-            className=" cursor-pointer w-max  hover:text-primary-hover transition-all duration-300"
+            className="relative cursor-pointer w-max hover:text-primary transition-all duration-300"
           >
-            {item.name}
+            {({ isActive }) => (
+              <>
+                {item.name}
+                {isActive && (
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white" />
+                )}
+              </>
+            )}
           </NavLink>
         ))}
       </div>

@@ -22,7 +22,7 @@ export default function LoginPage() {
         setItem("token", data.token);
       }
 
-      navigate("/auth/verification");
+      navigate("/");
     },
     onError: (error) => {
       console.error(

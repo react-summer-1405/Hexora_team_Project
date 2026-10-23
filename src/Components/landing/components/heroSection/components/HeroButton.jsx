@@ -7,7 +7,7 @@ const HeroButton = () => {
          <i> همین حالا</i>
          <i> شروع کن به یادگیری!</i>
         </span>
-        <Button content='جديد ترین دوره ها' color='bg-lightDark'/>
+        <Button content='جديد ترین دوره ها' color='bg-bg-lightDark'/>
       </div>
   )
 }

@@ -1,11 +1,14 @@
 import InfoBox from "./InfoBox";
 import PointAndPrice from "./PointAndPrice";
-import ButtonsHandler from "./ButtonsHandler";
+import ButtonsHandler from "./buttonHandlers/ButtonsHandler";
 import Description from "./Description";
 import { formatDate, formatNumber } from "../../../../hooks/formatters";
+import { useState } from "react";
+import reactLogo from '../../../../../assets/images/react.png'
 const Introduction = ({ course, toggleReserve }) => {
 const {
   title,
+  courseId,
   imageAddress,
   teacherName,
   courseStatusName,
@@ -15,6 +18,7 @@ const {
   endTime,
   cost,
   courseRate,
+  currentUserRateNumber,
   studentCount,
   likeCount,
   dissLikeCount,
@@ -26,14 +30,31 @@ const {
   describe,
 } = course;
 
-const techNames = courseTech?.map((item) => item.tech.techName) ?? [];
+   const [isLoaded, setIsLoaded] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const showLogo = !imageAddress || isError || !isLoaded;
+  const showImage = imageAddress && !isError;
+
+const getUniqueTechNames = (courseTech = []) => {
+  const names = courseTech
+    .map((item) => item?.tech?.techName?.trim())
+    .filter(Boolean);
+
+  return names.filter(
+    (name, index) =>
+      names.findIndex((n) => n.toLowerCase() === name.toLowerCase()) === index
+  );
+};
+
+const tech = getUniqueTechNames(courseTech)
 
   const itemsRow1 = [
     { id: 1, label: "وضعیت", value: courseStatusName, variant: "danger" },
     {
       id: 2,
       label: "دسته‌بندی",
-      value: techNames ? techNames.join("، ") : "—",
+      value: tech.length ? tech.join("، ") : "مشخص نیست",
       variant: "purple",
     },
     { id: 3, label: "سطح آموزشی", value: courseLevelName, variant: "primary" },
@@ -48,12 +69,26 @@ const techNames = courseTech?.map((item) => item.tech.techName) ?? [];
   ];
    return (
     <div className="flex flex-col gap-12">
-      <div className="flex flex-row gap-8">
-        <img
-          src={imageAddress}
-          alt={title}
-          className="rounded-[32px] h-106 w-[45%] object-cover"
-        />
+      <div className=" flex flex-row gap-8">
+        <div className=" bg-[#87DFFF] flex flex-row justify-center items-end rounded-[32px] h-106 w-[45%] object-contain">
+         {showLogo && (
+                  <img
+                    src={reactLogo}
+                    className=" animate-bounce   object-contain w-100 h-100"
+                  />
+                )}
+        
+                {showImage && (
+                  <img
+                    src={imageAddress}
+                    onLoad={() => setIsLoaded(true)}
+                    onError={() => setIsError(true)}
+                    className={` object-contain transition-opacity duration-300 ${
+                      isLoaded ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                )}
+ </div>
         <div className="w-[47%] flex flex-col gap-6 items-start">
           <h3 className="text-[32px] font-bold text-text-dark text-right">
             {title}
@@ -68,6 +103,7 @@ const techNames = courseTech?.map((item) => item.tech.techName) ?? [];
             studentCount={studentCount}
           />
           <ButtonsHandler
+          courseId={courseId}
             toggleReserve={toggleReserve}
             likeCount={likeCount}
             dissLikeCount={dissLikeCount}
@@ -78,7 +114,7 @@ const techNames = courseTech?.map((item) => item.tech.techName) ?? [];
           />
         </div>
       </div>
-      <Description miniDescribe={miniDescribe} describe={describe} />
+      <Description miniDescribe={miniDescribe} describe={describe} courseId={courseId} userRate={Number(currentUserRateNumber) || 0} />
     </div>
   );
 };

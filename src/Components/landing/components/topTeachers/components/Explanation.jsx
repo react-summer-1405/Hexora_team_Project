@@ -13,7 +13,7 @@ const Explanation = () => {
           کرده‌اند، بلکه با برگزاری کارگاه‌ها و جلسات مشاوره، فضایی پویا و
           انگیزشی را برای یادگیری فراهم آورده‌اند.
         </p>
-        <Button content="صفحه اساتید" color='primary' />
+        <Button content="صفحه اساتید" color='bg-primary' />
       </div>
   )
 }

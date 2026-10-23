@@ -1,8 +1,22 @@
 import Button from "../../../../common/Button";
 import commentIcon from "../../../../../assets/icons/details/comment-add.svg";
 import { CommentRow } from "./CommentRow";
+import { useState } from "react";
+import { useCommentActions } from "../../../../hooks/useCommentAction";
+import CommentForm from "../../commentSection/components/CommentForm";
 
-const CommentModal = ({ isOpen, onClose, courseTitle, comments = [] }) => {
+const CommentModal = ({ isOpen, onClose, courseTitle, courseId, comments = [] }) => {
+  const [showForm, setShowForm] = useState(false);
+  const { addComment } = useCommentActions(courseId);
+
+  const handleAdd = (values, resetForm) =>
+    addComment.mutate(values, {
+      onSuccess: () => {
+        resetForm();
+        setShowForm(false);
+      },
+    });
+
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ${
@@ -34,15 +48,22 @@ const CommentModal = ({ isOpen, onClose, courseTitle, comments = [] }) => {
             بستن
           </button>
         </div>
-        <Button content="نظر شما" color="bg-primary" icon={commentIcon} />
-        {comments.length === 0 && (
-          <p className="text-base font-medium text-text-muted">
-            هنوز نظری ثبت نشده.
-          </p>
-        )}
-        {comments.map((comment) => (
-          <CommentRow key={comment.id} {...comment} />
-        ))}
+            <>
+      <Button
+        content={showForm ? "انصراف" : "نظر شما"}
+        color="bg-primary"
+        icon={commentIcon}
+        onClick={() => setShowForm((s) => !s)}
+      />
+      {showForm && <CommentForm onSubmit={handleAdd} isPending={addComment.isPending} />}
+
+      {comments.length === 0 && (
+        <p className="text-base font-medium text-text-muted">هنوز نظری ثبت نشده.</p>
+      )}
+      {comments.map((comment) => (
+        <CommentRow key={comment.id} {...comment} courseId={courseId} />
+      ))}
+    </>
       </div>
     </div>
   );

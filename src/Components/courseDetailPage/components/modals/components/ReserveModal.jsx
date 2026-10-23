@@ -3,13 +3,13 @@ import Button from "../../../../common/Button";
 const ReserveModal = ({ isOpen, onClose, courseTitle })=> {
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center  transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
       <div onClick={onClose} className="absolute inset-0 bg-black/40"></div>
         <div
-          className={`relative w-107 max-w-[90vw] h-92 rounded-[32px] bg-bg-main backdrop-blur-3xl flex flex-col justify-center items-center gap-7 p-6 origin-center transition-transform duration-300 ease-out ${
+          className={`relative w-115  h-100 rounded-[32px] bg-bg-main backdrop-blur-3xl  flex flex-col justify-center items-center gap-7 p-7  origin-center transition-transform duration-300 ease-out ${
             isOpen ? "scale-100" : "scale-0"
           }`}
         >
