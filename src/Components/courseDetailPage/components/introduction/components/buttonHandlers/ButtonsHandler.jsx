@@ -18,8 +18,8 @@ import toast from "react-hot-toast";
 
 const ButtonsHandler = ({
   toggleReserve,
-  likeCount = 0,
   dissLikeCount = 0,
+    likeCount = 0,
   userIsLiked,
   userIsDissLike,
   isCourseReseve,
