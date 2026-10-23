@@ -3,10 +3,9 @@ import grayStar from "../../../../../assets/icons/details/grayStar.svg";
 import { formatNumber } from "../../../../hooks/formatters";
 
 const PointAndPrice = ({ cost = 0, rate = 0, studentCount = 0 }) => {
-  
   return (
-    <div className="w-full flex flex-row-reverse justify-between">
-      <div className="flex flex-row gap-1 items-center text-text-dark">
+    <div className="w-full flex flex-row-reverse justify-end md:justify-between">
+      <div className="hidden md:flex flex-row gap-1 items-center text-text-dark">
         <span className="text-2xl font-bold">{formatNumber(cost)}</span>
         <span className="text-sm font-medium">تومان</span>
       </div>

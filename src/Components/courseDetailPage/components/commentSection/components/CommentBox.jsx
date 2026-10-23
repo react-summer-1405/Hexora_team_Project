@@ -1,8 +1,13 @@
 import Button from "../../../../common/Button";
 import blackLike from "../../../../../assets/icons/details/blackLike.svg";
+import whiteLike from '../../../../../assets/icons/details/whiteLike.svg'
+import whiteDislike from '../../../../../assets/icons/details/whiteDislike.svg'
 import blackDislike from "../../../../../assets/icons/details/blackDislike.svg";
+import { useCommentActions } from "../../../../hooks/useCommentAction";
 
 const CommentBox = ({
+  id,
+  courseId,
   title,
   text,
   authorName,
@@ -10,9 +15,11 @@ const CommentBox = ({
   date,
   likes = 0,
   dislikes = 0,
-  onLike,
-  onDislike,
+  isLiked = false,
+  isDisliked = false,
 }) => {
+  const { like, dislike } = useCommentActions(courseId);
+
   return (
     <div className="flex flex-col gap-4 p-4 items-start justify-between text-right w-81 h-70.5 rounded-[24px] bg-bg-light transition duration-300 hover:-translate-y-1">
       <div>
@@ -44,21 +51,29 @@ const CommentBox = ({
         <div className="flex flex-row items-center justify-center gap-2">
           <div className="flex flex-row items-center gap-1">
             <Button
-              circle={true}
-              color="bg-bg-main"
-              icon={blackLike}
+              circle
+              color={isLiked ? "bg-primary" : "bg-bg-main"}
+              icon={isLiked ? whiteLike : blackLike}
               customStyle="w-8 h-8"
-              onClick={onLike}
+              onClick={() => {
+                if (!like.isPending && !dislike.isPending) {
+                  like.mutate(id);
+                }
+              }}
             />
             <span className="text-base font-medium text-black">{likes}</span>
           </div>
           <div className="flex flex-row items-center gap-1">
             <Button
-              circle={true}
-              color="bg-bg-main"
-              icon={blackDislike}
+              circle
+              color={isDisliked ? "bg-primary" : "bg-bg-main"}
+              icon={isDisliked ? whiteDislike : blackDislike}
               customStyle="w-8 h-8"
-              onClick={onDislike}
+              onClick={() => {
+                if (!dislike.isPending && !like.isPending) {
+                  dislike.mutate(id);
+                }
+              }}
             />
             <span className="text-base font-medium text-black">{dislikes}</span>
           </div>

@@ -24,11 +24,11 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
     mutationFn: (rateNumber) => setCourseRating({ courseId, rateNumber }),
     onMutate: (rateNumber) => {
       const prev = userRate;
-      setUserRate(rateNumber); // ستاره‌ها همان لحظه زرد می‌شوند
+      setUserRate(rateNumber)
       return { prev };
     },
-    onError: (error, _rate, ctx) => {
-      setUserRate(ctx?.prev ?? 0); // rollback
+    onError: (error, _rate, context) => {
+      setUserRate(context?.prev ?? 0); 
       toast.error(error.response?.data?.message || "مشکلی پیش آمد");
     },
     onSuccess: (data) => toast.success(data?.message || "امتیاز شما ثبت شد"),
@@ -55,7 +55,7 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
       <p className="text-base font-medium text-text-dark whitespace-pre-line">
         {describe}
       </p>
-      <div className="flex flex-row justify-center items-center gap-4">
+      <div className="flex flex-row flex-wrap justify-start items-center gap-4">
         <span className="text-base font-semibold text-primary">
           امتیاز بدید
         </span>

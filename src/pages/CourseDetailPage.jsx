@@ -11,6 +11,7 @@ import getCourseById from "../core/services/courses/getCourseById";
 import CourseDetailError from "../Components/courseDetailPage/components/error/CourseDetailError";
 import { getCourseComments } from "../core/services/courses/courseComments";
 import { normalizeComment } from "../Components/courseDetailPage/components/commentSection/utils/commentUtils";
+import MobileCourseBar from "../Components/courseDetailPage/components/mobileCourseBar.jsx/components/MobileCourseBar";
 const CourseDetailPage = () => {
   const [isReserveModal, toggleReserve] = useToggle(false);
   const [isCommentModal, toggleComment] = useToggle(false);
@@ -32,10 +33,10 @@ const CourseDetailPage = () => {
     queryKey: ["courseComments", id],
     queryFn: () => getCourseComments(id),
     select: (data) => data.filter((c) => c.accept).map(normalizeComment),
+    staleTime:0,
   });
 
-
-  if (isPending) return <CourseDetailPending />;
+  if (isPending) return <CourseDetailPending/>;
 
   if (isError)
     return (
@@ -48,10 +49,14 @@ const CourseDetailPage = () => {
 
   if (course) {
     return (
-      <div className="flex flex-col gap-12">
+      <div className=" flex flex-col gap-12">
         <Introduction course={course} toggleReserve={toggleReserve} />
-        <CommentSection comments={comments} toggleComment={toggleComment} />
-        <RelatedOnes />
+        <CommentSection
+          comments={comments}
+          courseId={id}
+          toggleComment={toggleComment}
+        />
+        <RelatedOnes course={course}/>
 
         {/* modals */}
         <ReserveModal
@@ -66,7 +71,12 @@ const CourseDetailPage = () => {
           courseId={id}
           comments={comments}
         />
-      </div>
+
+  <MobileCourseBar
+    cost={course.cost}
+    isCourseReseve={course.isCourseReseve}
+    toggleReserve={toggleReserve}
+  />      </div>
     );
   }
 };

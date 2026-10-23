@@ -25,7 +25,11 @@ export const useCommentActions = (courseId, parentId = null) => {
       return { prev };
     },
 
+    onSuccess: (response)=>{
+  const message = response?.message;
 
+  toast.success(message)
+    },
     onError: (error, _id, ctx) => {
       qc.setQueryData(listKey, ctx?.prev);
       toast.error(errMsg(error));

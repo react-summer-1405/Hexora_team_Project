@@ -14,7 +14,7 @@ const commentSchema = Yup.object({
     .required("متن را وارد کنید"),
 });
 
-const CommentForm = ({ onSubmit,  }) => (
+const CommentForm = ({ onSubmit, isPending }) => (
   <Formik
     initialValues={{ title: "", describe: "" }}
     validationSchema={commentSchema}
@@ -36,6 +36,7 @@ const CommentForm = ({ onSubmit,  }) => (
           customStyle="w-10 h-10"
           icon={sentIcon}
           color="bg-primary"
+          disable={isPending}
           
         />
 

@@ -1,4 +1,4 @@
-import PendingCard from "../../../../common/PendingCard"; // مسیر رو اصلاح کن
+import PendingCard from "../../../../common/PendingCard";
 
 const RelatedOnesPending = () => {
   return (

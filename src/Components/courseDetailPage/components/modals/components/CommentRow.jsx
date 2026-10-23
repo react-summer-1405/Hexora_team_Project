@@ -14,7 +14,7 @@ import { getCourseReplies } from "../../../../../core/services/courses/courseCom
 export const CommentRow = ({
   id,
   courseId,
-  parentId = null, // اگه این ردیف خودش ریپلای است
+  parentId = null,
   title,
   text,
   authorName,

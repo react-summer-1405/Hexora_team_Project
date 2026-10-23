@@ -22,20 +22,16 @@ const IntroductionPending = () => {
   return (
     <div className="flex flex-col gap-12">
       <div className="flex flex-row gap-8">
-        {/* تصویر */}
         <Sk className="rounded-[32px] h-106 w-[45%]" />
 
         <div className="w-[47%] flex flex-col gap-6 items-start">
-          {/* عنوان */}
           <Sk className="h-10 w-2/3 rounded-lg" />
 
-          {/* دو InfoBox */}
           <div className="flex flex-col gap-4 w-full">
             <InfoBoxPending />
             <InfoBoxPending />
           </div>
 
-          {/* قیمت و امتیاز */}
           <div className="w-full flex flex-row-reverse justify-between items-center">
             <div className="flex flex-row gap-2 items-center">
               <Sk className="h-8 w-32 rounded-lg" />
@@ -52,7 +48,6 @@ const IntroductionPending = () => {
             </div>
           </div>
 
-          {/* دکمه‌ها */}
           <div className="w-full flex flex-row justify-center gap-5">
             <Sk className="h-12 w-40 rounded-full" />
             <Sk className="h-12 w-60 rounded-full" />
@@ -62,7 +57,6 @@ const IntroductionPending = () => {
         </div>
       </div>
 
-      {/* توضیحات */}
       <div className="flex flex-col gap-4 items-start w-full">
         <Sk className="h-6 w-32 rounded-lg" />
         <div className="flex flex-col gap-2 w-full">

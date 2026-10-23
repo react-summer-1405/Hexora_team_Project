@@ -37,7 +37,6 @@ const CommentSectionPending = () => {
       </h3>
 
       <div className="flex flex-row flex-wrap items-start justify-start gap-4">
-        {/* کارت «نظر شما» */}
         <Sk className="w-81 h-70.5 rounded-[24px]" />
         {Array.from({ length: 2 }, (_, i) => (
           <CommentBoxPending key={i} />

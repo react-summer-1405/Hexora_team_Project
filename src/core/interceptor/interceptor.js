@@ -8,7 +8,7 @@ const baseURL = import.meta.env.VITE_BASE_URL
 const Api_Client = axios.create({
 
     baseURL: baseURL,
-    timeout: 7000,
+    timeout: 200000,
 
 })
 

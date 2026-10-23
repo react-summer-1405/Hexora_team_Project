@@ -16,6 +16,8 @@ export const addDislikeForCourse = async (courseId) => {
 };
 
 export const addCourseFavorite = async (courseId) => {
+  console.log("CourseFavoriteId",courseId);
+
   const response = await Api_Client.post(
     `/Course/AddCourseFavorite`, { courseId }
   );
@@ -23,10 +25,17 @@ export const addCourseFavorite = async (courseId) => {
 }
 
 export const deleteCourseFavorite = async (courseId) => {
+
+  const formData = new FormData();
+console.log("CourseFavoriteId",courseId);
+
+  formData.append("CourseFavoriteId",courseId)
+
+
   const response = await Api_Client.delete(
     "/Course/DeleteCourseFavorite",
     {
-      data: { courseId },
+      data: formData,
     }
   );
 
