@@ -17,6 +17,8 @@ const ButtonsHandler = ({
   likeCount = 0,
   userIsLiked,
   userIsDissLike,
+  userLikeId,
+  userDissLikeId,
   isCourseReseve,
   isUserFavorite,
   courseId,
@@ -84,8 +86,15 @@ const handleFavorite = () => {
         customStyle="md:px-11 "
         onClick={handleFavorite}
       />
-<LikeAndDislike courseId={courseId} dissLikeCount={dissLikeCount} likeCount={likeCount} userIsLiked={userIsLiked} userIsDissLike={userIsDissLike}/>
-    </div>
+<LikeAndDislike
+  courseId={courseId}
+  likeCount={likeCount}
+  dissLikeCount={dissLikeCount}
+  userIsLiked={userIsLiked}
+  userIsDissLike={userIsDissLike}
+  userLikeId={userLikeId}
+  userDissLikeId={userDissLikeId}
+/>    </div>
   );
 };
 

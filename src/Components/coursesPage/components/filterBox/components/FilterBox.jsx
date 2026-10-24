@@ -14,7 +14,6 @@ import {
   getTeachers,
 } from "../../../../../core/services/courses/getFilterdData";
 import AutoSubmit from "./AutoSubmit";
-import useToggle from "../../../../hooks/useToggle";
 
 const initialValues = {
   Query: "",
@@ -99,7 +98,6 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
       type: "range",
       label: "قیمت",
       icon: costIcon,
-
       names: ["CostDown", "CostUp"],
       min: 0,
       max: 10000000,
@@ -145,11 +143,14 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
               </label>
 
               {field.type === "search" && (
+                <div className="relative w-full">
                 <Field
                   name={field.name}
                   placeholder={field.placeholder}
-                  className=" rounded-xl bg-bg-field p-4 px-3 text-xs"
+                  className="w-full rounded-xl bg-bg-field p-4 px-3 text-xs"
                 />
+                <div className="absolute left-0 top-0 w-12 h-12 bg-[url(../../assets/icons/search-01.svg)] bg-no-repeat  bg-center bg-primary rounded-[16px] "></div>
+                </div>
               )}
 
               {field.type === "select" && (
@@ -160,7 +161,7 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
                 >
                   <option value="">{field.placeholder}</option>
                   {field.options.map((o) => (
-                    <option className="text-text-dark" key={o.id} value={o.id}>
+                    <option className="text-text-dark text-sm" key={o.id} value={o.id}>
                       {o.name}
                     </option>
                   ))}

@@ -6,16 +6,12 @@ import useToggle from "../../../../hooks/useToggle";
 import RelatedOnesPending from "../../pendings/components/RelatedOnesPending";
 
 const RelatedOnes = ({ course }) => {
-
-    const [isOpen, toggle] = useToggle(false);
-
+  const [isOpen, toggle] = useToggle(false);
 
   const techNames =
-  course?.courseTech?.map((item) =>
-    item?.tech?.techName?.trim()
-  ).filter(Boolean) ?? [];
-
-
+    course?.courseTech
+      ?.map((item) => item?.tech?.techName?.trim())
+      .filter(Boolean) ?? [];
 
   const { data, isPending } = useQuery({
     queryKey: ["getRelatedCourses"],
@@ -24,48 +20,37 @@ const RelatedOnes = ({ course }) => {
 
   const courses = data ?? [];
 
-
-const relatedCourses = courses.filter((course) =>
-  techNames.some((tech) =>
-    course.technologyList
-      ?.toLowerCase()
-      .includes(tech.toLowerCase())
-  )
-);  
-
+  const relatedCourses = courses.filter((course) =>
+    techNames.some((tech) =>
+      course.technologyList?.toLowerCase().includes(tech.toLowerCase()),
+    ),
+  );
 
   if (isPending) return <RelatedOnesPending />;
 
- 
+  if (relatedCourses.length !== 0)
+    return (
+      <div className="flex flex-col gap-6 ">
+        <h3 className="text-[20px] font-bold text-text-muted items-start">
+          دوره های مرتبط
+        </h3>
+        <div
+          className={`flex flex-row flex-wrap items-start justify-center md:justify-start gap-4 ${isOpen ? "h-max" : "h-95"} overflow-hidden  `}
+        >
+          {relatedCourses.map((course) => (
+            <CourseCard key={course.courseId} course={course} />
+          ))}
+        </div>
 
-
-
-  return (
-    <div className="flex flex-col gap-6">
-      <h3 className="text-[20px] font-bold text-text-muted items-start">
-        دوره های مرتبط
-      </h3>
-      <div className={`flex flex-row flex-wrap items-start justify-center md:justify-start gap-4 ${isOpen?"h-max":"h-95"} overflow-hidden  `}>
-         {relatedCourses.map((course) => (
-        <CourseCard key={course.courseId} course={course} />
-      ))} 
+        {relatedCourses.length >= 3 && (
+          <Button
+            content={isOpen ? "مشاهده کمتر" : "مشاهده بیشتر"}
+            customStyle="self-center"
+            onClick={toggle}
+          />
+        )}
       </div>
-           
-      {relatedCourses.length === 0 && (
-        <p className="self-center text-base font-medium text-text-muted">
-          هیچ دوره مشابهی یافت نشد!
-        </p>
-      )}
-      {relatedCourses.length >= 3 && (
-        <Button
-          content={isOpen ? "مشاهده کمتر" : "مشاهده بیشتر"}
-          customStyle="self-center"
-          onClick={toggle}
-        />
-      )}
-     
-    </div>
-  );
+    );
 };
 
 export default RelatedOnes;

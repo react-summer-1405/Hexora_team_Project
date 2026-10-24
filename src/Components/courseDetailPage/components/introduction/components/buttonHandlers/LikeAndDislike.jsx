@@ -3,6 +3,8 @@ import Button from "../../../../../common/Button";
 import {
   addDislikeForCourse,
   addLikeForCourse,
+  deleteCourseDisLike,
+  deleteCourseLike,
 } from "../../../../../../core/services/courses/courseHandling";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -10,12 +12,14 @@ import blackLike from "../../../../../../assets/icons/details/blackLike.svg";
 import whiteLike from "../../../../../../assets/icons/details/whiteLike.svg";
 import blackDislike from "../../../../../../assets/icons/details/blackDislike.svg";
 import whiteDislike from "../../../../../../assets/icons/details/whiteDislike.svg";
-const LikeAndDislike = ({
+ const LikeAndDislike = ({
   userIsLiked,
   userIsDissLike,
   likeCount,
   dissLikeCount,
   courseId,
+  userLikeId,
+  userDissLikeId,
 }) => {
   const queryClient = useQueryClient();
   const [optimistic, setOptimistic] = useState(null);
@@ -30,17 +34,25 @@ const LikeAndDislike = ({
   const view = optimistic ?? server;
 
   const likeMutation = useMutation({
-    mutationFn: () => addLikeForCourse(courseId),
-    onMutate: () => {
-      const prev = view;
-      const next = {
-        liked: true,
-        likes: prev.liked ? prev.likes : prev.likes + 1,
-        disliked: false,
-        dislikes: prev.dislikes - (prev.disliked ? 1 : 0),
-      };
+    mutationFn: (wasLiked) =>
+      wasLiked ? deleteCourseLike(userLikeId) : addLikeForCourse(courseId),
+
+    onMutate: (wasLiked) => {
+      const next = wasLiked
+        ? {
+            liked: false,
+            likes: view.likes - 1,
+            disliked: view.disliked,
+            dislikes: view.dislikes,
+          }
+        : {
+            liked: true,
+            likes: view.likes + 1,
+            disliked: false,
+            dislikes: view.dislikes - (view.disliked ? 1 : 0),
+          };
+
       setOptimistic(next);
-      return { prev };
     },
     onError: (error) => {
       setOptimistic(null);
@@ -54,18 +66,27 @@ const LikeAndDislike = ({
   });
 
   const dislikeMutation = useMutation({
-    mutationFn: () => addDislikeForCourse(courseId),
-    onMutate: () => {
-      const prev = view;
-      const next = {
-        disliked: true,
-        dislikes: prev.disliked ? prev.dislikes : prev.dislikes + 1,
-        liked: false,
-        likes: prev.likes - (prev.liked ? 1 : 0),
-      };
+    mutationFn: (wasDisliked) =>
+      wasDisliked
+        ? deleteCourseDisLike(userDissLikeId)
+        : addDislikeForCourse(courseId),
+
+    onMutate: (wasDisliked) => {
+      const next = wasDisliked
+        ? {
+            disliked: false,
+            dislikes: view.dislikes - 1,
+            liked: view.liked,
+            likes: view.likes,
+          }
+        : {
+            disliked: true,
+            dislikes: view.dislikes + 1,
+            liked: false,
+            likes: view.likes - (view.liked ? 1 : 0),
+          };
 
       setOptimistic(next);
-      return { prev };
     },
     onError: (error) => {
       setOptimistic(null);
@@ -81,11 +102,11 @@ const LikeAndDislike = ({
   const isBusy = likeMutation.isPending || dislikeMutation.isPending;
 
   const handleLike = () => {
-    if (!isBusy) likeMutation.mutate();
+    if (!isBusy) likeMutation.mutate(view.liked);
   };
 
   const handleDislike = () => {
-    if (!isBusy) dislikeMutation.mutate();
+    if (!isBusy) dislikeMutation.mutate(view.disliked);
   };
 
   return (

@@ -62,8 +62,8 @@ export const CommentRow = ({
       </div>
 
       <div className="flex flex-col text-right text-text-dark">
-        <span className="text-lg font-bold">{title}</span>
-        <span className="text-base font-medium whitespace-pre-line">{text}</span>
+        <span className="sm:text-lg text-sm  sm:font-bold font-semibold">{title}</span>
+        <span className="sm:text-base text-xs sm:font-medium  whitespace-pre-line">{text}</span>
       </div>
 
       <div className="flex w-3/4 flex-row items-center justify-start gap-5 p-2">

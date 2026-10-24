@@ -11,54 +11,83 @@ export const useCommentActions = (courseId, parentId = null) => {
     ? ["courseReplies", courseId, parentId]
     : ["courseComments", courseId];
 
-  const patch = (commentId, updater) =>
+const like = useMutation({
+  mutationFn: (commentId) => likeComment(commentId),
+
+  onMutate: async (commentId) => {
+    await qc.cancelQueries({ queryKey: listKey });
+    const prev = qc.getQueryData(listKey);
+
     qc.setQueryData(listKey, (old) =>
-      old?.map((c) => (c.id === commentId ? updater(c) : c))
+      old?.map((c) =>
+        c.id === commentId
+          ? {
+              ...c,
+              currentUserIsLike: !c.currentUserIsLike,
+              likeCount: c.likeCount + (c.currentUserIsLike ? -1 : 1),
+              currentUserIsDissLike: c.currentUserIsLike ? c.currentUserIsDissLike : false,
+              disslikeCount:
+                c.disslikeCount - (!c.currentUserIsLike && c.currentUserIsDissLike ? 1 : 0),
+            }
+          : c
+      )
     );
 
-  const reaction = (apiFn, updater ) => ({
-    mutationFn: (commentId) => apiFn(commentId),
-    onMutate: async (commentId) => {
-      await qc.cancelQueries({ queryKey: listKey });
-      const prev = qc.getQueryData(listKey);
-      patch(commentId, updater);
-      return { prev };
-    },
+    return { prev };
+  },
 
-    onSuccess: (response)=>{
-  const message = response?.message;
+  onSuccess: (response) => {
+    toast.success(response?.message);
+  },
 
-  toast.success(message)
-    },
-    onError: (error, _id, ctx) => {
-      qc.setQueryData(listKey, ctx?.prev);
-      toast.error(errMsg(error));
-    },
-    onSettled: () => qc.invalidateQueries({ queryKey: listKey }),
-  });
+  onError: (error, _id, ctx) => {
+    qc.setQueryData(listKey, ctx?.prev);
+    toast.error(errMsg(error));
+  },
 
-  const like = useMutation(
-    reaction(likeComment, (c) => ({
-      ...c,
-      currentUserIsLike: !c.currentUserIsLike,
-      likeCount: c.likeCount + (c.currentUserIsLike ? -1 : 1),
+  onSettled: () => {
+    qc.invalidateQueries({ queryKey: listKey });
+  },
+});
 
-      currentUserIsDissLike: c.currentUserIsLike ? c.currentUserIsDissLike : false,
-      disslikeCount:
-        c.disslikeCount - (!c.currentUserIsLike && c.currentUserIsDissLike ? 1 : 0),
-    }))
-  );
+const dislike = useMutation({
+  mutationFn: (commentId) => dislikeComment(commentId),
 
-  const dislike = useMutation(
-    reaction(dislikeComment, (c) => ({
-      ...c,
-      currentUserIsDissLike: !c.currentUserIsDissLike,
-      disslikeCount: c.disslikeCount + (c.currentUserIsDissLike ? -1 : 1),
-      currentUserIsLike: c.currentUserIsDissLike ? c.currentUserIsLike : false,
-      likeCount:
-        c.likeCount - (!c.currentUserIsDissLike && c.currentUserIsLike ? 1 : 0),
-    }))
-  );
+  onMutate: async (commentId) => {
+    await qc.cancelQueries({ queryKey: listKey });
+    const prev = qc.getQueryData(listKey);
+
+    qc.setQueryData(listKey, (old) =>
+      old?.map((c) =>
+        c.id === commentId
+          ? {
+              ...c,
+              currentUserIsDissLike: !c.currentUserIsDissLike,
+              disslikeCount: c.disslikeCount + (c.currentUserIsDissLike ? -1 : 1),
+              currentUserIsLike: c.currentUserIsDissLike ? c.currentUserIsLike : false,
+              likeCount:
+                c.likeCount - (!c.currentUserIsDissLike && c.currentUserIsLike ? 1 : 0),
+            }
+          : c
+      )
+    );
+
+    return { prev };
+  },
+
+  onSuccess: (response) => {
+    toast.success(response?.message);
+  },
+
+  onError: (error, _id, ctx) => {
+    qc.setQueryData(listKey, ctx?.prev);
+    toast.error(errMsg(error));
+  },
+
+  onSettled: () => {
+    qc.invalidateQueries({ queryKey: listKey });
+  },
+});
 
   const addComment = useMutation({
     mutationFn: ({ title, describe }) =>

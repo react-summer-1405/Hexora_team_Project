@@ -29,6 +29,8 @@ const Introduction = ({ course, toggleReserve }) => {
     miniDescribe,
     describe,
     userFavoriteId,
+    userDissLikeId,
+    userLikeId,
   } = course;
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -115,6 +117,8 @@ const Introduction = ({ course, toggleReserve }) => {
             isCourseReseve={isCourseReseve}
             isUserFavorite={isUserFavorite}
             userFavoriteId={userFavoriteId}
+            userLikeId={userLikeId}
+            userDissLikeId={userDissLikeId}
           />
         </div>
       </div>
