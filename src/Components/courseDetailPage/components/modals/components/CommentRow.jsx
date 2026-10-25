@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Button from "../../../../common/Button";
+import reload from '../../../../../assets/icons/Arrows_Reload.svg'
 import blackLike from "../../../../../assets/icons/details/blackLike.svg";
 import whiteLike from "../../../../../assets/icons/details/whiteLike.svg";
 import blackDislike from "../../../../../assets/icons/details/blackDislike.svg";
@@ -27,7 +28,7 @@ export const CommentRow = ({
 }) => {
   const isReply = !!parentId;
   const [isReplyOpen, toggleReply] = useToggle(false);
-  const [showReplies, setShowReplies] = useState(false);
+  const [showReplies, toggleReplies] = useToggle(false);
 
   const { like, dislike, addReply } = useCommentActions(courseId, parentId);
 
@@ -45,7 +46,7 @@ export const CommentRow = ({
         onSuccess: () => {
           resetForm();
           toggleReply();
-          setShowReplies(true);
+          toggleReplies
         },
       }
     );
@@ -100,8 +101,8 @@ export const CommentRow = ({
             />
             <button
               type="button"
-              className="text-sm font-medium text-primary"
-              onClick={() => setShowReplies((s) => !s)}
+              className="text-sm font-medium text-primary cursor-pointer hover:scale-110 transition-all duration-300"
+              onClick={toggleReplies}
             >
               {showReplies ? "بستن جواب‌ها" : "مشاهده جواب‌ها"}
             </button>
@@ -115,7 +116,7 @@ export const CommentRow = ({
 
       {showReplies && !isReply && (
         <div className="w-full ps-8 flex flex-col gap-4 border-s border-border">
-          {isLoading && <p className="text-sm text-text-muted">در حال بارگذاری...</p>}
+          {isLoading && <div className="flex flex-row gap-1"><p className="text-sm text-text-muted">در حال بارگذاری</p> <img src={reload} className="w-6 h-6 animate-spin"/></div>}
           {!isLoading && replies.length === 0 && (
             <p className="text-sm text-text-muted">جوابی ثبت نشده.</p>
           )}

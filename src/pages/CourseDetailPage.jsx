@@ -38,6 +38,7 @@ const CourseDetailPage = () => {
 
   if (isPending) return <CourseDetailPending/>;
 
+  
   if (isError)
     return (
       <CourseDetailError

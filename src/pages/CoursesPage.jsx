@@ -1,6 +1,5 @@
 import { useState } from "react"
 import CoursesList from "../Components/coursesPage/components/coursesSection/components/CoursesList"
-import PaginationBox from "../Components/coursesPage/components/coursesSection/components/Pagination"
 import SortingRow from "../Components/coursesPage/components/coursesSection/components/SortingRow"
 import FilterBox from "../Components/coursesPage/components/filterBox/components/FilterBox"
 import HeroSection from "../Components/coursesPage/components/heroSection/components/HeroSection"
@@ -51,8 +50,7 @@ const sortParams = selectedButton
         <Button content="فیلتر" icon={filterIcon}onClick={toggleFilter} />
         <Button content="ترتیب" icon={sortIcon} onClick={toggle}/>
       </div>
-<CoursesList page={page} sortParams={sortParams} filters={filters}/>
-<PaginationBox setPage={setPage} page={page}/>
+<CoursesList page={page} setPage={setPage} sortParams={sortParams} filters={filters}/>
 
 </div>
    

@@ -112,7 +112,7 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
   ];
 
   const handleSubmit = (values) => {
-    if (values.startDate && !values.endDate) return;
+    if (values.StartDate && !values.EndDate) return;
     const params = Object.fromEntries(
       Object.entries(values).filter(([, v]) => v !== "" && v !== null),
     );
@@ -147,7 +147,7 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
                 <Field
                   name={field.name}
                   placeholder={field.placeholder}
-                  className="w-full rounded-xl bg-bg-field p-4 px-3 text-xs"
+                  className="w-full rounded-[16px] bg-bg-field p-4 px-3 text-xs"
                 />
                 <div className="absolute left-0 top-0 w-12 h-12 bg-[url(../../assets/icons/search-01.svg)] bg-no-repeat  bg-center bg-primary rounded-[16px] "></div>
                 </div>
@@ -157,7 +157,7 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
                 <Field
                   as="select"
                   name={field.name}
-                  className=" rounded-xl text-xs text-text-muted bg-bg-field px-3 py-4"
+                  className=" rounded-[16px] text-xs text-text-muted bg-bg-field px-3 py-4"
                 >
                   <option value="">{field.placeholder}</option>
                   {field.options.map((o) => (

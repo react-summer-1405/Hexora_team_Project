@@ -12,12 +12,16 @@ import ResetPasswordPage from "../pages/auth/forget/ResetPasswordPage";
 import RegisterPage from "../pages/auth/register/RegisterPage";
 import RegisterVerificationPage from "../pages/auth/register/RegisterVerificationPage";
 import RegisterInfoPage from "../pages/auth/register/RegisterInfoPage";
+import BlogsPage from "../pages/BlogsPage";
+import BlogDetailPage from "../pages/BlogDetailPage";
 
 const router = createBrowserRouter([
  {path:'/', element:<MainLayout/>, children:[
      {index:true , element:<LandingPage/>,},
      {path:"courses" , element:<CoursesPage/>},
-     {path:"courses/:id", element:<CourseDetailPage/>}   
+     {path:"courses/:id", element:<CourseDetailPage/>},  
+          {path:"blogs" , element:<BlogsPage/>},
+     {path:"blogs/:id", element:<BlogDetailPage/>},   
  ]},
   {
     path: "/auth",

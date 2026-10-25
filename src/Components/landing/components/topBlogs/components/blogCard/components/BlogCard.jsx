@@ -1,3 +1,4 @@
+import { formatDate } from "../../../../../../hooks/formatters";
 import BottomBlog from "./bottomBlog";
 import TopBlog from "./TopBlog";
 
@@ -11,7 +12,7 @@ const BlogCard = ({ blog }) => {
   } = blog;
   const date = insertDate.split("T");
   const day = date[0];
-  console.log("new date", day);
+   
   return (
     <div
       className=" sm:w-108  h-91w-80 cursor-pointer  hover:-translate-y-2  transition duration-300 rounded-4xl"
@@ -21,7 +22,7 @@ const BlogCard = ({ blog }) => {
       <BottomBlog
         title={title}
         addUserFullName={addUserFullName}
-        date={day}
+        date={formatDate(day)}
         view={view}
       />
     </div>

@@ -4,10 +4,11 @@ const TopCard = ({ levelName, subject , image }) => {
    const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
 
+
   const showLogo = !image || isError || !isLoaded;
   const showImage = image && !isError;
   return (
-    <div className="relative h-73 bg-[#87DFFF] rounded-4xl">
+    <div className={`relative h-73 ${showLogo && "bg-[#87DFFF]"}  rounded-4xl overflow-hidden`}>
       <div className="h-full flex flex-col justify-center items-center">
  {showLogo && (
           <img
@@ -21,7 +22,7 @@ const TopCard = ({ levelName, subject , image }) => {
             src={image}
             onLoad={() => setIsLoaded(true)}
             onError={() => setIsError(true)}
-            className={`w-full h-full object-contain transition-opacity duration-300 ${
+            className={`w-full h-full object-cover transition-opacity duration-300 ${
               isLoaded ? "opacity-100" : "opacity-0"
             }`}
           />

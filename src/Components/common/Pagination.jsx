@@ -1,8 +1,8 @@
-"use client";
 
 import { Pagination } from "@heroui/react";
 
 const base =
+
   "flex h-10 min-w-10 items-center justify-center rounded-lg px-3 text-sm font-medium " +
   "transition-colors duration-200 outline-none " +
   "focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2";
@@ -15,8 +15,8 @@ const activeClass =
 
 const disabledClass = "opacity-40 pointer-events-none";
 
-const PaginationBox=({setPage , page})=> {
-  const totalPages = 3;
+const PaginationBox=({setPage , page ,totalPages})=> {
+
 
   return (
     <Pagination className=" flex flex-row justify-center self-center mt-4 ">

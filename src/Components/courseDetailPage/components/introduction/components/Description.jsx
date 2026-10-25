@@ -47,7 +47,7 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
   
 
   return (
-    <div className="flex flex-col gap-4 items-start text-right">
+    <div className="flex flex-col gap-4 items-start text-right cursor-default">
       <h6 className="text-[20px] font-bold text-text-muted">توضیحات دوره</h6>
       {miniDescribe && (
         <p className="text-base font-bold text-text-dark">{miniDescribe}</p>
