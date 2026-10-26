@@ -3,7 +3,8 @@ import CommentBox from "./CommentBox";
 import commentIcon from "../../../../../assets/icons/details/comment-add.svg";
 import useToggle from "../../../../hooks/useToggle";
 
-const CommentSection = ({ comments = [], toggleComment, courseId }) => {
+const CommentSection = ({ comments = [], toggleComment }) => {
+  
   const [isOpen, toggle] = useToggle(false);
 
   return (
@@ -29,7 +30,7 @@ const CommentSection = ({ comments = [], toggleComment, courseId }) => {
           </button>
         </div>
         {comments.map((comment) => (
-          <CommentBox key={comment.id} {...comment} courseId={courseId} />
+          <CommentBox key={comment.id} {...comment} />
         ))}      
       </div>
       {comments.length === 0 && (

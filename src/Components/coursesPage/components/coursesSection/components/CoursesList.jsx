@@ -8,6 +8,8 @@ import PaginationBox from "../../../../common/Pagination";
 const CoursesList = ({ page,setPage, sortParams, filters }) => {
   const rowsOfPage = 3;
 
+  const ListTech = filters.ListTech
+
   const { data, isError, error, isPending, refetch, isFetching } = useQuery({
     queryKey: ["coursesByPagination", page, rowsOfPage, sortParams, filters],
     queryFn: ({ signal }) =>

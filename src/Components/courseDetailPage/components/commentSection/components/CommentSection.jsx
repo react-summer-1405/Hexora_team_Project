@@ -4,6 +4,7 @@ import commentIcon from "../../../../../assets/icons/details/comment-add.svg";
 import useToggle from "../../../../hooks/useToggle";
 
 const CommentSection = ({ comments = [], toggleComment, courseId }) => {
+  
   const [isOpen, toggle] = useToggle(false);
 
   return (

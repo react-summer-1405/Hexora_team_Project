@@ -1,85 +1,67 @@
 import InfoBox from "./InfoBox";
-import PointAndPrice from "./PointAndPrice";
 import ButtonsHandler from "./buttonHandlers/ButtonsHandler";
 import Description from "./Description";
 import { formatDate, formatNumber } from "../../../../hooks/formatters";
 import { useState } from "react";
-import reactLogo from "../../../../../assets/images/react.png";
-const Introduction = ({ course, toggleReserve }) => {
-  const {
-    title,
-    courseId,
-    imageAddress,
-    teacherName,
-    courseStatusName,
-    courseLevelName,
-    courseTech,
-    startTime,
-    endTime,
-    cost,
-    courseRate,
-    currentUserRateNumber,
-    studentCount,
-    likeCount,
-    dissLikeCount,
-    userIsLiked,
-    userIsDissLike,
-    isCourseReseve,
-    isUserFavorite,
-    miniDescribe,
-    describe,
-    userFavoriteId,
-    userDissLikeId,
-    userLikeId,
-  } = course;
+import figmaLogo from "../../../../../assets/images/figma.png";
+import Points from "./Points";
+const Introduction = ({ blog }) => {
+const {
+  id,
+  title,
+  miniDescribe,
+  describe,
+  currentImageAddress: imageAddress,
+  insertDate,
+  newsCatregoryName: categoryName,
+  addUserFullName: authorName,
+  newsRate,
+  commentsCount,
+  currentView: viewCount,
+  currentLikeCount: likeCount,
+  currentDissLikeCount: dissLikeCount,
+  currentUserIsLike: userIsLiked,
+  currentUserIsDissLike: userIsDissLike,
+  isCurrentUserFavorite: isUserFavorite,
+  currentUserFavoriteId: userFavoriteId,
+  likeId: userLikeId,
+  currentUserRateNumber,
+} = blog;
 
-  const [isLoaded, setIsLoaded] = useState(false);
+
+
+   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const showLogo = !imageAddress || isError || !isLoaded;
   const showImage = imageAddress && !isError;
 
-  const getUniqueTechNames = (courseTech = []) => {
-    const names = courseTech
-      .map((item) => item?.tech?.techName?.trim())
-      .filter(Boolean);
-
-    return names.filter(
-      (name, index) =>
-        names.findIndex((n) => n.toLowerCase() === name.toLowerCase()) ===
-        index,
-    );
-  };
-
-  const tech = getUniqueTechNames(courseTech);
 
   const itemsRow1 = [
-    { id: 1, label: "وضعیت", value: courseStatusName, variant: "danger" },
+    { id: 1, label: "دسته‌بندی", value: categoryName, variant: "danger" },
     {
       id: 2,
-      label: "دسته‌بندی",
-      value: tech.length ? tech.join("، ") : "مشخص نیست",
+      label: "منتشرکننده",
+      value:authorName,
       variant: "purple",
     },
-    { id: 3, label: "سطح آموزشی", value: courseLevelName, variant: "primary" },
-    { id: 4, label: "استاد دوره", value: teacherName },
+    { id: 3, label: "تاریخ انتشار", value: formatDate(insertDate), variant: "primary" },
+    { id: 4, label: "بازدیدکنندگان", value:  formatNumber(viewCount)+" نفر" },
   ];
 
   const itemsRow2 = [
-    { id: 1, label: "تاریخ برگزاری", value: formatDate(startTime) },
-    { id: 2, label: "تاریخ اتمام", value: formatDate(endTime) },
-    { id: 3, label: "تعداد لایک", value: formatNumber(likeCount) },
-    { id: 4, label: "تعداد دیس‌لایک", value: formatNumber(dissLikeCount) },
+    { id: 1, label: "تعداد لایک", value: formatNumber(likeCount) },
+    { id: 2, label: "تعداد دیس‌لایک", value: formatNumber(dissLikeCount) },
   ];
 
   return (
     <div className="flex flex-col gap-12 ">
       <div className=" flex flex-row flex-wrap justify-start gap-5 ">
-        <div className=" bg-[#87DFFF] flex lg:flex-row flex-col justify-center lg:items-end items-center rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2  min-w-90 mx-auto lg:mx-3  object-contain">
+        <div className=" bg-[#FF6C6C] flex lg:flex-row flex-col justify-center lg:items-end items-center rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2  min-w-90 mx-auto lg:mx-3  object-contain">
           {showLogo && (
             <img
-              src={reactLogo}
-              className=" animate-bounce   object-contain w-100 h-100"
+              src={figmaLogo}
+              className=" animate-bounce  object-contain w-85 h-85"
             />
           )}
 
@@ -99,33 +81,30 @@ const Introduction = ({ course, toggleReserve }) => {
             {title}
           </h3>
           <div className="flex flex-col gap-4 lg:w-full w-5/6 md:mx-0 mx-auto">
-            <InfoBox items={itemsRow1} />
-            <InfoBox items={itemsRow2} />
+            <InfoBox items={itemsRow1} className="lg:grid-cols-4"/>
+            <InfoBox items={itemsRow2} className="lg:w-1/2" />
+            
           </div>
-          <PointAndPrice
-            cost={cost}
-            rate={courseRate}
-            studentCount={studentCount}
+          <Points
+            rate={newsRate}
+            commentsCount={commentsCount}
           />
           <ButtonsHandler
-            courseId={courseId}
-            toggleReserve={toggleReserve}
+            blogId={id}         
             likeCount={likeCount}
             dissLikeCount={dissLikeCount}
             userIsLiked={userIsLiked}
             userIsDissLike={userIsDissLike}
-            isCourseReseve={isCourseReseve}
             isUserFavorite={isUserFavorite}
             userFavoriteId={userFavoriteId}
             userLikeId={userLikeId}
-            userDissLikeId={userDissLikeId}
           />
         </div>
       </div>
       <Description
         miniDescribe={miniDescribe}
         describe={describe}
-        courseId={courseId}
+        blogId={id}
         userRate={Number(currentUserRateNumber) || 0}
       />
     </div>

@@ -7,11 +7,11 @@ const BlogDetailError = ({ error, refetch, isFetching }) => {
   const isNotFound = error?.response?.status === 404;
 
   const title = isNotFound
-    ? "این دوره پیدا نشد"
-    : "دریافت اطلاعات دوره با مشکل مواجه شد";
+    ? "این بلاگ پیدا نشد"
+    : "دریافت اطلاعات بلاگ با مشکل مواجه شد";
 
   const description = isNotFound
-    ? "ممکنه دوره حذف شده باشه یا آدرس اشتباه باشه."
+    ? "ممکنه بلاگ حذف شده باشه یا آدرس اشتباه باشه."
     : error?.message || "لطفاً اتصال اینترنت خود را بررسی کنید.";
 
   return (
@@ -36,10 +36,10 @@ const BlogDetailError = ({ error, refetch, isFetching }) => {
           )}
 
           <button
-            onClick={() => navigate("/courses")}
+            onClick={() => navigate("/blogs")}
             className="cursor-pointer rounded-full border border-red-200 bg-white px-6 py-2 text-sm font-medium text-red-500 transition hover:bg-red-100 active:scale-95"
           >
-            بازگشت به دوره‌ها
+           بازگشت به بلاگ ها
           </button>
         </div>
       </div>

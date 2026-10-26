@@ -11,7 +11,7 @@ const TopBlog = ({image}) => {
   const showImage = image && !isError;  
 
   return (
-    <div className={` h-73 ${showLogo && "bg-[#FF6C6C]"}  rounded-4xl  overflow-hidden`}>
+    <div className={` h-73 ${showLogo && "bg-[#FF6C6C]"}  rounded-4xl relative  overflow-hidden`}>
       <div className="h-full flex flex-col justify-center items-center">
  {showLogo && (
           <img

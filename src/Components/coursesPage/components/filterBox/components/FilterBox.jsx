@@ -26,7 +26,7 @@ const initialValues = {
   EndDate: "",
 };
 
-const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
+const FilterBox = ({ setFilters ,toggleFilter,isFilterModal ,techs}) => {
   const { data: levels = [] } = useQuery({
     queryKey: ["courseLevel"],
     queryFn: getCourseLevel,
@@ -38,16 +38,7 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal}) => {
       })),
   });
 
-  const { data: techs = [] } = useQuery({
-    queryKey: ["courseTech"],
-    queryFn: getCourseTech,
-    staleTime: 1000 * 60 * 60,
-    select: (res) =>
-      res.map((l) => ({
-        id: l.id,
-        name: l.techName,
-      })),
-  });
+
 
   const { data: teachers = [] } = useQuery({
     queryKey: ["allTeachers"],

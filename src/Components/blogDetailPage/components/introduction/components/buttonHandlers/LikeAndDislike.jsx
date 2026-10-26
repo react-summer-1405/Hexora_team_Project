@@ -1,25 +1,20 @@
 import toast from "react-hot-toast";
 import Button from "../../../../../common/Button";
-import {
-  addDislikeForCourse,
-  addLikeForCourse,
-  deleteCourseDisLike,
-  deleteCourseLike,
-} from "../../../../../../core/services/courses/courseHandling";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import blackLike from "../../../../../../assets/icons/details/blackLike.svg";
 import whiteLike from "../../../../../../assets/icons/details/whiteLike.svg";
 import blackDislike from "../../../../../../assets/icons/details/blackDislike.svg";
 import whiteDislike from "../../../../../../assets/icons/details/whiteDislike.svg";
+import { addDislikeForBlog, addLikeForBlog, deleteBlogLike } from "../../../../../../core/services/blogs/blogHandling";
  const LikeAndDislike = ({
   userIsLiked,
   userIsDissLike,
   likeCount,
   dissLikeCount,
-  courseId,
+  blogId,
   userLikeId,
-  userDissLikeId,
 }) => {
   const queryClient = useQueryClient();
   const [optimistic, setOptimistic] = useState(null);
@@ -35,7 +30,7 @@ import whiteDislike from "../../../../../../assets/icons/details/whiteDislike.sv
 
   const likeMutation = useMutation({
     mutationFn: (wasLiked) =>
-      wasLiked ? deleteCourseLike(userLikeId) : addLikeForCourse(courseId),
+      wasLiked ? deleteBlogLike(userLikeId) : addLikeForBlog(blogId),
 
     onMutate: (wasLiked) => {
       const next = wasLiked
@@ -60,44 +55,37 @@ import whiteDislike from "../../../../../../assets/icons/details/whiteDislike.sv
     },
     onSuccess: (data) => toast.success(data?.message),
     onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["getCourseById"] });
+      await queryClient.invalidateQueries({ queryKey: ["getBlogById",blogId] });
       setOptimistic(null);
     },
   });
 
-  const dislikeMutation = useMutation({
-    mutationFn: (wasDisliked) =>
-      wasDisliked
-        ? deleteCourseDisLike(userDissLikeId)
-        : addDislikeForCourse(courseId),
+const dislikeMutation = useMutation({
+  mutationFn: () => addDislikeForBlog(blogId),
 
-    onMutate: (wasDisliked) => {
-      const next = wasDisliked
-        ? {
-            disliked: false,
-            dislikes: view.dislikes - 1,
-            liked: view.liked,
-            likes: view.likes,
-          }
-        : {
-            disliked: true,
-            dislikes: view.dislikes + 1,
-            liked: false,
-            likes: view.likes - (view.liked ? 1 : 0),
-          };
+  onMutate: () => {
+    if (view.disliked) return;
 
-      setOptimistic(next);
-    },
-    onError: (error) => {
-      setOptimistic(null);
-      toast.error(error.response?.data?.message || "مشکلی پیش آمد");
-    },
-    onSuccess: (data) => toast.success(data?.message),
-    onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["getCourseById"] });
-      setOptimistic(null);
-    },
-  });
+    setOptimistic({
+      disliked: true,
+      dislikes: view.dislikes + 1,
+      liked: false,
+      likes: view.likes - (view.liked ? 1 : 0),
+    });
+  },
+
+  onError: (error) => {
+    setOptimistic(null);
+    toast.error(error.response?.data?.message || "مشکلی پیش آمد");
+  },
+
+  onSuccess: (data) => toast.success(data?.message),
+
+  onSettled: async () => {
+    await queryClient.invalidateQueries({ queryKey: ["getBlogById", blogId] });
+    setOptimistic(null);
+  },
+});
 
   const isBusy = likeMutation.isPending || dislikeMutation.isPending;
 
@@ -106,8 +94,11 @@ import whiteDislike from "../../../../../../assets/icons/details/whiteDislike.sv
   };
 
   const handleDislike = () => {
-    if (!isBusy) dislikeMutation.mutate(view.disliked);
+    if (!isBusy) dislikeMutation.mutate();
   };
+
+  console.log("view.disliked",view.disliked);
+  
 
   return (
     <div className="flex flex-row gap-4 ">

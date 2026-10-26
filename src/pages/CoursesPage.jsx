@@ -7,6 +7,8 @@ import Button from "../Components/common/Button"
 import filterIcon from "../assets/icons/filter/filter.svg";
 import sortIcon from "../assets/icons/filter/sorting.svg";
 import useToggle from "../Components/hooks/useToggle"
+import { useQuery } from "@tanstack/react-query"
+import { getCourseTech } from "../core/services/courses/getFilterdData"
 
 
 const CoursesPage = () => {
@@ -38,11 +40,23 @@ const sortParams = selectedButton
   ? { SortingCol: selectedButton.SortingCol, SortType: selectedButton.SortType }
   : { SortingCol: "Active", SortType: "desc" };
 
+    const { data: techs = [] } = useQuery({
+      queryKey: ["courseTech"],
+      queryFn: getCourseTech,
+      staleTime: 1000 * 60 * 60,
+      select: (res) =>
+        res.map((l) => ({
+          id: l.id,
+          name: l.techName,
+        })),
+    });
+  
+
   return (
      <div className="flex flex-col gap-28">
 <HeroSection/>
 <div className="flex flex-col lg:flex-row items-stretch lg:items-start gap-6 lg:gap-8">
-   <FilterBox setFilters={setFilters} toggleFilter={toggleFilter} isFilterModal={isFilterModal}/>  
+   <FilterBox setFilters={setFilters} toggleFilter={toggleFilter} isFilterModal={isFilterModal} techs={techs}/>  
 
 <div className="w-[75%]   flex flex-col justify-center lg:items-start self-center gap-6">
 <SortingRow sortingButtons={sortingButtons} selected={selected} sortingHandler={sortingHandler} toggle={toggle} isOpenModal={isOpenModal}/>
@@ -50,7 +64,7 @@ const sortParams = selectedButton
         <Button content="فیلتر" icon={filterIcon}onClick={toggleFilter} />
         <Button content="ترتیب" icon={sortIcon} onClick={toggle}/>
       </div>
-<CoursesList page={page} setPage={setPage} sortParams={sortParams} filters={filters}/>
+<CoursesList page={page} setPage={setPage} sortParams={sortParams} filters={filters} techs/>
 
 </div>
    

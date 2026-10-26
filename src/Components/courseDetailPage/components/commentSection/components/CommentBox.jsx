@@ -3,7 +3,8 @@ import blackLike from "../../../../../assets/icons/details/blackLike.svg";
 import whiteLike from '../../../../../assets/icons/details/whiteLike.svg'
 import whiteDislike from '../../../../../assets/icons/details/whiteDislike.svg'
 import blackDislike from "../../../../../assets/icons/details/blackDislike.svg";
-import { useCommentActions } from "../../../../hooks/useCommentAction";
+import { useCommentActions } from "../../../../hooks/useCommentActionCourse";
+import accountIcon from "../../../../../assets/icons/account.svg"
 
 const CommentBox = ({
   id,
@@ -35,7 +36,10 @@ const CommentBox = ({
         <div className="cursor-default flex flex-row gap-2 w-43.6 overflow-hidden">
           <img
             src={authorImage}
-            alt={authorName}
+                        onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = accountIcon;
+            }}
             className="w-10 h-10 rounded-full border shrink-0"
           />
           <div className="text-right flex flex-col min-w-0 flex-1">

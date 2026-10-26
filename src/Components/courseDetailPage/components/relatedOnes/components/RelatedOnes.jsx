@@ -24,6 +24,7 @@ const RelatedOnes = ({ course }) => {
     techNames.some((tech) =>
       course.technologyList?.toLowerCase().includes(tech.toLowerCase()),
     ),
+    
   );
 
   if (isPending) return <RelatedOnesPending />;

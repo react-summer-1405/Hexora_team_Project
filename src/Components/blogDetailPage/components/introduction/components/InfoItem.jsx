@@ -6,14 +6,14 @@ const InfoItem = ({ label, value, variant }) => {
   };
 
   return (
-    <div className="min-w-0 flex flex-col items-start justify-start gap-3 p-3 md:p-4 border-l border-b cursor-default border-border">
+    <div className="min-w-0 flex flex-col items-start justify-start gap-3 p-3 md:p-4 border-l  cursor-default border-border last:border-l-0">
       <span className="text-text-muted text-sm font-medium">
         {label}
       </span>
 
       {variant ? (
         <span
-          className={`max-w-full rounded-[32px] text-sm md:text-base font-medium py-1 px-3 wrap-break-word ${
+          className={`max-w-full rounded-[32px] text-sm md:text-base font-medium py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis ${
             badgeStyles[variant]
           }`}
         >

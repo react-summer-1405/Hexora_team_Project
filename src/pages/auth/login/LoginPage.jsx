@@ -1,4 +1,3 @@
-import React from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -9,14 +8,22 @@ import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { loginProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import { useDispatch } from "react-redux";
+import { setUserId } from "../../../Components/features/auth/authSlice.js";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
 
   const loginMutation = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
       console.log("ورود موفقیت‌آمیز بود (ریسپانس سرور):", data);
+
+            dispatch(setUserId(data.id));
+
 
       if (data?.token) {
         setItem("token", data.token);

@@ -6,6 +6,7 @@ import { formatDate, formatNumber } from "../../../../hooks/formatters";
 import { useState } from "react";
 import reactLogo from "../../../../../assets/images/react.png";
 const Introduction = ({ course, toggleReserve }) => {
+  
   const {
     title,
     courseId,

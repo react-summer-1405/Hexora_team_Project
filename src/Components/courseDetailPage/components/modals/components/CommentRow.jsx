@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Button from "../../../../common/Button";
 import reload from '../../../../../assets/icons/Arrows_Reload.svg'
@@ -9,8 +8,10 @@ import whiteDislike from "../../../../../assets/icons/details/whiteDislike.svg";
 import useToggle from "../../../../hooks/useToggle";
 import CommentForm from "../../commentSection/components/CommentForm";
 import { normalizeComment } from "../../commentSection/utils/commentUtils";
-import { useCommentActions } from "../../../../hooks/useCommentAction";
+import { useCommentActions } from "../../../../hooks/useCommentActionCourse";
 import { getCourseReplies } from "../../../../../core/services/courses/courseComments";
+
+import accountIcon from "../../../../../assets/icons/account.svg"
 
 export const CommentRow = ({
   id,
@@ -55,7 +56,12 @@ export const CommentRow = ({
   return (
     <div className="flex flex-col items-start justify-start gap-3 w-full">
       <div className="cursor-default flex flex-row gap-2 w-43.6 overflow-hidden">
-        <img src={authorImage} className="w-10 h-10 rounded-full border shrink-0" />
+        <img src={authorImage} 
+                                onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = accountIcon;
+                    }}
+        className="w-10 h-10 rounded-full border shrink-0" />
         <div className="text-right flex flex-col min-w-0 flex-1">
           <span className="text-sm font-semibold text-text-dark truncate">{authorName}</span>
           <span className="text-xs font-medium text-text-muted truncate">{date}</span>

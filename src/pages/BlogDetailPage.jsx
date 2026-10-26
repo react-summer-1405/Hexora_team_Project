@@ -7,9 +7,9 @@ import useToggle from "../Components/hooks/useToggle";
 import BlogDetailPending from "../Components/blogDetailPage/components/pendings/components/BlogDetailPending";
 import { useQuery } from "@tanstack/react-query";
 import BlogDetailError from "../Components/blogDetailPage/components/error/BlogDetailError";
-import { normalizeBlogComment } from "../Components/blogDetailPage/components/commentSection/utils/commentUtils";
 import getBlogById from "../core/services/blogs/getBlogById";
 import { getBlogComments } from "../core/services/blogs/blogComments";
+import normalizeBlogComment from "../Components/blogDetailPage/components/commentSection/utils/commentUtils";
 const BlogDetailPage = () => {
   const [isCommentModal, toggleComment] = useToggle(false);
   const { id } = useParams();
@@ -26,14 +26,18 @@ const BlogDetailPage = () => {
     queryFn: () => getBlogById(id),
   });
 
-  const { data: comments = [] } = useQuery({
+  
+
+  const { data: comments=[]  } = useQuery({
     queryKey: ["blogComments", id],
     queryFn: () => getBlogComments(id),
-    select: (data) => data.filter((c) => c.accept).map(normalizeBlogComment),
+    select: (data)=>data.map(normalizeBlogComment),
     staleTime:0,
   });
+  
 
   if (isPending) return <BlogDetailPending/>;
+
 
   if (isError)
     return (
@@ -50,7 +54,6 @@ const BlogDetailPage = () => {
         <Introduction blog={blog} />
         <CommentSection
           comments={comments}
-          blogId={id}
           toggleComment={toggleComment}
         />
         <RelatedOnes blog={blog}/>
@@ -59,8 +62,8 @@ const BlogDetailPage = () => {
         <CommentModal
           isOpen={isCommentModal}
           onClose={toggleComment}
-          courseTitle={blog.title}
-          courseId={id}
+          blogTitle={blog.title}
+          blogId={id}
           comments={comments}
         />
 

@@ -1,40 +1,41 @@
 import Button from "../../../../../common/Button";
-import book from "../../../../../../assets/icons/details/book.svg";
 import archive from "../../../../../../assets/icons/details/archive.svg";
+import attachment from "../../../../../../assets/icons/details/attachment.svg";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import {
-  addCourseFavorite,
-  deleteCourseFavorite,
-} from "../../../../../../core/services/courses/courseHandling";
+
 import toast from "react-hot-toast";
 import LikeAndDislike from "./LikeAndDislike";
+import { addBlogFavorite, deleteBlogFavorite } from "../../../../../../core/services/blogs/blogHandling";
 
 const ButtonsHandler = ({
-  toggleReserve,
   dissLikeCount = 0,
   likeCount = 0,
   userIsLiked,
   userIsDissLike,
   userLikeId,
-  userDissLikeId,
-  isCourseReseve,
   isUserFavorite,
-  courseId,
+  blogId,
   userFavoriteId,
 }) => {
+  
+  
+
+    const handleCopy = () => navigator.clipboard.writeText(window.location.href);
+
 
   const queryClient = useQueryClient();
 const [optimisticFav, setOptimisticFav] = useState(null);
 
 const favView = optimisticFav ?? isUserFavorite;
 
+
 const favoriteMutation = useMutation({
   mutationFn: (nextFav) =>
     nextFav
-      ? addCourseFavorite(courseId)
-      : deleteCourseFavorite(userFavoriteId),
+      ? addBlogFavorite(blogId)
+      : deleteBlogFavorite(userFavoriteId),
 
   onMutate: (nextFav) => {
     setOptimisticFav(nextFav);
@@ -54,7 +55,7 @@ const favoriteMutation = useMutation({
 
   onSettled: async () => {
     await queryClient.invalidateQueries({
-      queryKey: ["getCourseById", courseId],
+      queryKey: ["getBlogById", blogId],
     });
 
     setOptimisticFav(null);
@@ -65,35 +66,41 @@ const handleFavorite = () => {
   if (favoriteMutation.isPending) return;
 
   const nextFav = !favView;
-  setOptimisticFav(nextFav); 
+
+  if (!nextFav && !userFavoriteId) {
+    toast.error("شناسه علاقه‌مندی دریافت نشده است");
+    return;
+  }
+
+  setOptimisticFav(nextFav);
   favoriteMutation.mutate(nextFav);
 };
 
   return (
-    <div className="w-full flex flex-row flex-wrap  justify-start items-center gap-4">
-      <Button
-        content={isCourseReseve ? "رزرو شده" : "رزرو دوره"}
-        color="bg-primary"
-        icon={book}
-        customStyle="hidden md:flex md:px-11"
-        onClick={toggleReserve}
-      />
+    <div className="w-full flex flex-row flex-wrap  justify-start items-center gap-2">
+        <Button
+          content="کپی کردن لینک صفحه"
+          customStyle="border border-primary"
+          textColor="primary"
+          color="bg-bg-main"
+          icon={attachment}
+          onClick={handleCopy}
+        />
       <Button
         content={
-          isUserFavorite ? "حذف از لیست موردعلاقه" : "اضافه به لیست موردعلاقه"
+          favView ? "حذف از لیست موردعلاقه" : "اضافه به لیست موردعلاقه"
         }
         icon={archive}
-        customStyle="md:px-11 "
+        customStyle="md:px-8 "
         onClick={handleFavorite}
       />
 <LikeAndDislike
-  courseId={courseId}
+  blogId={blogId}
   likeCount={likeCount}
   dissLikeCount={dissLikeCount}
   userIsLiked={userIsLiked}
   userIsDissLike={userIsDissLike}
   userLikeId={userLikeId}
-  userDissLikeId={userDissLikeId}
 />    </div>
   );
 };

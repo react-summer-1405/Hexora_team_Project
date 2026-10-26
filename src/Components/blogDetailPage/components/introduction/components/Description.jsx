@@ -1,14 +1,11 @@
 import grayStar from "../../../../../assets/icons/details/grayStar.svg";
 import yellowStar from "../../../../../assets/icons/details/yellowStar.svg";
-import attachment from "../../../../../assets/icons/details/attachment.svg";
-import Button from "../../../../common/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { setCourseRating } from "../../../../../core/services/courses/courseHandling";
 import toast from "react-hot-toast";
+import { setBlogRating } from "../../../../../core/services/blogs/blogHandling";
 
-const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRate = 0  }) => {
-  const handleCopy = () => navigator.clipboard.writeText(window.location.href);
+const Description = ({ miniDescribe, describe, blogId , userRate: serverUserRate = 0  }) => {
 
   const queryClient = useQueryClient();
 
@@ -18,10 +15,10 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
 
   useEffect(() => {
     setUserRate(serverUserRate);
-  }, [serverUserRate, courseId]);
+  }, [serverUserRate, blogId]);
 
   const ratingMutation = useMutation({
-    mutationFn: (rateNumber) => setCourseRating({ courseId, rateNumber }),
+    mutationFn: (rateNumber) => setBlogRating({ blogId, rateNumber }),
     onMutate: (rateNumber) => {
       const prev = userRate;
       setUserRate(rateNumber)
@@ -33,7 +30,7 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
     },
     onSuccess: (data) => toast.success(data?.message || "امتیاز شما ثبت شد"),
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["getCourseById"] });
+      queryClient.invalidateQueries({ queryKey: ["getBlogById"] });
     },
   });
 
@@ -48,7 +45,6 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
 
   return (
     <div className="flex flex-col gap-4 items-start text-right cursor-default">
-      <h6 className="text-[20px] font-bold text-text-muted">توضیحات دوره</h6>
       {miniDescribe && (
         <p className="text-base font-bold text-text-dark">{miniDescribe}</p>
       )}
@@ -83,14 +79,7 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
             );
           })}
         </div>
-        <Button
-          content="کپی کردن لینک صفحه"
-          customStyle="border border-primary"
-          textColor="primary"
-          color="bg-bg-main"
-          icon={attachment}
-          onClick={handleCopy}
-        />
+
       </div>
     </div>
   );

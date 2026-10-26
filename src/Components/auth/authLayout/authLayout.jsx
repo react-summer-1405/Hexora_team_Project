@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import computerImg from "../../../assets/images/login/computer.webp";
 import bahrLogo from "../../../assets/images/login/bahrlogo.webp";
@@ -18,7 +18,6 @@ export default function AuthLayout() {
 
   if (isMobile) {
     return (
-      // min-h-screen removed havaset bashe ekhtelal nandaze
 
       <div
         dir="rtl"
@@ -30,7 +29,6 @@ export default function AuthLayout() {
   }
 
   return (
-    // min-h-screen removed havaset bashe ekhtelal nandaze
     <div dir="rtl" className="flex  items-start justify-center px-6 pt-3 pb-3">
       <div className="w-full max-w-[1600px] rounded-3xl bg-white p-8 shadow-lg">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
