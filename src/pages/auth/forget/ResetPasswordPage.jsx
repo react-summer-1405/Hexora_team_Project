@@ -8,6 +8,7 @@ import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { loginProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import toast from "react-hot-toast";
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
@@ -20,13 +21,18 @@ export default function ResetPasswordPage() {
   const urlResetValue =
     configValue || searchParams.get("resetValue") || searchParams.get("code") || "";
 
-  const resetPasswordMutation = useMutation({
-    mutationFn: resetPasswordApi,
-    // onSuccess: (data) => {
-    //   toast.success(data?.message || "رمز عبور شما با موفقیت تغییر کرد.");
-    //   navigate("/auth/login", { replace: true });
-    // },
-  });
+const resetPasswordMutation = useMutation({
+  mutationFn: resetPasswordApi,
+  onSuccess: (data) => {
+    toast.success(data?.message || "رمز عبور شما با موفقیت تغییر کرد.");
+    navigate("/auth/login", { replace: true });
+  },
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message || "تغییر رمز عبور انجام نشد. دوباره تلاش کنید."
+    );
+  },
+});
 
   const formik = useFormik({
     initialValues: {

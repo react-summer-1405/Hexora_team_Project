@@ -1,32 +1,35 @@
-import React from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-// import toast from "react-hot-toast";
 import { forgotPasswordApi } from "../../../core/services/auth/login";
 import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { loginProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import toast from "react-hot-toast";
 
 export default function ForgetPasswordPage() {
   const navigate = useNavigate();
 
-  const forgetPasswordMutation = useMutation({
-    mutationFn: forgotPasswordApi,
-    onSuccess: (data, variables) => {
-      // toast.success(
-      //   data?.message || "لینک بازیابی رمز عبور به ایمیل شما ارسال شد."
-      // );
+const forgetPasswordMutation = useMutation({
+  mutationFn: forgotPasswordApi,
+  onSuccess: (data, variables) => {
+    toast.success(
+      data?.message || "لینک بازیابی رمز عبور به ایمیل شما ارسال شد."
+    );
 
-      navigate("/auth/reset-password", {
-        state: {
-          email: variables.email,
-        },
-      });
-    },
-  });
-
+    navigate("/auth/reset-password", {
+      state: {
+        email: variables.email,
+      },
+    });
+  },
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message || "ارسال لینک انجام نشد. دوباره تلاش کنید."
+    );
+  },
+});
   const formik = useFormik({
     initialValues: {
       email: "",

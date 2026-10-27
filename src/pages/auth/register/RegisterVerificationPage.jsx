@@ -7,6 +7,7 @@ import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { registerProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import toast from "react-hot-toast";
 
 export default function RegisterVerificationPage() {
   const navigate = useNavigate();
@@ -37,18 +38,23 @@ export default function RegisterVerificationPage() {
   const minutes = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
   const seconds = String(secondsLeft % 60).padStart(2, "0");
 
-  const verifyMutation = useMutation({
-    mutationFn: verifyMessageApi,
-    onSuccess: (_, variables) => {
-      navigate("/auth/register-info", {
-        state: {
-          email: variables.email,
-          verified: true,
-        },
-      });
-    },
-  });
-
+const verifyMutation = useMutation({
+  mutationFn: verifyMessageApi,
+  onSuccess: (_, variables) => {
+    toast.success("ایمیل شما با موفقیت تأیید شد");
+    navigate("/auth/register-info", {
+      state: {
+        email: variables.email,
+        verified: true,
+      },
+    });
+  },
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message || "کد وارد شده معتبر نیست. دوباره تلاش کنید."
+    );
+  },
+});
   const formik = useFormik({
     initialValues: {
       verifyCode: "",

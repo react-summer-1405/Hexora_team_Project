@@ -10,34 +10,34 @@ import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { loginProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
 import { useDispatch } from "react-redux";
 import { setUserId } from "../../../Components/features/auth/authSlice.js";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
-
   const loginMutation = useMutation({
-    mutationFn: loginApi,
-    onSuccess: (data) => {
-      console.log("ورود موفقیت‌آمیز بود (ریسپانس سرور):", data);
+  mutationFn: loginApi,
+  onSuccess: (data) => {
+         // console.log("ورود موفقیت‌آمیز بود (ریسپانس سرور):", data);
 
-            dispatch(setUserId(data.id));
+    dispatch(setUserId(data.id));
 
+    if (data?.token) {
+      setItem("token", data.token);
+    }
 
-      if (data?.token) {
-        setItem("token", data.token);
-      }
+    toast.success("با موفقیت وارد شدید");
+    navigate("/");
+  },
+  onError: (error) => { 
 
-      navigate("/");
-    },
-    onError: (error) => {
-      console.error(
-        "خطا در ورود (ریسپانس سرور):",
-        error.response?.data?.message || error.message || "مشکلی پیش آمد",
-      );
-    },
-  });
+    toast.error(
+      error?.response?.data?.message || "ورود انجام نشد. دوباره تلاش کنید."
+    );
+  },
+});
 
   const formik = useFormik({
     initialValues: {

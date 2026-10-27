@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "./../pages/LandingPage";
 import MainLayout from "../Components/layouts/MainLayout";
@@ -14,15 +13,23 @@ import RegisterVerificationPage from "../pages/auth/register/RegisterVerificatio
 import RegisterInfoPage from "../pages/auth/register/RegisterInfoPage";
 import BlogsPage from "../pages/BlogsPage";
 import BlogDetailPage from "../pages/BlogDetailPage";
+import NotFoundPage from "../pages/NotFoundPage";
+import ContactUs from "../pages/ContactUsPage";
 
 const router = createBrowserRouter([
- {path:'/', element:<MainLayout/>, children:[
-     {index:true , element:<LandingPage/>,},
-     {path:"courses" , element:<CoursesPage/>},
-     {path:"courses/:id", element:<CourseDetailPage/>},  
-          {path:"blogs" , element:<BlogsPage/>},
-     {path:"blogs/:id", element:<BlogDetailPage/>},   
- ]},
+  { path: "*", element: <NotFoundPage /> },
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <LandingPage /> },
+      { path: "courses", element: <CoursesPage /> },
+      { path: "courses/:id", element: <CourseDetailPage /> },
+      { path: "blogs", element: <BlogsPage /> },
+      { path: "blogs/:id", element: <BlogDetailPage /> },
+      {path:"contactUs" , element:<ContactUs/>},
+    ],
+  },
   {
     path: "/auth",
     element: <AuthLayout />,

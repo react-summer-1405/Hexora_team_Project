@@ -8,6 +8,7 @@ import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { loginProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import toast from "react-hot-toast";
 
 export default function LoginVerification() {
   const navigate = useNavigate();
@@ -15,20 +16,25 @@ export default function LoginVerification() {
 
   const phoneOrGmail = location.state?.phoneOrGmail ?? "";
 
-  const loginMutation = useMutation({
-    // mutationFn: loginTelegramApi,
+const loginMutation = useMutation({
+  // mutationFn: loginTelegramApi,
 
-    onSuccess: (data) => {
-      const token = data?.token ?? data?.data?.token;
+  onSuccess: (data) => {
+    const token = data?.token ?? data?.data?.token;
 
-      if (token) {
-        setItem("token", token);
-      }
+    if (token) {
+      setItem("token", token);
+    }
 
-      navigate("/");
-    },
-  });
-
+    toast.success("با موفقیت وارد شدید");
+    navigate("/");
+  },
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message || "ورود انجام نشد. دوباره تلاش کنید."
+    );
+  },
+});
   const formik = useFormik({
     initialValues: {
       code: "",

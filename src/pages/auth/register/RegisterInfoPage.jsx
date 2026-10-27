@@ -7,6 +7,7 @@ import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { registerProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import toast from "react-hot-toast";
 
 export default function RegisterInfoPage() {
   const navigate = useNavigate();
@@ -21,18 +22,23 @@ export default function RegisterInfoPage() {
     }
   }, [email, isVerified, navigate]);
 
-  const registerMutation = useMutation({
-    mutationFn: registerApi,
-    onSuccess: () => {
-      navigate("/auth/login", {
-        replace: true,
-        state: {
-          registered: true,
-        },
-      });
-    },
-  });
-
+const registerMutation = useMutation({
+  mutationFn: registerApi,
+  onSuccess: () => {
+    toast.success("ثبت‌نام با موفقیت انجام شد. وارد حساب خود شوید");
+    navigate("/auth/login", {
+      replace: true,
+      state: {
+        registered: true,
+      },
+    });
+  },
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message || "ثبت‌نام انجام نشد. دوباره تلاش کنید."
+    );
+  },
+});
   const formik = useFormik({
     initialValues: {
       phoneNumber: "",

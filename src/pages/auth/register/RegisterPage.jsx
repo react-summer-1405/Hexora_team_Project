@@ -7,21 +7,27 @@ import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
 import AuthProgress from "../../../Components/common/auth/AuthProgress.jsx";
 import { registerProgressSteps } from "../../../Components/common/auth/authProgress.config.js";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
 
-  const sendVerifyMutation = useMutation({
-    mutationFn: sendVerifyMessageApi,
-    onSuccess: (_, variables) => {
-      navigate("/auth/register-verification", {
-        state: {
-          email: variables.email,
-        },
-      });
-    },
-  });
-
+const sendVerifyMutation = useMutation({
+  mutationFn: sendVerifyMessageApi,
+  onSuccess: (_, variables) => {
+    toast.success("کد تأیید به ایمیل شما ارسال شد");
+    navigate("/auth/register-verification", {
+      state: {
+        email: variables.email,
+      },
+    });
+  },
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message || "ارسال کد انجام نشد. دوباره تلاش کنید."
+    );
+  },
+});
   const formik = useFormik({
     initialValues: {
       email: "",

@@ -6,7 +6,7 @@ const NavigationBar = () => {
     { name: "خانه", link: "/" },
     { name: "دوره ها", link: "/courses" },
     { name: "بلاگ ها", link: "/blogs" },
-    { name: "درباره ما", link: "/aboutUs" },
+    { name: "ارتباط با ما", link: "/contactUs" },
   ];
 
   return (
