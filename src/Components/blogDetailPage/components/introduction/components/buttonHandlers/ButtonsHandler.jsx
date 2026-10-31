@@ -80,7 +80,7 @@ const handleFavorite = () => {
     <div className="w-full flex flex-row flex-wrap  justify-start items-center gap-2">
         <Button
           content="کپی کردن لینک صفحه"
-          customStyle="border border-primary"
+          customStyle="border border-primary dark:border-border"
           textColor="primary"
           color="bg-bg-main"
           icon={attachment}

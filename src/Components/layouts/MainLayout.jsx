@@ -5,7 +5,7 @@ import ScrollToTop from '../common/navigation/ScrollToTop'
 
 const MainLayout = () => {
   return (
-    <div className='flex flex-col gap-14'>
+    <div className='flex flex-col gap-14 '>
       <ScrollToTop/>
         <Header/>
         <Outlet/>

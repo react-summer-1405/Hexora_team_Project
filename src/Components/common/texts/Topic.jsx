@@ -1,7 +1,7 @@
 
-const Topic = ({content}) => {
+const Topic = ({content,className}) => {
   return (
-    <div className='text-2xl sm:text-3xl font-bold text-center cursor-default '>{content}</div>
+    <div className={`text-2xl sm:text-3xl font-bold text-center cursor-default ${className}`}>{content}</div>
   )
 }
 

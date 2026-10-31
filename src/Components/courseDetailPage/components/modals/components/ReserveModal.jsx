@@ -57,7 +57,6 @@ const ReserveModal = ({ isOpen, onClose, courseTitle }) => {
           <Button
             content="باشه"
             color="bg-[#DCDCDC]"
-            textColor="text-dark"
             customStyle="w-full sm:w-auto sm:px-13 text-lg sm:text-[20px]"
             onClick={onClose}
           />

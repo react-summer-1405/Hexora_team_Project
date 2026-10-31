@@ -82,7 +82,7 @@ const FilterBox = ({ setFilters, toggleFilter, isFilterModal }) => {
             {filterFields.map((field) => (
               <div key={field.label} className="flex flex-col gap-2 ">
                 <label className="flex flex-row gap-2 font-medium text-base text-text-dark ">
-                  <img src={field.icon} />
+                  <img src={field.icon} className="dark:invert" />
                   {field.label}
                 </label>
 

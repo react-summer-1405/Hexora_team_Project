@@ -85,10 +85,11 @@ const CommentModal = ({ isOpen, onClose, courseTitle, courseId, comments = [] })
         {comments.length === 0 && (
           <p className="text-base font-medium text-text-muted">هنوز نظری ثبت نشده.</p>
         )}
-
+    <div className="flex flex-col gap-10 w-full">
         {comments.map((comment) => (
           <CommentRow key={comment.id} {...comment} courseId={courseId} />
         ))}
+        </div>
       </div>
     </div>
   );

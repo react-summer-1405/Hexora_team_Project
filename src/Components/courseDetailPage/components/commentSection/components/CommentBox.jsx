@@ -53,7 +53,7 @@ const CommentBox = ({
         </div>
 
         <div className="flex flex-row items-center justify-center gap-2">
-          <div className="flex flex-row items-center gap-1">
+          <div className="flex flex-row items-center gap-2">
             <Button
               circle
               color={isLiked ? "bg-primary" : "bg-bg-main"}
@@ -65,9 +65,9 @@ const CommentBox = ({
                 }
               }}
             />
-            <span className="text-base font-medium text-black">{likes}</span>
+            <span className="text-base font-medium text-text-dark">{likes}</span>
           </div>
-          <div className="flex flex-row items-center gap-1">
+          <div className="flex flex-row items-center gap-2">
             <Button
               circle
               color={isDisliked ? "bg-primary" : "bg-bg-main"}
@@ -79,7 +79,7 @@ const CommentBox = ({
                 }
               }}
             />
-            <span className="text-base font-medium text-black">{dislikes}</span>
+            <span className="text-base font-medium text-text-dark">{dislikes}</span>
           </div>
         </div>
       </div>

@@ -78,7 +78,7 @@ export default function LoginPage() {
   return (
     <div
       dir="rtl"
-      className="flex w-full flex-col gap-6 bg-white px-4 py-4 sm:px-6 md:min-h-[704px] md:max-w-[748px] md:py-6 md:px-8 lg:px-12 xl:px-24"
+      className="flex w-full flex-col gap-6 bg-bg-main px-4 py-4 sm:px-6 md:min-h-[650px] md:max-w-[748px] md:py-6 md:px-8 lg:px-12 xl:px-24"
     >
       <AuthProgress steps={loginProgressSteps} activeStep={1} />
 

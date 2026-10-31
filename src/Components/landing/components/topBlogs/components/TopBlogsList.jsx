@@ -1,8 +1,4 @@
 import BlogCard from "./blogCard/components/BlogCard";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { useState } from "react";
-import { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getBlogsTop } from "../../../../../core/services/home/getBlogsTop";
 import warningIcon from "../../../../../assets/icons/Triangle_Warning.svg";
@@ -10,9 +6,6 @@ import PendingCard from "../../../../common/PendingCard";
 
 const TopBlogsList = () => {
  
-
-  const [index, setIndex] = useState(0);
-  const trackRef = useRef(null);
 
   const {
     data: topBlogs,
@@ -26,19 +19,15 @@ const TopBlogsList = () => {
     queryFn: getBlogsTop,
   });
 
-  useGSAP(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.children[index];
-    if (!card) return;
-    gsap.to(trackRef.current, {
-      x: -card.offsetLeft,
-      duration: 0.6,
-      ease: "power3.out",
-    });
-  }, [index, topBlogs]);
 
-  if (isPending) return <PendingCard />;
+  if (isPending) return (
+          <div className="flex flex-row flex-wrap gap-6">
+        {Array.from({ length: 3 }, (_, i) => (
+          <PendingCard key={i} />
+        ))}
+      </div>
+  )
+
 
   if (isError)
     return (
@@ -66,24 +55,13 @@ const TopBlogsList = () => {
       </div>
     );
 
-
     const result = topBlogs.data.news;
-
-   
-  
-  const total = topBlogs.data?.length ?? 0;
-  const next = () => setIndex((prev) => Math.min(prev + 1, total - 1));
-  const prev = () => setIndex((prev) => Math.max(prev - 1, 0));
 
   if (topBlogs)
     return (
-      <div
-        className="relative group  w-full max-w-345 overflow-x-clip py-5 px-6   "
-        dir="ltr"
-      >
+
         <div
-          ref={trackRef}
-          className={` w-max flex flex-row  justify-center items-center gap-7  `}
+          className={` w-max max-w-350 overflow-hidden  py-5 px-6  flex flex-row  justify-start items-center gap-7  `}
         >
           {result.map((blog ) => (
             <div className="flex" key={blog.id}>
@@ -91,17 +69,8 @@ const TopBlogsList = () => {
             </div>
           ))}
         </div>
-        <button
-          onClick={prev}
-          disabled={index === 0}
-          className={`cursor-pointer invisible opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100 absolute  left-4 top-2/5  disabled:opacity-40 rounded-full p-5 bg-[url("../../assets/icons/Caret_Circle_Left.svg")] bg-contain bg-center bg-no-repeat`}
-        ></button>
-        <button
-          onClick={next}
-          disabled={index === result.length - 4}
-          className={`cursor-pointer invisible opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100  absolute right-4 top-2/5 disabled:opacity-40 rounded-full p-5 bg-[url("../../assets/icons/Caret_Circle_Right.svg")] bg-contain bg-center bg-no-repeat`}
-        ></button>
-      </div>
+
+
     );
 };
 

@@ -36,7 +36,7 @@ const RelatedOnes = ({ course }) => {
           دوره های مرتبط
         </h3>
         <div
-          className={`flex flex-row flex-wrap items-start justify-center md:justify-start gap-4 ${isOpen ? "h-max" : "h-95"} overflow-hidden  `}
+          className={`flex flex-row flex-wrap items-start justify-center md:justify-start gap-4 ${isOpen ? "h-max" : "h-95"} p-4 overflow-hidden  `}
         >
           {relatedCourses.map((course) => (
             <CourseCard key={course.courseId} course={course} />

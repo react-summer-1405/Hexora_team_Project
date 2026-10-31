@@ -35,33 +35,30 @@ const ServicesDivisions = () => {
       iconHover: "group-hover:border-badge-purple",
     },
   ];
-  return (
-         <div className="flex flex-row flex-wrap justify-center items-center gap-6">
-        {services.map((service, index) => (
-          <div
-            key={index}
-            className={`group w-full sm:w-166 py-5 sm:h-36 border-2 border-border cursor-pointer ${service.cardHover} hover:scale-103 transition duration-300 bg-bg-main rounded-4xl flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 px-5`}
-          >
-            <div
-              className={`w-22 h-22 rounded-full  bg-bg-main  border-2 border-border ${service.iconHover} transition duration-300  flex flex-col items-center justify-center `}
-            >
-              <img
-                src={service.logo}
-                alt={service.title}
-                className="w-10 h-10 "
-              />
-            </div>
 
-            <div className="flex flex-col items-start gap-3 text-right">
-              <h4 className="text-[20px] font-bold"> {service.title} </h4>
-              <p className="text-md font-regular text-text-muted">
-                {service.description}
-              </p>
-            </div>
-          </div>
-        ))}
+  return (
+  <div className="flex flex-row flex-wrap justify-center items-center gap-6">
+    {services.map((service, index) => (
+      <div
+        key={index}
+        className={`divisions group w-full sm:w-166 py-5 sm:h-36 border-2 border-border cursor-pointer ${service.cardHover} hover:scale-[1.03] hover:shadow-lg transition-[border-color,scale,box-shadow] duration-300 bg-bg-main rounded-4xl flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 px-5`}
+      >
+        <div
+          className={`service-icon w-22 h-22 rounded-full bg-bg-main border-2 border-border ${service.iconHover} group-hover:scale-110 group-hover:-rotate-6 transition-[border-color,scale,rotate] duration-300 flex flex-col items-center justify-center`}
+        >
+          <img src={service.logo} alt={service.title} className="w-10 h-10" />
+        </div>
+
+        <div className="service-text flex flex-col items-start gap-3 text-right">
+          <h4 className="text-[20px] font-bold">{service.title}</h4>
+          <p className="text-md font-regular text-text-muted">
+            {service.description}
+          </p>
+        </div>
       </div>
-  )
+    ))}
+  </div>
+);
 }
 
 export default ServicesDivisions

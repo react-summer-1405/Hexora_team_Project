@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import computerImg from "../../../assets/images/login/computer.webp";
 import bahrLogo from "../../../assets/images/login/bahrlogo.webp";
@@ -18,7 +18,6 @@ export default function AuthLayout() {
 
   if (isMobile) {
     return (
-
       <div
         dir="rtl"
         className="flex items-center justify-center bg-bg-main p-4"
@@ -29,14 +28,14 @@ export default function AuthLayout() {
   }
 
   return (
-    <div dir="rtl" className="flex  items-start justify-center px-6 pt-3 pb-3">
-      <div className="w-full max-w-[1600px] rounded-3xl bg-white p-8 shadow-lg">
+    <div dir="rtl" className="flex items-start justify-center px-12 ">
+      <div className="w-full max-w-[1600px] rounded-3xl bg-bg-main px-8 py-4 shadow-lg">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div className="flex min-h-[704px] w-full max-w-[748px] flex-col gap-6 rounded-2xl p-6">
+          <div className="flex max-h-[650px]  w-full max-w-[748px] flex-col gap-6 rounded-2xl px-6">
             <Outlet />
           </div>
 
-          <div className="flex min-h-[704px] w-full max-w-[748px] flex-col items-start gap-14 rounded-2xl bg-text-light text-right  p-6">
+          <div className="flex max-h-[640px] w-full  flex-col items-start gap-14 rounded-2xl bg-bg-light text-right  p-6">
             <div className="mt-2 flex items-center gap-3">
               <img
                 src={bahrLogo}
@@ -49,19 +48,19 @@ export default function AuthLayout() {
                 className="h-[38px] w-[189px]"
               />
             </div>
-    <div className="flex flex-col gap-3">
-            <p className="mt-12 text-[32px] font-bold text-title-black">
-              شروع یک ماجراجویی
-            </p>
+            <div className="flex flex-col gap-3">
+              <p className="mt-12 text-[32px] font-bold text-title-black">
+                شروع یک ماجراجویی
+              </p>
 
-            <p className="mt-2 text-xl text-text-muted">
-              هر دوره‌ای که بخوای رو به راحتی پیدا کن و یاد بگیر
-            </p>
-</div>
+              <p className="mt-2 text-xl text-text-muted">
+                هر دوره‌ای که بخوای رو به راحتی پیدا کن و یاد بگیر
+              </p>
+            </div>
             <img
               src={computerImg}
               alt="computer"
-              className="mb-[75px] ml-[190px] mt-auto h-auto w-full max-w-[368px] mr-auto"
+              className="mb-[75px] ml-[190px] mt-auto w-full max-w-[368px] mr-auto"
             />
           </div>
         </div>

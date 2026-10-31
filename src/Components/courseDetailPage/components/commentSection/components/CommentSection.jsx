@@ -21,7 +21,7 @@ const CommentSection = ({ comments = [], toggleComment, courseId }) => {
           className="group flex flex-col justify-center items-center gap-4 text-center cursor-pointer bg-primary text-text-white w-81 h-70.5 rounded-[24px] transition duration-300 hover:-translate-y-1"
         >
           <img src={commentIcon} className="w-8 h-8 group-hover:scale-115 transition-all duration-300" />
-          <h6 className="text-lg font-semibold group-hover:scale-120 transition-all duration-300">نظر شما</h6>
+          <h6 className="text-lg text-white font-semibold group-hover:scale-120 transition-all duration-300">نظر شما</h6>
           <button
           
             className="cursor-pointer text-sm font-medium text-white transition-all duration-300 group-hover:scale-115 "

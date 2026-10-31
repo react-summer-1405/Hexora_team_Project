@@ -83,7 +83,7 @@ export const CommentRow = ({
       </div>
 
       <div className="flex w-3/4 flex-row items-center justify-start gap-5 p-2">
-        <div className="flex flex-row items-center gap-1">
+        <div className="flex flex-row items-center gap-2">
           <Button
             circle
             color={isLiked ? "bg-primary" : "bg-bg-main"}
@@ -91,7 +91,7 @@ export const CommentRow = ({
             customStyle="w-8 h-8"
             onClick={handleLike}
     />
-          <span className="text-base font-medium text-black">{likes}</span>
+          <span className="text-base font-medium text-text-dark">{likes}</span>
         </div>
 
 
@@ -99,7 +99,7 @@ export const CommentRow = ({
           <>
             <Button
               content={isReplyOpen ? "انصراف" : "جواب دادن"}
-              textColor="primary"
+              textColor="text-primary"
               customStyle="border border-primary px-2 py-1.5 shrink-0"
               circle={false}
               color="bg-bg-main"

@@ -54,7 +54,7 @@ export const CommentRow = ({
   }
 
   return (
-    <div className="flex flex-col items-start justify-start gap-3 w-full">
+    <div className="flex  flex-col items-start justify-start gap-3 w-full">
       <div className="cursor-default flex flex-row gap-2 w-43.6 overflow-hidden">
         <img src={authorImage} 
                                 onError={(e) => {
@@ -74,7 +74,7 @@ export const CommentRow = ({
       </div>
 
       <div className="flex w-3/4 flex-row items-center justify-start gap-5 p-2">
-        <div className="flex flex-row items-center gap-1">
+        <div className="flex flex-row items-center gap-2">
           <Button
             circle
             color={isLiked ? "bg-primary" : "bg-bg-main"}
@@ -82,9 +82,9 @@ export const CommentRow = ({
             customStyle="w-8 h-8"
             onClick={() => !like.isPending && like.mutate(id)}
           />
-          <span className="text-base font-medium text-black">{likes}</span>
+          <span className="text-base font-medium text-text-dark">{likes}</span>
         </div>
-        <div className="flex flex-row items-center gap-1">
+        <div className="flex flex-row items-center gap-2">
           <Button
             circle
             color={isDisliked ? "bg-primary" : "bg-bg-main"}
@@ -92,14 +92,14 @@ export const CommentRow = ({
             customStyle="w-8 h-8"
             onClick={() => !dislike.isPending && dislike.mutate(id)}
           />
-          <span className="text-base font-medium text-black">{dislikes}</span>
+          <span className="text-base font-medium text-text-dark">{dislikes}</span>
         </div>
 
         {!isReply && (
           <>
             <Button
               content={isReplyOpen ? "انصراف" : "جواب دادن"}
-              textColor="primary"
+              textColor="text-primary"
               customStyle="border border-primary px-2 py-1.5 shrink-0"
               circle={false}
               color="bg-bg-main"

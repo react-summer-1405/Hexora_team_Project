@@ -31,7 +31,7 @@ const topTeachers = [
 
 const TopThreeTeachers = () => {
   return (
-    <div className="relative w-full lg:w-191 h-179 lg:h-89 lg:block flex flex-col items-center justify-evenly  bg-bg-lightDark rounded-3xl bg-[url('../../assets/icons/Vertical_Vector.svg')]  lg:bg-[url('../../assets/icons/curlyLineTeachers.svg')] bg-contain bg-no-repeat bg-center">
+    <div className="select-none relative w-full lg:w-191 h-179 lg:h-89 lg:block flex flex-col items-center justify-evenly  bg-bg-lightDark rounded-3xl bg-[url('../../assets/icons/Vertical_Vector.svg')]  lg:bg-[url('../../assets/icons/curlyLineTeachers.svg')] bg-contain bg-no-repeat bg-center">
       {topTeachers.map((teacher) => (
         <div
           key={teacher.name}

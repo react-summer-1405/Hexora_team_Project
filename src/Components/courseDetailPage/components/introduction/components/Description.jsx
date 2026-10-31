@@ -85,7 +85,7 @@ const Description = ({ miniDescribe, describe, courseId , userRate: serverUserRa
         </div>
         <Button
           content="کپی کردن لینک صفحه"
-          customStyle="border border-primary"
+          customStyle="border border-primary dark:border-border"
           textColor="primary"
           color="bg-bg-main"
           icon={attachment}

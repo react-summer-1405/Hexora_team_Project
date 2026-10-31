@@ -21,8 +21,8 @@ const handleClick = ()=>{
 }
   return (
     <div onClick={handleClick}
-      className=" sm:w-108  h-91 w-80 cursor-pointer  hover:-translate-y-2  transition duration-300 rounded-4xl"
-      dir="rtl"
+      className=" sm:w-108  h-91 w-80 cursor-pointer  hover:-translate-y-2  transition duration-300 rounded-4xl select-none"
+      
     >
       <TopBlog image={image} />
       <BottomBlog

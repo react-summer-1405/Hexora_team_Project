@@ -1,17 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
-const NavigationBar = () => {
+
+const NavigationBar = ({navItems}) => {
   const navigate =useNavigate()
-  const navItems = [
-    { name: "خانه", link: "/" },
-    { name: "دوره ها", link: "/courses" },
-    { name: "بلاگ ها", link: "/blogs" },
-    { name: "ارتباط با ما", link: "/contactUs" },
-  ];
+
 
   return (
-    <div className="hidden sm:flex flex-row items-center justify-center  rounded-full text-xs lg:text-base font-medium bg-bg-dark text-text-white">
-      <div className="mx-6 my-3 flex flex-row items-center justify-center gap-6 ">
+    <div className="flex flex-row items-center justify-center  rounded-full text-xs lg:text-base font-medium bg-bg-dark text-text-white">
+      <div className="hidden mx-6 my-3 sm:flex flex-row items-center justify-center gap-6 ">
         {navItems.map((item, index) => (
           <NavLink
             key={index}
@@ -22,7 +18,7 @@ const NavigationBar = () => {
               <>
                 {item.name}
                 {isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-bg-main" />
                 )}
               </>
             )}

@@ -33,7 +33,7 @@ console.log(blogs , techName);
           دوره های مرتبط
         </h3>
         <div
-          className={`flex flex-row flex-wrap  items-start justify-center md:justify-start p-4 gap-5 ${isOpen ? "h-max" : "h-96"} overflow-hidden  `}
+          className={`flex flex-row flex-wrap  items-start justify-center md:justify-center p-4 gap-5 ${isOpen ? "h-max" : "h-96"} overflow-hidden  `}
         >
           {relatedBlogs.map((blog) => (
             <BlogCard key={blog.id} blog={blog} />

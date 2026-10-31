@@ -2,6 +2,7 @@ import purpose1 from '../../../../../assets/images/purpose1.png'
 import purpose2 from '../../../../../assets/images/purpose2.png'
 import purpose3 from '../../../../../assets/images/purpose3.png'
 import purpose4 from '../../../../../assets/images/purpose4.png'
+import CurlyLine from "../../../../../assets/icons/curlyLine.svg?react";
 
 const PurposeDivisions = () => {
   const purposes = [
@@ -32,10 +33,11 @@ const PurposeDivisions = () => {
   ];
   return (
     <div
-      className={`my-20 lg:bg-[url("../../assets/icons/curlyLine.svg")] w-full bg-no-repeat bg-contain bg-center flex flex-wrap lg:flex-nowrap flex-row justify-center items-center gap-10 `}
+      className={`relative my-20  w-full  flex flex-wrap lg:flex-nowrap flex-row justify-center items-center gap-10 `}
     >
+<CurlyLine className="curly-line absolute inset-0 w-full h-full pointer-events-none hidden lg:block" />
       {purposes.map((purpose, index) => (
-        <div key={index} className="cursor-pointer w-80 h-108 rounded-3xl border-2 border-border hover:border-primary hover:scale-105 transition duration-300 bg-bg-main flex flex-col items-start justify-between p-5 gap-5 text-right">
+        <div key={index} className="divisions relative cursor-pointer w-80 h-108 rounded-3xl border-2 border-border hover:border-primary hover:scale-105 transition duration-300 bg-bg-main flex flex-col items-start justify-between p-5 gap-5 text-right">
           <h4 className="text-[20px] font-bold">{purpose.title}</h4>
           <p className="text-md font-medium text-text-muted">{purpose.description}</p>
           <img src={purpose.image} alt={purpose.title} className='w-65 h-65 object-contain' />
