@@ -63,7 +63,7 @@ const FilterBox = ({ setFilters, toggleFilter, isFilterModal }) => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {({ values }) => (
         <Form
-          className={`lg:w-75 ${isFilterModal ? "fixed bottom-0 left-0 flex" : "hidden"} w-screen  z-50 lg:static lg:flex lg:flex-col text-right px-5 py-4 gap-4  rounded-4xl border-2 bg-bg-main border-border`}
+          className={`lg:w-75 ${isFilterModal ? "fixed bottom-0 left-0 flex" : "hidden"} filter w-screen  z-50 lg:static lg:flex lg:flex-col md:mt-16.5 text-right px-5 py-4 gap-4  rounded-4xl border-2 bg-bg-main border-border`}
         >
           <AutoSubmit delay={500} />
 

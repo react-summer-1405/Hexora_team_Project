@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import SortingRow from "../Components/blogsPage/components/blogsSection/components/SortingRow";
 import FilterBox from "../Components/blogsPage/components/filterBox/components/FilterBox";
 import HeroSection from "../Components/blogsPage/components/heroSection/components/HeroSection";
@@ -7,11 +7,14 @@ import filterIcon from "../assets/icons/filter/filter.svg";
 import sortIcon from "../assets/icons/filter/sorting.svg";
 import useToggle from "../Components/hooks/useToggle";
 import BlogsList from "../Components/blogsPage/components/blogsSection/components/BlogsList";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const BlogsPage = () => {
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(false);
   const [filters, setFilters] = useState(false);
+  const containerRef = useRef();
 
   const sortingButtons = [
     { name: "جدیدترین", SortingCol: "insertDate", SortType: "desc" },
@@ -36,10 +39,56 @@ const BlogsPage = () => {
       }
     : { SortingCol: "Active", SortType: "desc" };
 
+  useGSAP(
+    () => {
+      gsap
+        .timeline({ defaults: { ease: "expo.out" } })
+        .from(containerRef.current, {
+          y: 60,
+          opacity: 0,
+          duration: 1.2,
+          clearProps: "transform,opacity",
+        })
+        .from(".filter", {
+          opacity: 0,
+          y: 30,
+          duration: 1,
+          stagger: 0.15,
+          clearProps: "transform,opacity",
+        })
+        .from(
+          ".sort",
+          {
+            opacity: 0,
+            y: 30,
+            duration: 1,
+            clearProps: "transform,opacity",
+          },
+          "-=0.7",
+        )
+        .from(
+          ".sort-btn",
+          {
+            opacity: 0,
+            y: 20,
+            scale: 0.9,
+            duration: 0.8,
+            stagger: 0.12,
+            clearProps: "transform,opacity",
+          },
+          "-=0.7",
+        );
+    },
+    { scope: containerRef },
+  );
+
   return (
-    <div className="flex flex-col gap-28">
+    <div className="flex flex-col gap-28 ">
       <HeroSection />
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-start gap-6 lg:gap-8">
+      <div
+        ref={containerRef}
+        className="flex flex-col lg:flex-row items-stretch lg:items-start gap-6 px-7 lg:gap-8 "
+      >
         <FilterBox
           setFilters={setFilters}
           toggleFilter={toggleFilter}
@@ -58,7 +107,12 @@ const BlogsPage = () => {
             <Button content="فیلتر" icon={filterIcon} onClick={toggleFilter} />
             <Button content="ترتیب" icon={sortIcon} onClick={toggle} />
           </div>
-          <BlogsList page={page} setPage={setPage} sortParams={sortParams} filters={filters} />
+          <BlogsList
+            page={page}
+            setPage={setPage}
+            sortParams={sortParams}
+            filters={filters}
+          />
         </div>
       </div>
     </div>

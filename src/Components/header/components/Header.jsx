@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import NavigationBar from "./NavigationBar";
 import Title from "./TitleSite";
 import Toolbar from "./Toolbar";
-import name from "../../../assets/icons/Untitled-1.svg";
-import title from "../../../assets/images/Title.png";
 import Button from "../../common/Button";
 import cancel from "../../../assets/icons/cancel-01.svg";
 import instagram from "../../../assets/icons/footer/instagram.svg";
@@ -12,8 +10,12 @@ import youtube from "../../../assets/icons/footer/youtube.svg";
 import twitter from "../../../assets/icons/footer/twitter.svg";
 import menu from "../../../assets/icons/menu-02.svg";
 import { NavLink } from "react-router-dom";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const Header = () => {
+  const containerRef = useRef()
 
   const navItems = [
     { name: "خانه", link: "/" },
@@ -35,16 +37,35 @@ const Header = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1030);
-      console.log(isMobile);
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
+  useGSAP(
+    () => {
+      const showAnim = gsap
+        .from(containerRef.current, {
+          yPercent: -100,
+          duration: 0.35,
+          ease: "power2.out",
+        })
+      ScrollTrigger.create({
+        start: "top top",
+        end: "max",
+        onUpdate: (self) => {
+          if (self.direction === -1) showAnim.play();
+          else showAnim.reverse();
+        },
+      });
+    },
+    { scope: containerRef },
+  );
   return (
-    <>
-      <div className="flex flex-row justify-between items-center gap-4 px-10">
+    <Fragment>
+      <div ref={containerRef} className="header fixed top-0 inset-x-0 z-40 bg-[#ffffffa1] dark:bg-[#000000a1] backdrop-blur-sm flex flex-row justify-between items-center gap-4 px-10 py-3 ">
         <Title />
         <NavigationBar navItems={navItems} />
         <Button
@@ -58,7 +79,7 @@ const Header = () => {
 
       {isMobile && isOpen && (
         <div
-          role="dialog"
+         
           aria-modal="true"
           className="fixed inset-0 z-50 flex flex-col justify-around overflow-y-auto bg-bg-main px-5"
         >
@@ -98,7 +119,7 @@ const Header = () => {
           </div>
         </div>
       )}
-    </>
+    </Fragment>
   );
 };
 

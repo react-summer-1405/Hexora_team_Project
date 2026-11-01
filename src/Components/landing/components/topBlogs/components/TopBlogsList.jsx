@@ -3,8 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getBlogsTop } from "../../../../../core/services/home/getBlogsTop";
 import warningIcon from "../../../../../assets/icons/Triangle_Warning.svg";
 import PendingCard from "../../../../common/PendingCard";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const TopBlogsList = () => {
+const containerRef = useRef()
  
 
   const {
@@ -18,6 +22,28 @@ const TopBlogsList = () => {
     queryKey: ["blogsTop"],
     queryFn: getBlogsTop,
   });
+
+
+    useGSAP(
+    () => {
+      if (!topBlogs) return;
+
+      gsap.from(".cards", {
+        yPercent: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "expo.out",
+        clearProps: "transform,opacity",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          once: true,
+        },
+      });
+    },
+    { scope: containerRef, dependencies: [topBlogs] },
+  );
 
 
   if (isPending) return (
@@ -38,7 +64,7 @@ const TopBlogsList = () => {
           </div>
 
           <h3 className="text-lg font-bold text-gray-800">
-            دریافت دوره‌ها با مشکل مواجه شد
+            دریافت بلاگ ها با مشکل مواجه شد
           </h3>
           <p className="text-sm text-gray-500">
             {error?.message || "لطفاً اتصال اینترنت خود را بررسی کنید."}
@@ -57,14 +83,14 @@ const TopBlogsList = () => {
 
     const result = topBlogs.data.news;
 
-  if (topBlogs)
+  
     return (
 
-        <div
-          className={` w-max max-w-350 overflow-hidden  py-5 px-6  flex flex-row  justify-start items-center gap-7  `}
+        <div ref={containerRef}
+          className={` w-max max-w-350 overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-start items-center gap-7  `}
         >
           {result.map((blog ) => (
-            <div className="flex" key={blog.id}>
+            <div className="flex cards" key={blog.id}>
               <BlogCard blog={blog} />
             </div>
           ))}

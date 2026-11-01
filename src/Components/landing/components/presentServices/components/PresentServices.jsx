@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import Topic from "../../../../common/texts/Topic";
 import ServicesDivisions from "./ServicesDivisions";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, SplitText)
 
 const PresentServices = () => {
   const containerRef = useRef(null);
@@ -46,7 +46,7 @@ const PresentServices = () => {
             ease: "back.out(1.4)",
             clearProps: "transform,opacity",
           },
-          "-=0.4",
+          "-=1",
         )
         .from(
           ".service-icon",

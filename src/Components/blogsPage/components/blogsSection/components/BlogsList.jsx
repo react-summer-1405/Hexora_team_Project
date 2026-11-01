@@ -32,15 +32,17 @@ const BlogsList = ({ page,setPage, sortParams, filters  }) => {
     : news;
 
   
-
-  if (isPending)
-    return (
-      <div className="flex flex-row flex-wrap gap-6">
+if (isPending)
+  return (
+    <div className="flex flex-col gap-28 w-full">
+      <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8">
         {Array.from({ length: rowsOfPage }, (_, i) => (
           <PendingCard key={i} />
         ))}
       </div>
-    );
+      <div className="h-12" /> 
+    </div>
+  );
 
   if (isError)
     return (
@@ -96,13 +98,13 @@ if (visibleBlogs.length === 0)
   );
 
 return (
-  <div className="flex flex-col gap-28 ">
+  <div className="w-full flex flex-col gap-28 ">
   <div className="min-h-187 flex flex-row   flex-wrap lg:justify-start justify-center items-start gap-8">
     {visibleBlogs.map((blog) => (
       <BlogCard key={blog.id} blog={blog} id={blog.id} />
     ))}
   </div>
-  <PaginationBox setPage={setPage} page={page} totalPages={totalPages}/>
+  <PaginationBox setPage={setPage} page={page} totalPages={totalPages} isPending={isFetching}/>
   </div>
 );
 

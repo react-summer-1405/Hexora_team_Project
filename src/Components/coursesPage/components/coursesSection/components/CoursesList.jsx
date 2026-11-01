@@ -8,7 +8,6 @@ import PaginationBox from "../../../../common/Pagination";
 const CoursesList = ({ page,setPage, sortParams, filters }) => {
   const rowsOfPage = 3;
 
-  const ListTech = filters.ListTech
 
   const { data, isError, error, isPending, refetch, isFetching } = useQuery({
     queryKey: ["coursesByPagination", page, rowsOfPage, sortParams, filters],
@@ -30,14 +29,17 @@ const CoursesList = ({ page,setPage, sortParams, filters }) => {
     ? data.filter((c) => c.title.includes(searchText))
     : data;
 
-  if (isPending)
-    return (
-      <div className="flex flex-row flex-wrap gap-6">
+if (isPending)
+  return (
+    <div className="flex flex-col gap-28  w-full">
+      <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8">
         {Array.from({ length: rowsOfPage }, (_, i) => (
           <PendingCard key={i} />
         ))}
       </div>
-    );
+      <div className="h-12" /> 
+    </div>
+  );
 
   if (isError)
     return (
@@ -67,7 +69,7 @@ const CoursesList = ({ page,setPage, sortParams, filters }) => {
 
     if (visibleCourses.length === 0)
       return (
-        <div className="w-full min-h-187 flex items-start justify-center py-8 px-6">
+        <div className=" w-full min-h-187 flex items-start justify-center py-8 px-6">
           <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4 rounded-2xl border border-border bg-red-50 p-8 text-center shadow-sm">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
               <img src={warningIcon} className="w-8 h-8" />
@@ -86,17 +88,17 @@ const CoursesList = ({ page,setPage, sortParams, filters }) => {
         </div>
       );
 
-  if (data)
+ 
     return (
-    <div className="flex flex-col gap-28">
+    <div className="w-full flex flex-col  gap-28">
         <div
-          className={`   flex flex-row flex-wrap lg:justify-start justify-center  items-start gap-8 `}
+          className={` flex flex-row flex-wrap lg:justify-start justify-center  items-start gap-8 `}
         >
           {visibleCourses.map((course) => (
             <CourseCard course={course} id={course.courseId} />
           ))}
         </div>
-        <PaginationBox setPage={setPage} page={page} totalPages={4}/>
+        <PaginationBox setPage={setPage} page={page} totalPages={4} isPending={isFetching}/>
 
         </div>
       

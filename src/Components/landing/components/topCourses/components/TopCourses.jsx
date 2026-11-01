@@ -4,10 +4,13 @@ import { getCoursesTop } from "../../../../../core/services/home/getCoursesTop";
 
 import warningIcon from "../../../../../assets/icons/Triangle_Warning.svg";
 import PendingCard from "../../../../common/PendingCard";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
 
 const TopCourses = () => {
 
-
+const containerRef = useRef()
   const {
     data: topCourses,
     isError,
@@ -19,6 +22,27 @@ const TopCourses = () => {
     queryKey: ["coursesTop"],
     queryFn: getCoursesTop,
   });
+
+    useGSAP(
+    () => {
+      if (!topCourses) return;
+
+      gsap.from(".cards", {
+        yPercent: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "expo.out",
+        clearProps: "transform,opacity",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          once: true,
+        },
+      });
+    },
+    { scope: containerRef, dependencies: [topCourses] },
+  );
 
   if (isPending)
     return (
@@ -60,11 +84,11 @@ const TopCourses = () => {
   if (topCourses)
     return (
 
-        <div
-          className={` w-max flex flex-row  justify-center items-center gap-6 max-w-345 overflow-x-hidden  py-5 px-6 `}
+        <div ref={containerRef}
+          className={` w-max flex md:flex-row flex-col  justify-center items-center gap-6 max-w-345 overflow-hidden  py-5 px-6 `}
         >
           {result.map((course) => (
-            <div className="flex" key={course.id}>
+            <div className="flex cards" key={course.id}>
               <CourseCard course={course} />
             </div>
           ))}

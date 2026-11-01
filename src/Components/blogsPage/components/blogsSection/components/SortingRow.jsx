@@ -5,7 +5,7 @@ const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpen
 
   return (
     <>
-    <div className="hidden lg:flex lg:flex-row lg:items-center lg:justify-start lg:gap-4">
+    <div className="hidden sort lg:flex lg:flex-row lg:items-center lg:justify-start lg:gap-4">
       <h6 className="text-[20px] font-bold">ترتیب</h6>
       <div className="flex gap-2 ">
         {sortingButtons.map((s) => (
@@ -14,7 +14,7 @@ const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpen
               sortingHandler(s);
             }}
             key={s.name}
-            className={`rounded-[34px] border ${selected === s.name ? "border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] bg-no-repeat bg-[90%] bg-5 ps-9" : "border-border-black text-text-dark"} transition-[border-color,text-color,scale] duration-400 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`}
+            className={`rounded-[34px] sort-btn border ${selected === s.name ? "border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] bg-no-repeat bg-[90%] bg-5 ps-9" : "border-border-black text-text-dark"} transition-[border-color,text-color,scale] duration-400 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`}
           >
             {s.name}
           </button>
