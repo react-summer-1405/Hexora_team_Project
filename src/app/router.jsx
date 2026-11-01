@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "./../pages/LandingPage";
 import MainLayout from "../Components/layouts/MainLayout";
@@ -10,6 +9,13 @@ import ResetPasswordPage from "../pages/auth/forget/ResetPasswordPage";
 import RegisterPage from "../pages/auth/register/RegisterPage";
 import RegisterVerificationPage from "../pages/auth/register/RegisterVerificationPage";
 import RegisterInfoPage from "../pages/auth/register/RegisterInfoPage";
+import DashboardLayout from "../Components/layouts/dashboard/DashboardLayout";
+import DashboardPage from "../pages/dashboard/DashboardPage";
+import MyCoursesPage from "../pages/myCourses/MyCoursesPage";
+import MyReservationsPage from "../pages/MyReservations/MyReservationsPage";
+import FavoriteCoursesPage from "../pages/FavoriteCoursesPage/FavoriteCoursesPage";
+import FavoriteBlogsPage from "../pages/FavoriteBlogsPage/FavoriteBlogsPage";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +57,19 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      { index: true, element: <DashboardPage /> },
+      { path: "my-courses", element: <MyCoursesPage /> }, // مسیر: /dashboard/my-courses
+      { path: "my-reserve", element: <MyReservationsPage /> }, // مسیر: /dashboard/my-courses
+      { path: "my-FavoriteCourses", element: <FavoriteCoursesPage /> }, // مسیر: /dashboard/my-courses
+      { path: "my-FavoriteBlogs", element: <FavoriteBlogsPage /> }, // مسیر: /dashboard/my-FavoriteBlogs
+      { path: "profile", element: <ProfilePage /> }, // مسیر: /dashboard/profile
+    ],
+  },
 ]);
 
 export default router;
+// FavoriteCoursesPage;
