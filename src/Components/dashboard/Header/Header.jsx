@@ -52,9 +52,9 @@ export default function Header({ toggleSidebar }) {
         <a href="/" className="transition-colors hover:opacity-80">
           صفحه اصلی
         </a>
-        <a href="/reports" className="transition-colors hover:opacity-80">
+        {/* <a href="/reports" className="transition-colors hover:opacity-80">
           گزارش
-        </a>
+        </a> */}
         <a href="/contact" className="transition-colors hover:opacity-80">
           ارتباط باما
         </a>

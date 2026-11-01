@@ -36,7 +36,7 @@ const sidebarLinks = [
     icon: favoriteblogIcon,
   },
   { id: 6, title: "پروفایل", href: "/dashboard/profile", icon: profileIcon },
-  { id: 7, title: "پرداخت‌ها", href: "/dashboard/profile", icon: paymentIcon },
+  // { id: 7, title: "پرداخت‌ها", href: "/dashboard/profile", icon: paymentIcon },
 ];
 
 export default function Sidebar({ isOpen, closeSidebar }) {
