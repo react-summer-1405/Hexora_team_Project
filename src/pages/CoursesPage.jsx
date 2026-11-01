@@ -71,35 +71,14 @@ const CoursesPage = () => {
           stagger: 0.15,
           clearProps: "transform,opacity",
         })
-        .from(
-          ".sort",
-          {
-            opacity: 0,
-            y: 30,
-            duration: 1,
-            clearProps: "transform,opacity",
-          },
-          "-=0.7",
-        )
-        .from(
-          ".sort-btn",
-          {
-            opacity: 0,
-            y: 20,
-            scale: 0.9,
-            duration: 0.8,
-            stagger: 0.12,
-            clearProps: "transform,opacity",
-          },
-          "-=0.7",
-        );
+
     },
     { scope: containerRef },
   );
 
   return (
     <div className="flex flex-col gap-28">
-      <HeroSection />
+      <HeroSection/>
       <div
         className="flex flex-col lg:flex-row items-stretch lg:items-start gap-6 px-7 lg:gap-8"
         ref={containerRef}
@@ -112,13 +91,6 @@ const CoursesPage = () => {
         />
 
         <div className="w-[75%] flex flex-col lg:items-start lg:self-start self-center gap-6">
-          <SortingRow
-            sortingButtons={sortingButtons}
-            selected={selected}
-            sortingHandler={sortingHandler}
-            toggle={toggle}
-            isOpenModal={isOpenModal}
-          />
           <div className="lg:hidden flex flex-row w-full justify-between ">
             <Button content="فیلتر" icon={filterIcon} onClick={toggleFilter} />
             <Button content="ترتیب" icon={sortIcon} onClick={toggle} />
@@ -128,7 +100,11 @@ const CoursesPage = () => {
             setPage={setPage}
             sortParams={sortParams}
             filters={filters}
-            techs
+              sortingButtons={sortingButtons}
+            selected={selected}
+            sortingHandler={sortingHandler}
+            toggle={toggle}
+            isOpenModal={isOpenModal}
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 
-const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpenModal }) => {
+const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpenModal , isPending }) => {
 
   return (
     <>
@@ -11,8 +11,9 @@ const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpen
             onClick={() => {
               sortingHandler(s);
             }}
+            disabled={isPending}
             key={s.name}
-            className={`sort-btn rounded-[34px] border ${selected === s.name ? "border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] bg-no-repeat bg-[90%] bg-5 ps-9" : "border-border-black text-text-dark"} transition-[border-color,text-color,scale] duration-400 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`}
+            className={`sort-btn rounded-[34px] border ${selected === s.name ? "border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] bg-no-repeat bg-[90%] bg-5 ps-9" : "border-border-black text-text-dark"}  ${isPending?"opacity-50":"opacity-100"} transition-[border-color,text-color,scale] duration-400 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`}
           >
             {s.name}
           </button>

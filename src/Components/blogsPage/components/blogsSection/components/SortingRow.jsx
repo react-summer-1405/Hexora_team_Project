@@ -1,5 +1,5 @@
 
-const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpenModal }) => {
+const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpenModal , isPending }) => {
 
 
 
@@ -10,11 +10,13 @@ const SortingRow = ({ sortingButtons, selected, sortingHandler , toggle , isOpen
       <div className="flex gap-2 ">
         {sortingButtons.map((s) => (
           <button
+          disabled={isPending}
             onClick={() => {
               sortingHandler(s);
+              
             }}
             key={s.name}
-            className={`rounded-[34px] sort-btn border ${selected === s.name ? "border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] bg-no-repeat bg-[90%] bg-5 ps-9" : "border-border-black text-text-dark"} transition-[border-color,text-color,scale] duration-400 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`}
+            className={`${isPending?"opacity-50":"opacity-100"} rounded-[34px] sort-btn border ${selected === s.name ? "border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] bg-no-repeat bg-[90%] bg-5 ps-9" : "border-border-black text-text-dark"} transition-[border-color,text-color,scale] duration-400 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`}
           >
             {s.name}
           </button>

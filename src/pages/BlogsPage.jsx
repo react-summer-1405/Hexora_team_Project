@@ -39,49 +39,37 @@ const BlogsPage = () => {
       }
     : { SortingCol: "Active", SortType: "desc" };
 
-  useGSAP(
-    () => {
-      gsap
-        .timeline({ defaults: { ease: "expo.out" } })
-        .from(containerRef.current, {
-          y: 60,
-          opacity: 0,
-          duration: 1.2,
-          clearProps: "transform,opacity",
-        })
-        .from(".filter", {
+useGSAP(
+  () => {
+    const tl = gsap.timeline({
+      defaults: {
+        ease: "expo.out",
+      },
+    });
+
+    tl.from(containerRef.current, {
+      y: 60,
+      opacity: 0,
+      duration: 1.2,
+      clearProps: "transform,opacity",
+    })
+      .from(
+        ".filter",
+        {
           opacity: 0,
           y: 30,
           duration: 1,
           stagger: 0.15,
           clearProps: "transform,opacity",
-        })
-        .from(
-          ".sort",
-          {
-            opacity: 0,
-            y: 30,
-            duration: 1,
-            clearProps: "transform,opacity",
-          },
-          "-=0.7",
-        )
-        .from(
-          ".sort-btn",
-          {
-            opacity: 0,
-            y: 20,
-            scale: 0.9,
-            duration: 0.8,
-            stagger: 0.12,
-            clearProps: "transform,opacity",
-          },
-          "-=0.7",
-        );
-    },
-    { scope: containerRef },
-  );
+        },
+        "-=0.5",
+      )
 
+  },
+  {
+    scope: containerRef,
+  },
+);
   return (
     <div className="flex flex-col gap-28 ">
       <HeroSection />
@@ -95,14 +83,7 @@ const BlogsPage = () => {
           isFilterModal={isFilterModal}
         />
 
-        <div className="w-[65%]   flex flex-col justify-center lg:items-start self-center gap-6">
-          <SortingRow
-            sortingButtons={sortingButtons}
-            selected={selected}
-            sortingHandler={sortingHandler}
-            toggle={toggle}
-            isOpenModal={isOpenModal}
-          />
+        <div className="w-[65%]  flex flex-col justify-center lg:items-start self-center gap-6">
           <div className="lg:hidden flex flex-row w-full justify-between ">
             <Button content="فیلتر" icon={filterIcon} onClick={toggleFilter} />
             <Button content="ترتیب" icon={sortIcon} onClick={toggle} />
@@ -112,6 +93,11 @@ const BlogsPage = () => {
             setPage={setPage}
             sortParams={sortParams}
             filters={filters}
+            sortingButtons={sortingButtons}
+            selected={selected}
+            sortingHandler={sortingHandler}
+            toggle={toggle}
+            isOpenModal={isOpenModal}
           />
         </div>
       </div>

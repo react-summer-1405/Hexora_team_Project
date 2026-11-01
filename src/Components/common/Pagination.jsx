@@ -37,7 +37,7 @@ const PaginationBox = ({ setPage, page, totalPages, isPending }) => {
           <Pagination.Item key={p}>
             <Pagination.Link
               className={
-                p === page ? activeClass : isPending ? disabledClass : linkClass
+                p === page ? activeClass : linkClass
               }
               isActive={p === page}
               isPending={isPending}
