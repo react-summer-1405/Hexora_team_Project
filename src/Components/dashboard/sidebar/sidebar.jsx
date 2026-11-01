@@ -7,7 +7,7 @@ import myreserveIcon from "../../../assets/images/dashboard/myreserve-icon.png";
 import favoriteIcon from "../../../assets/images/dashboard/favorite-icon.png";
 import favoriteblogIcon from "../../../assets/images/dashboard/favoriteblog-icon.png";
 import profileIcon from "../../../assets/images/dashboard/profile-icon.png";
-import paymentIcon from "../../../assets/images/dashboard/payment-icon.png";
+// import paymentIcon from "../../../assets/images/dashboard/payment-icon.png";
 
 const sidebarLinks = [
   { id: 1, title: "داشبورد", href: "/dashboard", icon: dashIcon },
