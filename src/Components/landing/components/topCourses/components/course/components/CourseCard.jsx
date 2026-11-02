@@ -10,7 +10,7 @@ const handleClick = ()=>{
 }
     
   return (
-                <div  className="select-none  min-w-80 max-w-80 h-91 cursor-pointer  hover:-translate-y-2 transition duration-300 rounded-4xl" onClick={handleClick}>
+                <div  className="select-none course-card min-w-80 max-w-80 h-91 cursor-pointer  hover:-translate-y-2 transition duration-300 rounded-4xl" onClick={handleClick}>
                     <TopCard levelName={levelName} subject={subject} image={image} />
                     <BottomCard title={title} teacherName={teacherName} price={price} />
 

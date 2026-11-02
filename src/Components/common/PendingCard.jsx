@@ -1,8 +1,8 @@
 import { Skeleton } from "@heroui/react";
 
-const PendingCard = () => {
+const PendingCard = ({width = "w-80"}) => {
   return (
-    <div className="w-80 h-91 rounded-4xl">
+    <div className={`${width} h-91 rounded-4xl`}>
       <div className="relative h-73">
         <Skeleton
           animationType="shimmer"

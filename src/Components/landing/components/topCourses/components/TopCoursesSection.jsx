@@ -50,7 +50,7 @@ const TopCoursesSection = () => {
       <TopCourses />
       <div className="button">
         <Button content="مشاهده بیشتر" onClick={() => navigate("/courses")} />
-      </div>{" "}
+      </div>
     </div>
   );
 };

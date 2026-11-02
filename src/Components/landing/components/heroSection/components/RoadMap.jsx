@@ -56,7 +56,7 @@ const RoadMap = () => {
   return (
     <div
       ref={container}
-      className="relative bg-[#eee] h-1.5 flex flex-row justify-around items-center mt-15"
+      className="relative bg-[#eee] h-1.5 flex flex-row justify-around items-center mt-15 -mx-3.5"
     >
       <div className="road-line absolute inset-0 bg-primary origin-right" />
 

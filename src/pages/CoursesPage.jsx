@@ -56,6 +56,7 @@ const CoursesPage = () => {
 
   useGSAP(
     () => {
+      if (!techs) return;
       gsap
         .timeline({ defaults: { ease: "expo.out" } })
         .from(containerRef.current, {
@@ -78,7 +79,7 @@ const CoursesPage = () => {
 
   return (
     <div className="flex flex-col gap-28">
-      <HeroSection/>
+      <HeroSection />
       <div
         className="flex flex-col lg:flex-row items-stretch lg:items-start gap-6 px-7 lg:gap-8"
         ref={containerRef}
@@ -100,7 +101,7 @@ const CoursesPage = () => {
             setPage={setPage}
             sortParams={sortParams}
             filters={filters}
-              sortingButtons={sortingButtons}
+            sortingButtons={sortingButtons}
             selected={selected}
             sortingHandler={sortingHandler}
             toggle={toggle}

@@ -17,12 +17,12 @@ const disabledClass = "opacity-40 pointer-events-none";
 const PaginationBox = ({ setPage, page, totalPages, isPending }) => {
   return (
     <Pagination
-      className={`flex flex-row justify-center self-center mt-4
+      className={`pagination flex flex-row justify-center self-center mt-4
         transition-opacity duration-200
         ${isPending ? "opacity-40" : "opacity-100"}
       `}
     >
-      <Pagination.Content className="flex flex-row-reverse gap-1 rounded-2xl bg-bg-lightGray p-1.5">
+      <Pagination.Content className=" flex flex-row-reverse gap-1 rounded-2xl bg-bg-lightGray p-1.5">
         <Pagination.Item>
           <Pagination.Previous
             className={`${linkClass} ${page === 1 ? disabledClass : ""}`}

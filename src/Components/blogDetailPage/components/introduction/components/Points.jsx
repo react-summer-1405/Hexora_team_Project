@@ -6,7 +6,7 @@ const Points = ({  rate = {}, commentsCount = 0 }) => {
 
  const { avg: rateAvg, count: rateCount } = rate
   return (
-    <div className="w-full flex flex-row justify-end md:justify-between cursor-default">
+    <div className="point-price w-full flex flex-row justify-end md:justify-between cursor-default">
 
       <div className="flex flex-row items-center gap-2 text-base font-medium text-text-dark">
         <span>({formatNumber(rateCount)})</span>
@@ -15,7 +15,7 @@ const Points = ({  rate = {}, commentsCount = 0 }) => {
             <img
               key={i}
               src={i < Math.round(rateAvg) ? yellowStar : grayStar}
-              className="w-7 h-7"
+              className="star w-7 h-7"
             />
           ))}
         </div>

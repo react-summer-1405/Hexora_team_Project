@@ -2,9 +2,10 @@ import yellowStar from "../../../../../assets/icons/details/yellowStar.svg";
 import grayStar from "../../../../../assets/icons/details/grayStar.svg";
 import { formatNumber } from "../../../../hooks/formatters";
 
+
 const PointAndPrice = ({ cost = 0, rate = 0, studentCount = 0 }) => {
   return (
-    <div className="w-full flex flex-row-reverse justify-end md:justify-between cursor-default">
+    <div className="point-price  w-full flex flex-row-reverse justify-end md:justify-between cursor-default">
       <div className="hidden md:flex flex-row gap-1 items-center text-text-dark">
         <span className="text-2xl font-bold">{formatNumber(cost)}</span>
         <span className="text-sm font-medium">تومان</span>
@@ -16,7 +17,7 @@ const PointAndPrice = ({ cost = 0, rate = 0, studentCount = 0 }) => {
             <img
               key={i}
               src={i < Math.round(rate) ? yellowStar : grayStar}
-              className="w-7 h-7"
+              className="star w-7 h-7"
             />
           ))}
         </div>

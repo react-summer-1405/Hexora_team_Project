@@ -5,6 +5,9 @@ const getCoursesByPagination = async (params,signal) => {
         params,
         signal
     });
-    return response.data.courseFilterDtos;
+
+   
+    
+    return response.data;
 };
 export default getCoursesByPagination

@@ -11,6 +11,9 @@ import { useRef } from "react";
 const TopCourses = () => {
 
 const containerRef = useRef()
+
+const count = 4;
+
   const {
     data: topCourses,
     isError,
@@ -19,8 +22,8 @@ const containerRef = useRef()
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["coursesTop"],
-    queryFn: getCoursesTop,
+    queryKey: ["coursesTop",count],
+    queryFn:()=> getCoursesTop(count),
   });
 
     useGSAP(
@@ -85,10 +88,10 @@ const containerRef = useRef()
     return (
 
         <div ref={containerRef}
-          className={` w-max flex md:flex-row flex-col  justify-center items-center gap-6 max-w-345 overflow-hidden  py-5 px-6 `}
+          className={` w-full  flex-wrap flex md:flex-row flex-col  justify-center items-center gap-6  overflow-hidden  py-5 px-6 `}
         >
           {result.map((course) => (
-            <div className="flex cards" key={course.id}>
+            <div className="flex  cards " key={course.id}>
               <CourseCard course={course} />
             </div>
           ))}

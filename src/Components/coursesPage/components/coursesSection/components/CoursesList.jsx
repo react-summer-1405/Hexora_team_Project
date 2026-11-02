@@ -10,7 +10,7 @@ import gsap from "gsap/all";
 import { useRef } from "react";
 
 const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,selected, sortingHandler,toggle,isOpenModal}) => {
-  const rowsOfPage = 3;
+  const rowsOfPage = 6;
   const containerRef = useRef()
 
   const { data, isError, error, isPending, refetch, isFetching } = useQuery({
@@ -30,33 +30,21 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
 
   const searchText = filters.Query?.trim();
   const visibleCourses = searchText
-    ? data.filter((c) => c.title.includes(searchText))
-    : data;
+    ? data?.courseFilterDtos.filter((c) => c.title.includes(searchText))
+    : data?.courseFilterDtos;
 
-  useGSAP(() => {
-    const tl = gsap.timeline({
-      defaults: {
-        ease: "expo.out",
-      },
-    });
+    useGSAP(
+  () => {
+    if (!data) return;
 
-    tl.from(containerRef.current, {
-      y: 60,
-      opacity: 0,
-      duration: 1.2,
-      clearProps: "transform,opacity",
-    })
-
-      .from(
-        ".sort",
-        {
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          clearProps: "transform,opacity",
-        },
-        "-=0.5",
-      )
+    gsap
+      .timeline({ defaults: { ease: "expo.out" } })
+      .from(".sort", {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        clearProps: "transform,opacity",
+      })
       .from(
         ".sort-btn",
         {
@@ -67,20 +55,27 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
           stagger: 0.12,
           clearProps: "transform,opacity",
         },
-        "-=0.4",
-      );
-  },{scope:containerRef});
+        "-=0.5",
+      )
+              .from('.pagination', {
+          y: 30,
+          duration: 1,
+          stagger: 0.15,
+          clearProps: "transform,opacity",
+        })
+  },
+  { scope: containerRef, dependencies: [isPending] },
+);
 
   if (isPending)
     return (
-      <div className="flex flex-col gap-28  w-full">
-        <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8">
+      
+        <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8 mt-17">
           {Array.from({ length: rowsOfPage }, (_, i) => (
             <PendingCard key={i} />
           ))}
         </div>
-        <div className="h-12" />
-      </div>
+        
     );
 
   if (isError)
@@ -108,6 +103,9 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
         </div>
       </div>
     );
+
+  const totalPages = Math.ceil(data.totalCount / rowsOfPage);
+
 
   if (visibleCourses.length === 0)
     return (
@@ -150,7 +148,7 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
         <PaginationBox
           setPage={setPage}
           page={page}
-          totalPages={4}
+          totalPages={totalPages}
           isPending={isFetching}
         />
       </div>

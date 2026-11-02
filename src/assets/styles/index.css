@@ -49,7 +49,6 @@
 }
 
 body {
-  padding: 0 15px ;
   margin: 0;
   font-family: "Dana";
   direction: rtl;
@@ -57,13 +56,14 @@ body {
 
 #root {
   margin: 0 auto;
-  padding: 24px 0;
+  padding: 24px 15px;
   text-align: center;
   min-height: 100svh;
   max-width: 1536px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+
 }
 
 p {

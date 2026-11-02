@@ -44,15 +44,15 @@ const Description = ({ miniDescribe, describe, blogId , userRate: serverUserRate
   
 
   return (
-    <div className="flex flex-col gap-4 items-start text-right cursor-default">
+    <div className="description flex flex-col gap-4 px-4 items-start text-right cursor-default">
       {miniDescribe && (
         <p className="text-base font-bold text-text-dark">{miniDescribe}</p>
       )}
-      <p className="text-base font-medium text-text-dark whitespace-pre-line">
+      <p className="texts text-base font-medium text-text-dark whitespace-pre-line">
         {describe}
       </p>
       <div className="flex flex-row flex-wrap justify-start items-center gap-4">
-        <span className="text-base font-semibold text-primary">
+        <span className="rate-now text-base font-semibold text-primary">
           امتیاز بدید
         </span>
         <div
@@ -68,7 +68,7 @@ const Description = ({ miniDescribe, describe, blogId , userRate: serverUserRate
                 disabled={ratingMutation.isPending}
                 onMouseEnter={() => setHoverRate(value)}
                 onClick={() => handleRate(value)}
-                className="cursor-pointer"
+                className="cursor-pointer rate-star"
               >
                 <img
                   src={value <= activeRate ? yellowStar : grayStar}

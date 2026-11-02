@@ -32,7 +32,7 @@ const MainLayout = () => {
     <div className="flex flex-col gap-14 ">
       <ScrollToTop />
       <Header />
-      <main ref={ref} className="pt-15 ">
+      <main ref={ref} className="pt-20 ">
         <Outlet />
       </main>
       <Footer />

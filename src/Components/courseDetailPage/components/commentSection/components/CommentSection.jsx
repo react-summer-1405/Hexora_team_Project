@@ -2,18 +2,62 @@ import Button from "../../../../common/Button";
 import CommentBox from "./CommentBox";
 import commentIcon from "../../../../../assets/icons/details/comment-add.svg";
 import useToggle from "../../../../hooks/useToggle";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const CommentSection = ({ comments = [], toggleComment, courseId }) => {
-  
+  const sectionRef = useRef();
+
   const [isOpen, toggle] = useToggle(false);
+useGSAP(
+  () => {
+    gsap.from(".comments-title", {
+      opacity: 0,
+      y: 24,
+      duration: 0.7,
+      ease: "power3.out",
+      clearProps: "transform,opacity",
+      scrollTrigger: {
+        trigger: ".comments-title",
+        start: "top 90%",
+        once: true,
+      },
+    });
+  },
+  { scope: sectionRef },
+);
+
+useGSAP(
+  () => {
+    gsap.set(".comments-grid > *", { opacity: 0, y: 40 });
+
+    ScrollTrigger.batch(".comments-grid > *", {
+      start: "top 92%",
+      once: true,
+      onEnter: (els) =>
+        gsap.to(els, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "power3.out",
+          clearProps: "transform,opacity",
+          overwrite: true,
+        }),
+    });
+  },
+  { scope: sectionRef, dependencies: [comments.length] },
+);
 
   return (
-    <div className=" flex flex-col gap-6">
-      <h3 className="text-[20px] font-bold text-text-muted self-start">
+    <div ref={sectionRef} className=" flex flex-col gap-6">
+      <h3 className="comments-title text-[20px] font-bold text-text-muted self-start">
         نظرات دانشجو ها و اساتید
       </h3>
       <div
-        className={`flex flex-row flex-wrap items-start md:justify-start justify-center gap-4 p-3 ${isOpen ? "h-max" : "h-75"}  overflow-hidden`}
+        className={`comments-grid  flex flex-row flex-wrap items-start md:justify-start justify-center gap-4 p-3 ${isOpen ? "h-max" : "h-75"}  overflow-hidden`}
       >
         <div
           onClick={toggleComment}

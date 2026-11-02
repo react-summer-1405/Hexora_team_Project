@@ -87,7 +87,7 @@ const containerRef = useRef()
     return (
 
         <div ref={containerRef}
-          className={` w-max max-w-350 overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-start items-center gap-7  `}
+          className={` w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-7  `}
         >
           {result.map((blog ) => (
             <div className="flex cards" key={blog.id}>

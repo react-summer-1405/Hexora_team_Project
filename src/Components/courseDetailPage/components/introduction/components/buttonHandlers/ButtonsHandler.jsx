@@ -70,7 +70,7 @@ const handleFavorite = () => {
 };
 
   return (
-    <div className="w-full flex flex-row flex-wrap  justify-start items-center gap-4">
+    <div className="buttons-handler w-full flex flex-row flex-wrap  justify-start items-center gap-4">
       <Button
         content={isCourseReseve ? "رزرو شده" : "رزرو دوره"}
         color="bg-primary"

@@ -7,6 +7,7 @@ import { useState } from "react";
 import reactLogo from "../../../../../assets/images/react.png";
 const Introduction = ({ course, toggleReserve }) => {
   
+  
   const {
     title,
     courseId,
@@ -75,8 +76,8 @@ const Introduction = ({ course, toggleReserve }) => {
 
   return (
     <div className="flex flex-col gap-12 ">
-      <div className=" flex flex-row flex-wrap justify-start gap-5 ">
-        <div className=" bg-[#87DFFF] flex lg:flex-row flex-col justify-center lg:items-end items-center rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2  min-w-90 mx-auto lg:mx-3  object-contain">
+      <div className="introduction flex flex-row flex-wrap justify-start gap-5 ">
+        <div className="intro-image bg-[#87DFFF] flex lg:flex-row flex-col justify-center lg:items-end items-center rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2  min-w-90 mx-auto lg:mx-3  object-contain">
           {showLogo && (
             <img
               src={reactLogo}
@@ -96,7 +97,7 @@ const Introduction = ({ course, toggleReserve }) => {
           )}
         </div>
         <div className="lg:w-[48%] w-[90%]  mx-auto lg:mx-1  flex flex-col gap-6 items-start  lg:order-2 order-1 ">
-          <h3 className="md:text-[32px] text-2xl font-bold text-text-dark text-right">
+          <h3 className="course-title md:text-[32px] text-2xl font-bold text-text-dark text-right">
             {title}
           </h3>
           <div className="flex flex-col gap-4 lg:w-full w-5/6 md:mx-0 mx-auto">
