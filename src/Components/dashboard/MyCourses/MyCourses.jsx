@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useCourses } from "../../../hooks/dashboard/useCourses";
+import { useFavoriteCourses } from "../../../hooks/dashboard/useFavoriteCourses";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
 
 export default function MyCourses() {
-  const { data, isLoading, isError } = useCourses();
-  const latestCourses = data?.courseFilterDtos?.slice(0, 3) || [];
+  const { data, isLoading, isError } = useFavoriteCourses();
+
+  const latestCourses = data?.favoriteCourseDto?.slice(0, 3) || [];
 
   return (
     <div
@@ -14,10 +15,12 @@ export default function MyCourses() {
       dir="rtl"
     >
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-base font-bold text-gray-800">دوره من</h3>
+        <h3 className="text-base font-bold text-gray-800">
+          دوره‌های موردعلاقه من
+        </h3>
 
         <Link
-          to="/dashboard/my-courses"
+          to="/dashboard/favorites"
           className="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-600"
         >
           <img
@@ -52,52 +55,60 @@ export default function MyCourses() {
             دوره‌ای برای نمایش وجود ندارد.
           </div>
         ) : (
-          latestCourses.map((course) => (
+          latestCourses.map((item) => (
             <div
-              key={course.courseId}
+              key={item.favoriteId}
               className="flex flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm md:grid md:grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] md:items-center md:gap-0 md:border-none md:p-0 md:px-4 md:text-center md:shadow-none"
             >
               <div className="flex items-center gap-3 md:contents">
                 <img
-                  src={course.tumbImageAddress || "/default-placeholder.png"}
-                  alt={course.title}
+                  src={item.imageAddress || "/default-placeholder.png"}
+                  alt={item.courseTitle}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/default-placeholder.png"; // هندل کردن ارور عکس
+                  }}
                   className="h-[52px] w-[83px] shrink-0 rounded-[14px] object-cover shadow-sm md:mx-auto"
                 />
 
                 <div className="flex flex-col gap-1 md:contents">
                   <span
-                    className="truncate whitespace-nowrap teسxt-sm font-bold text-text-dark"
-                    title={course.title}
+                    className="truncate whitespace-nowrap text-sm font-bold text-gray-800"
+                    title={item.courseTitle}
                   >
-                    {course.title?.length > 20
-                      ? course.title.substring(0, 20) + "..."
-                      : course.title}
+                    {item.courseTitle?.length > 20
+                      ? item.courseTitle.substring(0, 20) + "..."
+                      : item.courseTitle}
                   </span>
 
                   <span className="text-xs font-medium text-gray-500 md:hidden">
-                    {course.teacherName}
+                    {item.teacheName}
                   </span>
                 </div>
               </div>
 
               <span className="hidden text-sm font-medium text-gray-700 md:block">
-                {course.teacherName}
+                {item.teacheName}
               </span>
 
               <div className="flex items-center justify-between border-t border-gray-50 pt-3 md:contents md:border-none md:pt-0">
                 <span className="text-xs font-medium text-gray-600 md:text-sm md:text-gray-700">
-                  {course.startTime
-                    ? new Date(course.startTime).toLocaleDateString("fa-IR", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
+                  {item.course?.startTime
+                    ? new Date(item.course.startTime).toLocaleDateString(
+                        "fa-IR",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        },
+                      )
                     : "-"}
                 </span>
 
                 <div className="flex items-center justify-center md:mx-auto">
                   <span className="rounded-full bg-[#F43DF4] px-3 py-1 text-[10px] font-medium tracking-wide text-white md:px-4 md:py-1.5 md:text-[11px]">
-                    {course.levelName}
+                    پیشرفته{" "}
+                    {/* به دلیل نبودن نام سطح در این API، می‌توانید هاردکد کنید یا از مپ کردن courseLvlId استفاده کنید */}
                   </span>
                 </div>
 
@@ -106,6 +117,12 @@ export default function MyCourses() {
                     type="button"
                     className="transition-opacity hover:opacity-75"
                     aria-label="مشاهده دوره"
+                    onClick={() =>
+                      console.log(
+                        "باز کردن مودال مینی دیتیل برای:",
+                        item.courseId,
+                      )
+                    }
                   >
                     <img
                       src={viewIcon}
