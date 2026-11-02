@@ -108,7 +108,6 @@ export default function MyCourses() {
                 <div className="flex items-center justify-center md:mx-auto">
                   <span className="rounded-full bg-[#F43DF4] px-3 py-1 text-[10px] font-medium tracking-wide text-white md:px-4 md:py-1.5 md:text-[11px]">
                     پیشرفته{" "}
-                    {/* به دلیل نبودن نام سطح در این API، می‌توانید هاردکد کنید یا از مپ کردن courseLvlId استفاده کنید */}
                   </span>
                 </div>
 
