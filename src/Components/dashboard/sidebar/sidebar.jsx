@@ -7,6 +7,7 @@ import myreserveIcon from "../../../assets/images/dashboard/myreserve-icon.png";
 import favoriteIcon from "../../../assets/images/dashboard/favorite-icon.png";
 import favoriteblogIcon from "../../../assets/images/dashboard/favoriteblog-icon.png";
 import profileIcon from "../../../assets/images/dashboard/profile-icon.png";
+import { Link } from "react-router-dom";
 // import paymentIcon from "../../../assets/images/dashboard/payment-icon.png";
 
 const sidebarLinks = [
@@ -36,7 +37,6 @@ const sidebarLinks = [
     icon: favoriteblogIcon,
   },
   { id: 6, title: "پروفایل", href: "/dashboard/profile", icon: profileIcon },
-  // { id: 7, title: "پرداخت‌ها", href: "/dashboard/profile", icon: paymentIcon },
 ];
 
 export default function Sidebar({ isOpen, closeSidebar }) {
@@ -66,13 +66,13 @@ export default function Sidebar({ isOpen, closeSidebar }) {
         <ul className="mt-[53px] w-full pr-4 text-right space-y-7 text-lg font-medium">
           {sidebarLinks.map((item) => (
             <li key={item.id}>
-              <a
-                href={item.href}
+              <Link
+                to={item.href}
                 className="flex items-center gap-3 hover:text-gray-400"
               >
                 <img src={item.icon} alt={item.title} className="h-5 w-5" />
                 <span>{item.title}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
