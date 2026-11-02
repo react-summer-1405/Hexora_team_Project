@@ -20,7 +20,7 @@ export default function MyCourses() {
         </h3>
 
         <Link
-          to="/dashboard/favorites"
+          to="/dashboard/my-FavoriteCourses"
           className="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-600"
         >
           <img
@@ -66,7 +66,7 @@ export default function MyCourses() {
                   alt={item.courseTitle}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "/default-placeholder.png"; // هندل کردن ارور عکس
+                    e.target.src = "/default-placeholder.png";
                   }}
                   className="h-[52px] w-[83px] shrink-0 rounded-[14px] object-cover shadow-sm md:mx-auto"
                 />
