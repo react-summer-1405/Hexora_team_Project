@@ -1,44 +1,89 @@
-import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+import Button from "../../common/Button";
+import { useProfile, useUpdateProfile } from "../../../hooks/dashboard/userProfile";
+
+const validationSchema = Yup.object({
+  telegram: Yup.string().trim().url("لینک تلگرام معتبر نیست"),
+
+  linkedin: Yup.string().trim().url("لینک لینکدین معتبر نیست"),
+});
 
 export default function ProfileLinks() {
-  const [links, setLinks] = useState({
+  const { mutate, isPending } = useUpdateProfile();
+  const{data:profile}=useProfile()
+
+     const birthDay = profile?.birthDay ?? ""
+
+     console.log("birthday",birthDay);
+     
+
+  const initialValues = {
     telegram: "",
     linkedin: "",
-  });
+  };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLinks((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleSubmit = (values) => {
+    mutate({
+      BirthDay:birthDay,
+      TelegramLink: values.telegram,
+      LinkdinProfile: values.linkedin,
+    });
   };
 
   return (
-    <div className="flex w-full flex-col gap-6 text-right" dir="rtl">
-      <div className="flex flex-col gap-3">
-        <label className="text-[16px] font-[600] text-text-dark">تلگرام</label>
-        <input
-          type="text"
-          name="telegram"
-          placeholder="لینک تلگرام خود را وارد کنید"
-          value={links.telegram}
-          onChange={handleChange}
-          className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-[#dcdcdc] bg-bg-main px-5 text-[12px] font-[500] text-text-muted placeholder:text-text-muted outline-none transition-colors focus:border-blue-400"
-        />
-      </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form className="flex w-full flex-col gap-6 text-right">
+        <div className="flex flex-col gap-3">
+          <label className="text-[16px] font-semibold text-text-dark">
+            تلگرام
+          </label>
 
-      <div className="flex flex-col gap-3">
-        <label className="text-[16px] font-[600] text-text-dark">لینکدین</label>
-        <input
-          type="text"
-          name="linkedin"
-          placeholder="لینک لینکدین خود را وارد کنید"
-          value={links.linkedin}
-          onChange={handleChange}
-          className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-[#dcdcdc] bg-bg-main px-5 text-[12px] font-[500] text-text-muted placeholder:text-text-muted outline-none transition-colors focus:border-blue-400"
+          <Field
+            type="text"
+            name="telegram"
+            placeholder="لینک تلگرام خود را وارد کنید"
+            className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-[#dcdcdc] bg-bg-main px-5 text-[12px] font-medium text-text-muted outline-none focus:border-blue-400"
+          />
+
+          <ErrorMessage
+            name="telegram"
+            component="p"
+            className="text-xs text-red-500"
+          />
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <label className="text-[16px] font-semibold text-text-dark">
+            لینکدین
+          </label>
+
+          <Field
+            type="text"
+            name="linkedin"
+            placeholder="لینک لینکدین خود را وارد کنید"
+            className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-[#dcdcdc] bg-bg-main px-5 text-[12px] font-medium text-text-muted outline-none focus:border-blue-400"
+          />
+
+          <ErrorMessage
+            name="linkedin"
+            component="p"
+            className="text-xs text-red-500"
+          />
+        </div>
+
+        <Button
+          type="submit"
+          content={isPending ? "در حال ثبت..." : "ذخیره اطلاعات"}
+          color="bg-primary"
+          disabled={isPending}
         />
-      </div>
-    </div>
+      </Form>
+    </Formik>
   );
 }

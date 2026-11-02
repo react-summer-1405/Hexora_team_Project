@@ -6,6 +6,7 @@ import ProfileLinks from "../../Components/dashboard/Profile/ProfileLinks";
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("account");
 
+  
   const tabs = [
     { id: "account", label: "اطلاعات حساب کاربری" },
     { id: "photos", label: "عکس ها" },
@@ -30,8 +31,8 @@ export default function ProfilePage() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex h-[48px] w-[192px] shrink-0 items-center justify-center rounded-[48px] transition-all duration-300 ${
                 activeTab === tab.id
-                  ? "bg-[#f1f1f1] text-[18px] font-[600] text-blue-500"
-                  : "bg-[#fcfcfc] text-[16px] font-[600] text-[#707070] hover:bg-gray-50"
+                  ? "bg-[#f1f1f1] text-[18px] font-semibold text-blue-500"
+                  : "bg-[#fcfcfc] text-[16px] font-semibold text-text-muted hover:bg-gray-50"
               }`}
             >
               {tab.label}

@@ -68,7 +68,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
             <li key={item.id}>
               <Link
                 to={item.href}
-                className="flex items-center gap-3 hover:text-gray-400"
+                className="flex items-center gap-3 hover:text-gray-400 cursor-pointer"
               >
                 <img src={item.icon} alt={item.title} className="h-5 w-5" />
                 <span>{item.title}</span>

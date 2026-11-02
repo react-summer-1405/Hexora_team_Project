@@ -1,12 +1,13 @@
-import React from "react";
 import { useProfile } from "../../../hooks/dashboard/userProfile";
 
 export default function WelcomeHeader() {
   const { data: profile } = useProfile();
 
+  
+
   return (
     <>
-      <div className="flex w-full md:w-1/2 flex-col gap-4  p-6">
+      <div className="border flex w-full md:w-1/2 flex-col gap-4  p-6">
         <div className="flex flex-col text-right">
           <div className="flex items-center gap-2 text-lg font-bold text-gray-800 md:text-xl">
             <span>

@@ -8,6 +8,7 @@ const Button = ({
   onClick,
   customStyle = "",
   circle = false,
+  iconSize="w-6 h-6",
   disabled
 }) => {
   return (
@@ -25,7 +26,7 @@ const Button = ({
         select-none
       `}
     >
-      {icon && <img src={icon} className="w-6 h-6 dark:invert" />}
+      {icon && <img src={icon} className={`${iconSize} dark:invert`} />}
       {content}
     </button>
   );
