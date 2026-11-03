@@ -9,19 +9,15 @@ export default function MyCoursesPage() {
   const [searchText, setSearchText] = useState("");
   const itemsPerPage = 7;
 
-  // ۱. استفاده از API دوره‌های لایک شده
   const { data, isLoading, isError } = useFavoriteCourses();
 
-  // ۲. استخراج آرایه با کلید درست (favoriteCourseDto)
   const allCourses = data?.favoriteCourseDto || [];
 
-  // ۳. فیلتر جستجو به صورت کلاینت‌ساید
   const filteredCourses = useMemo(() => {
     if (!searchText) return allCourses;
     return allCourses.filter((c) => c.courseTitle?.includes(searchText));
   }, [allCourses, searchText]);
 
-  // ۴. صفحه‌بندی به صورت کلاینت‌ساید
   const paginatedCourses = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredCourses.slice(startIndex, startIndex + itemsPerPage);
