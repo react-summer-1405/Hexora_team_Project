@@ -1,8 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
+import DetailModal from "../../common/DetailModal/DetailModal";
+import defaultReactImg from "../../../assets/images/react.png";
 
 export default function CourseList({ courses, isLoading, isError }) {
-  const [failedImages, setFailedImages] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [imageStates, setImageStates] = useState({});
+
+  const handleOpenModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (courses && courses.length > 0) {
+      courses.forEach((item, index) => {
+        const currentId = item.favoriteId || item.courseId || item.id || index;
+        const imageUrl =
+          item.imageAddress ||
+          item.tumbImageAddress ||
+          "/default-placeholder.png";
+
+        if (!imageStates[currentId]) {
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: { isLoading: true, hasError: false, src: "" },
+          }));
+
+          const img = new window.Image();
+          img.src = imageUrl;
+
+          const timeoutId = setTimeout(() => {
+            setImageStates((prev) => ({
+              ...prev,
+              [currentId]: {
+                isLoading: false,
+                hasError: true,
+                src: defaultReactImg,
+              },
+            }));
+          }, 1500);
+
+          img.onload = () => {
+            clearTimeout(timeoutId);
+            setImageStates((prev) => ({
+              ...prev,
+              [currentId]: { isLoading: false, hasError: false, src: imageUrl },
+            }));
+          };
+
+          img.onerror = () => {
+            clearTimeout(timeoutId);
+            setImageStates((prev) => ({
+              ...prev,
+              [currentId]: {
+                isLoading: false,
+                hasError: true,
+                src: defaultReactImg,
+              },
+            }));
+          };
+        }
+      });
+    }
+  }, [courses]);
 
   if (isLoading) {
     return (
@@ -46,13 +108,15 @@ export default function CourseList({ courses, isLoading, isError }) {
               item.favoriteId || item.courseId || item.id || index;
             const title = item.courseTitle || item.title;
             const teacher = item.teacheName || item.teacherName;
-            const imageSrc =
-              item.imageAddress ||
-              item.tumbImageAddress ||
-              "/default-placeholder.png";
             const startTime = item.course?.startTime || item.startTime;
             const endTime = item.course?.endTime || item.endTime;
             const level = item.course?.levelName || item.levelName || "پیشرفته";
+
+            const imgState = imageStates[currentId] || {
+              isLoading: true,
+              hasError: false,
+              src: "",
+            };
 
             return (
               <div
@@ -60,43 +124,47 @@ export default function CourseList({ courses, isLoading, isError }) {
                 className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
               >
                 <div className="hidden lg:block">
-                  {!failedImages[currentId] ? (
-                    <img
-                      src={imageSrc}
-                      alt={title}
-                      onError={() =>
-                        setFailedImages((prev) => ({
-                          ...prev,
-                          [currentId]: true,
-                        }))
-                      }
-                      className="mx-auto h-12 w-12 rounded-[14px] object-cover shadow-sm"
-                    />
-                  ) : (
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-[14px] bg-gray-200 text-[10px] text-gray-500 shadow-sm">
-                      بدون عکس
-                    </div>
-                  )}
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center mx-auto rounded-[14px] shadow-sm ${
+                      imgState.hasError ? "bg-[#87DFFF]" : "bg-gray-100"
+                    }`}
+                  >
+                    {imgState.isLoading ? (
+                      <div className="h-full w-full animate-pulse rounded-[14px] bg-gray-200"></div>
+                    ) : (
+                      <img
+                        src={imgState.src}
+                        alt={title}
+                        className={`h-full w-full rounded-[14px] ${
+                          imgState.hasError
+                            ? "object-contain p-2"
+                            : "object-cover"
+                        }`}
+                      />
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-3 lg:block lg:text-right">
-                  {!failedImages[currentId] ? (
-                    <img
-                      src={imageSrc}
-                      alt={title}
-                      onError={() =>
-                        setFailedImages((prev) => ({
-                          ...prev,
-                          [currentId]: true,
-                        }))
-                      }
-                      className="h-14 w-14 rounded-[14px] object-cover shadow-sm lg:hidden"
-                    />
-                  ) : (
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] bg-gray-200 text-[10px] text-gray-500 shadow-sm lg:hidden">
-                      بدون عکس
-                    </div>
-                  )}
+                  <div
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] shadow-sm lg:hidden ${
+                      imgState.hasError ? "bg-[#87DFFF]" : "bg-gray-100"
+                    }`}
+                  >
+                    {imgState.isLoading ? (
+                      <div className="h-full w-full animate-pulse rounded-[14px] bg-gray-200"></div>
+                    ) : (
+                      <img
+                        src={imgState.src}
+                        alt={title}
+                        className={`h-full w-full rounded-[14px] ${
+                          imgState.hasError
+                            ? "object-contain p-2"
+                            : "object-cover"
+                        }`}
+                      />
+                    )}
+                  </div>
                   <span className="truncate text-sm font-bold text-text-dark">
                     {title}
                   </span>
@@ -139,7 +207,11 @@ export default function CourseList({ courses, isLoading, isError }) {
                   </div>
 
                   <div className="flex items-center justify-end lg:justify-center">
-                    <button className="transition-opacity hover:opacity-75">
+                    <button
+                      type="button"
+                      className="transition-opacity hover:opacity-75"
+                      onClick={() => handleOpenModal(item)}
+                    >
                       <img
                         src={viewIcon}
                         alt="مشاهده"
@@ -153,6 +225,13 @@ export default function CourseList({ courses, isLoading, isError }) {
           })
         )}
       </div>
+
+      <DetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={selectedItem}
+        type="course"
+      />
     </div>
   );
 }

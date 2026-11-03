@@ -1,9 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
 import cancelIcon from "../../../assets/icons/dashboard/cancel-01.png";
 import downloadIcon from "../../../assets/icons/dashboard/book-download-stroke-rounded 1.png";
+import DetailModal from "../../common/DetailModal/DetailModal";
+import defaultReactImg from "../../../assets/images/react.png";
 
 export default function FavoriteList({ favorites, isLoading, isError }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [imageStates, setImageStates] = useState({});
+
+  const handleOpenModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (favorites && favorites.length > 0) {
+      favorites.forEach((favorite, index) => {
+        const currentId = favorite.courseId || index;
+        const imageUrl =
+          favorite.tumbImageAddress || "/default-placeholder.png";
+
+        if (!imageStates[currentId]) {
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: { isLoading: true, hasError: false, src: "" },
+          }));
+
+          const img = new window.Image();
+          img.src = imageUrl;
+
+          const timeoutId = setTimeout(() => {
+            setImageStates((prev) => ({
+              ...prev,
+              [currentId]: {
+                isLoading: false,
+                hasError: true,
+                src: defaultReactImg,
+              },
+            }));
+          }, 1500);
+
+          img.onload = () => {
+            clearTimeout(timeoutId);
+            setImageStates((prev) => ({
+              ...prev,
+              [currentId]: { isLoading: false, hasError: false, src: imageUrl },
+            }));
+          };
+
+          img.onerror = () => {
+            clearTimeout(timeoutId);
+            setImageStates((prev) => ({
+              ...prev,
+              [currentId]: {
+                isLoading: false,
+                hasError: true,
+                src: defaultReactImg,
+              },
+            }));
+          };
+        }
+      });
+    }
+  }, [favorites]);
+
   if (isLoading) {
     return (
       <div className="py-10 text-center text-sm font-medium text-gray-500">
@@ -41,94 +103,142 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
             هیچ دوره‌ای یافت نشد.
           </div>
         ) : (
-          favorites.map((favorite, index) => (
-            <div
-              key={favorite.courseId || index}
-              className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_120px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
-            >
-              <div className="hidden lg:block">
-                <img
-                  src={favorite.tumbImageAddress || "/default-placeholder.png"}
-                  alt={favorite.title}
-                  className="mx-auto h-12 w-12 rounded-[14px] object-cover shadow-sm"
-                />
-              </div>
+          favorites.map((favorite, index) => {
+            const currentId = favorite.courseId || index;
+            const imgState = imageStates[currentId] || {
+              isLoading: true,
+              hasError: false,
+              src: "",
+            };
 
-              <div className="flex items-center gap-3 lg:block lg:text-right">
-                <img
-                  src={favorite.tumbImageAddress || "/default-placeholder.png"}
-                  alt={favorite.title}
-                  className="h-14 w-14 rounded-[14px] object-cover shadow-sm lg:hidden"
-                />
-                <span className="truncate text-sm font-bold text-text-dark">
-                  {favorite.title || "نام دوره"}
-                </span>
-              </div>
+            return (
+              <div
+                key={currentId}
+                className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_120px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
+              >
+                <div className="hidden lg:block">
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center mx-auto rounded-[14px] shadow-sm ${
+                      imgState.hasError ? "bg-[#87DFFF]" : "bg-gray-100"
+                    }`}
+                  >
+                    {imgState.isLoading ? (
+                      <div className="h-full w-full animate-pulse rounded-[14px] bg-gray-200"></div>
+                    ) : (
+                      <img
+                        src={imgState.src}
+                        alt={favorite.title}
+                        className={`h-full w-full rounded-[14px] ${
+                          imgState.hasError
+                            ? "object-contain p-2"
+                            : "object-cover"
+                        }`}
+                      />
+                    )}
+                  </div>
+                </div>
 
-              <div className="flex items-center justify-between text-sm font-bold text-text-dark lg:block lg:font-medium lg:text-gray-700">
-                <span className="text-xs font-normal text-gray-500 lg:hidden">
-                  مدرس:
-                </span>
-                <span>{favorite.teacherName || "نام مدرس"}</span>
-              </div>
-
-              <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
-                <span className="text-xs font-normal text-gray-500 lg:hidden">
-                  تاریخ برگزاری:
-                </span>
-                <span>
-                  {favorite.startTime
-                    ? new Date(favorite.startTime).toLocaleDateString("fa-IR")
-                    : "۲۹ اردیبهشت ۱۴۰۳"}
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
-                <span className="text-xs font-normal text-gray-500 lg:hidden">
-                  تاریخ اتمام:
-                </span>
-                <span>
-                  {favorite.endTime
-                    ? new Date(favorite.endTime).toLocaleDateString("fa-IR")
-                    : "۲۹ اردیبهشت ۱۴۰۳"}
-                </span>
-              </div>
-
-              <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
-                <div className="flex items-center justify-start lg:mx-auto lg:justify-center">
-                  <span className="rounded-full bg-[#F43DF4] px-4 py-1.5 text-[11px] font-medium tracking-wide text-white">
-                    {favorite.levelName || "پیشرفته"}
+                <div className="flex items-center gap-3 lg:block lg:text-right">
+                  <div
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] shadow-sm lg:hidden ${
+                      imgState.hasError ? "bg-[#87DFFF]" : "bg-gray-100"
+                    }`}
+                  >
+                    {imgState.isLoading ? (
+                      <div className="h-full w-full animate-pulse rounded-[14px] bg-gray-200"></div>
+                    ) : (
+                      <img
+                        src={imgState.src}
+                        alt={favorite.title}
+                        className={`h-full w-full rounded-[14px] ${
+                          imgState.hasError
+                            ? "object-contain p-2"
+                            : "object-cover"
+                        }`}
+                      />
+                    )}
+                  </div>
+                  <span className="truncate text-sm font-bold text-text-dark">
+                    {favorite.title || "نام دوره"}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 lg:justify-center">
-                  <button className="text-gray-400 transition-opacity hover:opacity-75">
-                    <img
-                      src={viewIcon}
-                      alt="مشاهده"
-                      className="h-[24px] w-[24px]"
-                    />
-                  </button>
-                  <button className="text-gray-400 transition-opacity hover:opacity-75">
-                    <img
-                      src={downloadIcon}
-                      alt="دانلود"
-                      className="h-[20px] w-[20px]"
-                    />
-                  </button>
-                  <button className="text-red-400 transition-opacity hover:opacity-75">
-                    <img
-                      src={cancelIcon}
-                      alt="حذف"
-                      className="h-[20px] w-[20px]"
-                    />
-                  </button>
+                <div className="flex items-center justify-between text-sm font-bold text-text-dark lg:block lg:font-medium lg:text-gray-700">
+                  <span className="text-xs font-normal text-gray-500 lg:hidden">
+                    مدرس:
+                  </span>
+                  <span>{favorite.teacherName || "نام مدرس"}</span>
+                </div>
+
+                <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
+                  <span className="text-xs font-normal text-gray-500 lg:hidden">
+                    تاریخ برگزاری:
+                  </span>
+                  <span>
+                    {favorite.startTime
+                      ? new Date(favorite.startTime).toLocaleDateString("fa-IR")
+                      : "۲۹ اردیبهشت ۱۴۰۳"}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
+                  <span className="text-xs font-normal text-gray-500 lg:hidden">
+                    تاریخ اتمام:
+                  </span>
+                  <span>
+                    {favorite.endTime
+                      ? new Date(favorite.endTime).toLocaleDateString("fa-IR")
+                      : "۲۹ اردیبهشت ۱۴۰۳"}
+                  </span>
+                </div>
+
+                <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
+                  <div className="flex items-center justify-start lg:mx-auto lg:justify-center">
+                    <span className="rounded-full bg-[#F43DF4] px-4 py-1.5 text-[11px] font-medium tracking-wide text-white">
+                      {favorite.levelName || "پیشرفته"}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-3 lg:justify-center">
+                    <button
+                      type="button"
+                      className="text-gray-400 transition-opacity hover:opacity-75"
+                      onClick={() => handleOpenModal(favorite)}
+                    >
+                      <img
+                        src={viewIcon}
+                        alt="مشاهده"
+                        className="h-[24px] w-[24px]"
+                      />
+                    </button>
+                    <button className="text-gray-400 transition-opacity hover:opacity-75">
+                      <img
+                        src={downloadIcon}
+                        alt="دانلود"
+                        className="h-[20px] w-[20px]"
+                      />
+                    </button>
+                    <button className="text-red-400 transition-opacity hover:opacity-75">
+                      <img
+                        src={cancelIcon}
+                        alt="حذف"
+                        className="h-[20px] w-[20px]"
+                      />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
+
+      <DetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={selectedItem}
+        type="course"
+      />
     </div>
   );
 }

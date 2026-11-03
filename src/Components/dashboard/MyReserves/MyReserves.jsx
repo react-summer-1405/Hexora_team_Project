@@ -1,20 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useFavoriteCourses } from "../../../hooks/dashboard/useFavoriteCourses";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
 import cancelIcon from "../../../assets/icons/dashboard/cancel-01.png";
+import DetailModal from "../../common/DetailModal/DetailModal";
+import defaultReactImg from "../../../assets/images/react.png";
 
 export default function MyReserves() {
   const { data, isLoading, isError } = useFavoriteCourses();
 
-  const [failedImages, setFailedImages] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [imageStates, setImageStates] = useState({});
 
   const reserves = data?.favoriteCourseDto || [];
 
-  const handleImageError = (id) => {
-    setFailedImages((prev) => ({ ...prev, [id]: true }));
+  const handleOpenModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    reserves.forEach((reserve) => {
+      const currentId = reserve.favoriteId;
+      const imageUrl = reserve.imageAddress || "/default-placeholder.png";
+
+      if (!imageStates[currentId]) {
+        setImageStates((prev) => ({
+          ...prev,
+          [currentId]: { isLoading: true, hasError: false, src: "" },
+        }));
+
+        const img = new window.Image();
+        img.src = imageUrl;
+
+        const timeoutId = setTimeout(() => {
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: {
+              isLoading: false,
+              hasError: true,
+              src: defaultReactImg,
+            },
+          }));
+        }, 1500);
+
+        img.onload = () => {
+          clearTimeout(timeoutId);
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: { isLoading: false, hasError: false, src: imageUrl },
+          }));
+        };
+
+        img.onerror = () => {
+          clearTimeout(timeoutId);
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: {
+              isLoading: false,
+              hasError: true,
+              src: defaultReactImg,
+            },
+          }));
+        };
+      }
+    });
+  }, [reserves]);
 
   if (isLoading) {
     return (
@@ -66,27 +119,34 @@ export default function MyReserves() {
             رزروی برای نمایش وجود ندارد.
           </div>
         ) : (
-          reserves.map((reserve, index) => {
-            const currentId = reserve.favoriteId || index;
+          reserves.map((reserve) => {
+            const imgState = imageStates[reserve.favoriteId] || {
+              isLoading: true,
+              hasError: false,
+              src: "",
+            };
 
             return (
               <div
-                key={currentId}
+                key={reserve.favoriteId}
                 className="flex flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm md:grid md:grid-cols-[60px_1.5fr_1fr_1fr_80px] md:items-center md:gap-0 md:border-none md:p-0 md:px-4 md:text-center md:shadow-none"
               >
                 <div className="flex items-center gap-3 md:contents">
-                  {failedImages[currentId] ? (
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] bg-gray-200 text-[10px] text-gray-500 shadow-sm md:mx-auto md:h-12 md:w-12">
-                      بدون عکس
-                    </div>
-                  ) : (
-                    <img
-                      src={reserve.imageAddress}
-                      alt={reserve.courseTitle}
-                      onError={() => handleImageError(currentId)}
-                      className="h-14 w-14 shrink-0 rounded-[14px] object-cover shadow-sm md:mx-auto md:h-12 md:w-12"
-                    />
-                  )}
+                  <div
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] shadow-sm md:mx-auto md:h-12 md:w-12 ${
+                      imgState.hasError ? "bg-[#87DFFF]" : "bg-gray-100"
+                    }`}
+                  >
+                    {imgState.isLoading ? (
+                      <div className="h-full w-full animate-pulse rounded-[14px] bg-gray-200"></div>
+                    ) : (
+                      <img
+                        src={imgState.src}
+                        alt={reserve.courseTitle}
+                        className={`h-full w-full rounded-[14px] ${imgState.hasError ? "object-contain p-2" : "object-cover"}`}
+                      />
+                    )}
+                  </div>
 
                   <div className="flex flex-col gap-1 md:contents">
                     <span className="truncate text-sm font-bold text-[#2F2F2F]">
@@ -110,7 +170,12 @@ export default function MyReserves() {
                   </div>
 
                   <div className="flex items-center justify-end gap-3 md:justify-center">
-                    <button className="transition-opacity hover:opacity-75">
+                    <button
+                      type="button"
+                      className="transition-opacity hover:opacity-75"
+                      aria-label="مشاهده دوره"
+                      onClick={() => handleOpenModal(reserve)}
+                    >
                       <img
                         src={viewIcon}
                         alt="مشاهده"
@@ -131,6 +196,13 @@ export default function MyReserves() {
           })
         )}
       </div>
+
+      <DetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={selectedItem}
+        type="course"
+      />
     </div>
   );
 }
