@@ -18,9 +18,12 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
   useEffect(() => {
     if (favorites && favorites.length > 0) {
       favorites.forEach((favorite, index) => {
-        const currentId = favorite.courseId || index;
+        const currentId = favorite.courseId || favorite.favoriteId || index;
         const imageUrl =
-          favorite.tumbImageAddress || "/default-placeholder.png";
+          favorite.tumbImageAddress ||
+          favorite.imageAddress ||
+          favorite.course?.tumbImageAddress ||
+          "/default-placeholder.png";
 
         if (!imageStates[currentId]) {
           setImageStates((prev) => ({
@@ -104,7 +107,22 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
           </div>
         ) : (
           favorites.map((favorite, index) => {
-            const currentId = favorite.courseId || index;
+            const currentId = favorite.courseId || favorite.favoriteId || index;
+            const title =
+              favorite.courseTitle ||
+              favorite.title ||
+              favorite.course?.title ||
+              "نامشخص";
+            const teacher =
+              favorite.teacheName ||
+              favorite.teacherName ||
+              favorite.course?.teacherName ||
+              "نامشخص";
+            const startTime = favorite.course?.startTime || favorite.startTime;
+            const endTime = favorite.course?.endTime || favorite.endTime;
+            const level =
+              favorite.course?.levelName || favorite.levelName || "پیشرفته";
+
             const imgState = imageStates[currentId] || {
               isLoading: true,
               hasError: false,
@@ -127,7 +145,7 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
                     ) : (
                       <img
                         src={imgState.src}
-                        alt={favorite.title}
+                        alt={title}
                         className={`h-full w-full rounded-[14px] ${
                           imgState.hasError
                             ? "object-contain p-2"
@@ -149,7 +167,7 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
                     ) : (
                       <img
                         src={imgState.src}
-                        alt={favorite.title}
+                        alt={title}
                         className={`h-full w-full rounded-[14px] ${
                           imgState.hasError
                             ? "object-contain p-2"
@@ -159,7 +177,7 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
                     )}
                   </div>
                   <span className="truncate text-sm font-bold text-text-dark">
-                    {favorite.title || "نام دوره"}
+                    {title}
                   </span>
                 </div>
 
@@ -167,7 +185,7 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
                   <span className="text-xs font-normal text-gray-500 lg:hidden">
                     مدرس:
                   </span>
-                  <span>{favorite.teacherName || "نام مدرس"}</span>
+                  <span>{teacher}</span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
@@ -175,9 +193,9 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
                     تاریخ برگزاری:
                   </span>
                   <span>
-                    {favorite.startTime
-                      ? new Date(favorite.startTime).toLocaleDateString("fa-IR")
-                      : "۲۹ اردیبهشت ۱۴۰۳"}
+                    {startTime
+                      ? new Date(startTime).toLocaleDateString("fa-IR")
+                      : "ثبت نشده"}
                   </span>
                 </div>
 
@@ -186,16 +204,16 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
                     تاریخ اتمام:
                   </span>
                   <span>
-                    {favorite.endTime
-                      ? new Date(favorite.endTime).toLocaleDateString("fa-IR")
-                      : "۲۹ اردیبهشت ۱۴۰۳"}
+                    {endTime
+                      ? new Date(endTime).toLocaleDateString("fa-IR")
+                      : "ثبت نشده"}
                   </span>
                 </div>
 
                 <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
                   <div className="flex items-center justify-start lg:mx-auto lg:justify-center">
                     <span className="rounded-full bg-[#F43DF4] px-4 py-1.5 text-[11px] font-medium tracking-wide text-white">
-                      {favorite.levelName || "پیشرفته"}
+                      {level}
                     </span>
                   </div>
 
