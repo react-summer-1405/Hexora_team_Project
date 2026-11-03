@@ -71,7 +71,7 @@ export default function MyComments() {
               <img
                 src={comment.avatar}
                 alt={comment.author}
-                className="h-10 w-10 rounded-full object-cover shadow-sm"
+                className="h-10 w-10 shrink-0 rounded-full object-cover shadow-sm"
               />
               <div className="flex flex-col text-right">
                 <span className="text-sm font-bold text-text-dark">
@@ -94,14 +94,17 @@ export default function MyComments() {
               <div className="flex items-center justify-end gap-4 text-text-muted">
                 <div className="flex items-center gap-1">
                   <span className="text-xs font-bold">{comment.likes}</span>
+
                   <img
                     src={thumbsUpIcon}
                     alt="لایک"
                     className="h-[24px] w-[24px]"
                   />
                 </div>
+
                 <div className="flex items-center gap-1">
                   <span className="text-xs font-bold">{comment.dislikes}</span>
+
                   <img
                     src={thumbsDownIcon}
                     alt="دیس‌لایک"

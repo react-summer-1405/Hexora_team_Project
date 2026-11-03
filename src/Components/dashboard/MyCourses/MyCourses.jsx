@@ -1,23 +1,84 @@
+import  { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useCourses } from "../../../hooks/dashboard/useCourses";
+import { useFavoriteCourses } from "../../../hooks/dashboard/useFavoriteCourses";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
+import DetailModal from "../../common/DetailModal/DetailModal";
+import defaultReactImg from "../../../assets/images/react.png";
 
 export default function MyCourses() {
-  const { data, isLoading, isError } = useCourses();
-  const latestCourses = data?.courseFilterDtos?.slice(0, 3) || [];
+  const { data, isLoading, isError } = useFavoriteCourses();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [imageStates, setImageStates] = useState({});
+
+  const latestCourses = data?.favoriteCourseDto?.slice(0, 3) || [];
+
+  const handleOpenModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    latestCourses.forEach((item) => {
+      const currentId = item.favoriteId;
+      const imageUrl = item.imageAddress || "/default-placeholder.png";
+
+      if (!imageStates[currentId]) {
+        setImageStates((prev) => ({
+          ...prev,
+          [currentId]: { isLoading: true, hasError: false, src: "" },
+        }));
+
+        const img = new window.Image();
+        img.src = imageUrl;
+
+        const timeoutId = setTimeout(() => {
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: {
+              isLoading: false,
+              hasError: true,
+              src: defaultReactImg,
+            },
+          }));
+        }, 1500);
+
+        img.onload = () => {
+          clearTimeout(timeoutId);
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: { isLoading: false, hasError: false, src: imageUrl },
+          }));
+        };
+
+        img.onerror = () => {
+          clearTimeout(timeoutId);
+          setImageStates((prev) => ({
+            ...prev,
+            [currentId]: {
+              isLoading: false,
+              hasError: true,
+              src: defaultReactImg,
+            },
+          }));
+        };
+      }
+    });
+  }, [latestCourses]);
 
   return (
     <div
-      className="mt-6 w-full rounded-[24px] bg-bg-light p-4 text-right md:p-6 lg:w-[75%] dark:bg-bg-field"
+      className="mt-6 w-full min-w-0 rounded-[24px] bg-bg-light p-4 text-right lg:flex-[3] md:p-6"
       dir="rtl"
     >
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-base font-bold text-text-dark">دوره من</h3>
+      <div className="mb-6 flex items-center justify-between gap-2">
+        <h3 className="text-base font-bold text-gray-800">دوره‌ من</h3>
 
         <Link
-          to="/dashboard/my-courses"
-          className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary-hover"
+          to="/dashboard/my-FavoriteCourses"
+          className="flex shrink-0 items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-600"
         >
           <img
             src={arrowLeftIcon}
@@ -51,73 +112,106 @@ export default function MyCourses() {
             دوره‌ای برای نمایش وجود ندارد.
           </div>
         ) : (
-          latestCourses.map((course) => (
-            <div
-              key={course.courseId}
-              className="flex flex-col gap-4 rounded-2xl border border-border/50 p-4 shadow-sm md:grid md:grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] md:items-center md:gap-0 md:border-none md:p-0 md:px-4 md:text-center md:shadow-none"
-            >
-              <div className="flex items-center gap-3 md:contents">
-                <img
-                  src={course.tumbImageAddress || "/default-placeholder.png"}
-                  alt={course.title}
-                  className="h-[52px] w-[83px] shrink-0 rounded-[14px] object-cover shadow-sm md:mx-auto"
-                />
+          latestCourses.map((item) => {
+            const imgState = imageStates[item.favoriteId] || {
+              isLoading: true,
+              hasError: false,
+              src: "",
+            };
 
-                <div className="flex flex-col gap-1 md:contents">
-                  <span
-                    className="truncate whitespace-nowrap text-sm font-bold text-text-dark"
-                    title={course.title}
+            return (
+              <div
+                key={item.favoriteId}
+                className="flex min-w-0 flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm 2xl:grid 2xl:grid-cols-[90px_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)_90px_40px] 2xl:items-center 2xl:gap-0 2xl:border-none 2xl:p-0 2xl:px-4 2xl:text-center 2xl:shadow-none"
+              >
+                <div className="flex min-w-0 items-center gap-3 2xl:contents">
+                  <div
+                    className={`flex h-[52px] w-[83px] shrink-0 items-center justify-center rounded-[14px] shadow-sm 2xl:mx-auto ${
+                      imgState.hasError ? "bg-[#87DFFF]" : "bg-gray-100"
+                    }`}
                   >
-                    {course.title?.length > 20
-                      ? course.title.substring(0, 20) + "..."
-                      : course.title}
-                  </span>
+                    {imgState.isLoading ? (
+                      <div className="h-full w-full animate-pulse rounded-[14px] bg-gray-200"></div>
+                    ) : (
+                      <img
+                        src={imgState.src}
+                        alt={item.courseTitle}
+                        className={`h-full w-full rounded-[14px] ${
+                          imgState.hasError
+                            ? "object-contain p-2"
+                            : "object-cover"
+                        }`}
+                      />
+                    )}
+                  </div>
 
-                  <span className="text-xs font-medium text-text-muted md:hidden">
-                    {course.teacherName}
-                  </span>
+                  <div className="flex min-w-0 flex-col gap-1 2xl:contents">
+                    <span
+                      className="min-w-0 truncate whitespace-nowrap text-sm font-bold text-gray-800 2xl:px-2"
+                      title={item.courseTitle}
+                    >
+                      {item.courseTitle?.length > 20
+                        ? item.courseTitle.substring(0, 20) + "..."
+                        : item.courseTitle}
+                    </span>
+
+                    <span className="text-xs font-medium text-gray-500 2xl:hidden">
+                      {item.teacheName}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <span className="hidden text-sm font-medium text-text-dark md:block">
-                {course.teacherName}
-              </span>
-
-              <div className="flex items-center justify-between border-t border-border/30 pt-3 md:contents md:border-none md:pt-0">
-                <span className="text-xs font-medium text-text-muted md:text-sm md:text-text-dark">
-                  {course.startTime
-                    ? new Date(course.startTime).toLocaleDateString("fa-IR", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
-                    : "-"}
+                <span className="hidden min-w-0 break-words px-2 text-sm font-medium text-gray-700 2xl:block">
+                  {item.teacheName}
                 </span>
 
-                <div className="flex items-center justify-center md:mx-auto">
-                  <span className="rounded-full bg-badge-purple px-3 py-1 text-[10px] font-medium tracking-wide text-text-light md:px-4 md:py-1.5 md:text-[11px]">
-                    {course.levelName}
+                <div className="flex min-w-0 items-center justify-between gap-3 border-t border-gray-50 pt-3 2xl:contents 2xl:border-none 2xl:pt-0">
+                  <span className="min-w-0 text-xs font-medium text-gray-600 2xl:whitespace-nowrap 2xl:px-1 2xl:text-sm 2xl:text-gray-700">
+                    {item.course?.startTime
+                      ? new Date(item.course.startTime).toLocaleDateString(
+                          "fa-IR",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )
+                      : "-"}
                   </span>
-                </div>
 
-                <div className="flex items-center justify-end gap-3 md:justify-center">
-                  <button
-                    type="button"
-                    className="transition-opacity hover:opacity-75"
-                    aria-label="مشاهده دوره"
-                  >
-                    <img
-                      src={viewIcon}
-                      alt="مشاهده"
-                      className="h-[24px] w-[24px] dark:invert"
-                    />
-                  </button>
+                  <div className="flex shrink-0 items-center justify-center 2xl:mx-auto">
+                    <span className="rounded-full bg-[#F43DF4] px-3 py-1 text-[10px] font-medium tracking-wide text-white 2xl:px-4 2xl:py-1.5 2xl:text-[11px]">
+                      پیشرفته
+                    </span>
+                  </div>
+
+                  <div className="flex shrink-0 items-center justify-end gap-3 2xl:justify-center">
+                    <button
+                      type="button"
+                      className="transition-opacity hover:opacity-75"
+                      aria-label="مشاهده دوره"
+                      onClick={() => handleOpenModal(item)}
+                    >
+                      <img
+                        src={viewIcon}
+                        alt="مشاهده"
+                        className="h-[24px] w-[24px]"
+                      />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
+
+      <DetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={selectedItem}
+        type="course"
+      />
     </div>
   );
 }

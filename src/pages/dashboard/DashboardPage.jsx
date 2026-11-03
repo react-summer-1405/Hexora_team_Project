@@ -7,20 +7,21 @@ import MyComments from "../../Components/dashboard/MyComments/MyComments";
 
 export default function DashboardPage() {
   return (
-    <div className="w-full p-4">
-      <div className="flex w-full flex-col gap-4 md:flex-row">
+    <div className="w-full min-w-0 p-4">
+      <div className="flex w-full min-w-0 flex-col gap-4 lg:flex-row">
         <WelcomeHeader />
-
         <BioHeader />
       </div>
-      <div className="w-full">
-        <div className="flex w-full flex-col gap-4 md:flex-row">
+
+      <div className="w-full min-w-0">
+        <div className="flex w-full min-w-0 flex-col gap-4 lg:flex-row">
           <MyCourses />
           <ProfileStatus />
         </div>
       </div>
-      <div className="w-full">
-        <div className="flex w-full flex-col gap-4 md:flex-row">
+
+      <div className="w-full min-w-0">
+        <div className="flex w-full min-w-0 flex-col gap-4 lg:flex-row">
           <MyReserves />
           <MyComments />
         </div>
