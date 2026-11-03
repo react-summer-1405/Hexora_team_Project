@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import { useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import AccountInfo from "../../Components/dashboard/Profile/AccountInfo";
 import ProfilePhotos from "../../Components/dashboard/Profile/ProfilePhotos";
 import ProfileLocation from "../../Components/dashboard/Profile/ProfileLocation";
 import ProfileLinks from "../../Components/dashboard/Profile/ProfileLinks";
+
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("account");
+  const contentRef = useRef(null);
 
-  
   const tabs = [
     { id: "account", label: "اطلاعات حساب کاربری" },
     { id: "photos", label: "عکس ها" },
@@ -14,13 +17,30 @@ export default function ProfilePage() {
     { id: "links", label: "لینک ها" },
   ];
 
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "transform,opacity",
+        },
+      );
+    },
+    { scope: contentRef, dependencies: [activeTab], revertOnUpdate: true },
+  );
+
   return (
     <div
-      className="flex w-full flex-col gap-8 rounded-[24px] h-full p-6 lg:flex-row"
+      className="flex h-full w-full flex-col gap-8 rounded-[24px] p-6 lg:flex-row"
       dir="rtl"
     >
-      <div className="flex flex-col lg:w-[248px] shrink-0 lg:border-l lg:border-gray-200 lg:pl-6">
-        <h2 className="mb-6 text-[24px] font-[800] text-[#2f2f2d]">
+      <div className="flex shrink-0 flex-col lg:w-[248px] lg:border-l lg:border-border lg:pl-6">
+        <h2 className="mb-6 text-[24px] font-[800] text-text-dark">
           پروفایل من
         </h2>
 
@@ -29,10 +49,10 @@ export default function ProfilePage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex h-[48px] w-[192px] shrink-0 items-center justify-center rounded-[48px] transition-all duration-300 ${
+              className={`flex h-[48px] w-[192px] shrink-0 cursor-pointer items-center justify-center rounded-[48px] transition-all duration-300 ${
                 activeTab === tab.id
-                  ? "bg-[#f1f1f1] text-[18px] font-semibold text-blue-500"
-                  : "bg-[#fcfcfc] text-[16px] font-semibold text-text-muted hover:bg-gray-50"
+                  ? "bg-bg-field text-[18px] font-semibold text-primary dark:bg-border"
+                  : "bg-bg-main text-[16px] font-semibold text-text-muted hover:bg-bg-field"
               }`}
             >
               {tab.label}
@@ -41,7 +61,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="w-full flex-1 lg:pr-4">
+      <div ref={contentRef} className="w-full flex-1 lg:pr-4">
         {activeTab === "account" && <AccountInfo />}
 
         {activeTab === "photos" && <ProfilePhotos />}

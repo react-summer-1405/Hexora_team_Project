@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useCourses } from "../../../hooks/dashboard/useCourses";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
@@ -10,15 +9,15 @@ export default function MyCourses() {
 
   return (
     <div
-      className="mt-6 w-full lg:w-[75%] rounded-[24px] bg-bg-light p-4 md:p-6 text-right"
+      className="mt-6 w-full rounded-[24px] bg-bg-light p-4 text-right md:p-6 lg:w-[75%] dark:bg-bg-field"
       dir="rtl"
     >
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-base font-bold text-gray-800">دوره من</h3>
+        <h3 className="text-base font-bold text-text-dark">دوره من</h3>
 
         <Link
           to="/dashboard/my-courses"
-          className="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-600"
+          className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary-hover"
         >
           <img
             src={arrowLeftIcon}
@@ -29,7 +28,7 @@ export default function MyCourses() {
         </Link>
       </div>
 
-      <div className="mb-4 hidden md:grid grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] items-center rounded-2xl bg-text-light px-4 py-3 text-center text-xs font-medium text-gray-500">
+      <div className="mb-4 hidden grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] items-center rounded-2xl bg-bg-field px-4 py-3 text-center text-xs font-medium text-text-muted md:grid dark:bg-bg-light">
         <span>#</span>
         <span>نام</span>
         <span>مدرس</span>
@@ -40,22 +39,22 @@ export default function MyCourses() {
 
       <div className="flex flex-col gap-4">
         {isLoading ? (
-          <div className="py-4 text-center text-sm text-gray-500">
+          <div className="py-4 text-center text-sm text-text-muted">
             در حال دریافت اطلاعات دوره‌ها...
           </div>
         ) : isError ? (
-          <div className="py-4 text-center text-sm text-red-500">
+          <div className="py-4 text-center text-sm text-danger">
             خطا در دریافت اطلاعات.
           </div>
         ) : latestCourses.length === 0 ? (
-          <div className="py-4 text-center text-sm text-gray-500">
+          <div className="py-4 text-center text-sm text-text-muted">
             دوره‌ای برای نمایش وجود ندارد.
           </div>
         ) : (
           latestCourses.map((course) => (
             <div
               key={course.courseId}
-              className="flex flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm md:grid md:grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] md:items-center md:gap-0 md:border-none md:p-0 md:px-4 md:text-center md:shadow-none"
+              className="flex flex-col gap-4 rounded-2xl border border-border/50 p-4 shadow-sm md:grid md:grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] md:items-center md:gap-0 md:border-none md:p-0 md:px-4 md:text-center md:shadow-none"
             >
               <div className="flex items-center gap-3 md:contents">
                 <img
@@ -66,7 +65,7 @@ export default function MyCourses() {
 
                 <div className="flex flex-col gap-1 md:contents">
                   <span
-                    className="truncate whitespace-nowrap teسxt-sm font-bold text-text-dark"
+                    className="truncate whitespace-nowrap text-sm font-bold text-text-dark"
                     title={course.title}
                   >
                     {course.title?.length > 20
@@ -74,18 +73,18 @@ export default function MyCourses() {
                       : course.title}
                   </span>
 
-                  <span className="text-xs font-medium text-gray-500 md:hidden">
+                  <span className="text-xs font-medium text-text-muted md:hidden">
                     {course.teacherName}
                   </span>
                 </div>
               </div>
 
-              <span className="hidden text-sm font-medium text-gray-700 md:block">
+              <span className="hidden text-sm font-medium text-text-dark md:block">
                 {course.teacherName}
               </span>
 
-              <div className="flex items-center justify-between border-t border-gray-50 pt-3 md:contents md:border-none md:pt-0">
-                <span className="text-xs font-medium text-gray-600 md:text-sm md:text-gray-700">
+              <div className="flex items-center justify-between border-t border-border/30 pt-3 md:contents md:border-none md:pt-0">
+                <span className="text-xs font-medium text-text-muted md:text-sm md:text-text-dark">
                   {course.startTime
                     ? new Date(course.startTime).toLocaleDateString("fa-IR", {
                         year: "numeric",
@@ -96,7 +95,7 @@ export default function MyCourses() {
                 </span>
 
                 <div className="flex items-center justify-center md:mx-auto">
-                  <span className="rounded-full bg-[#F43DF4] px-3 py-1 text-[10px] font-medium tracking-wide text-white md:px-4 md:py-1.5 md:text-[11px]">
+                  <span className="rounded-full bg-badge-purple px-3 py-1 text-[10px] font-medium tracking-wide text-text-light md:px-4 md:py-1.5 md:text-[11px]">
                     {course.levelName}
                   </span>
                 </div>
@@ -110,7 +109,7 @@ export default function MyCourses() {
                     <img
                       src={viewIcon}
                       alt="مشاهده"
-                      className="h-[24px] w-[24px]"
+                      className="h-[24px] w-[24px] dark:invert"
                     />
                   </button>
                 </div>

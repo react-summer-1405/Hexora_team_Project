@@ -1,10 +1,9 @@
-import React from "react";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
 
 export default function CourseList({ courses, isLoading, isError }) {
   if (isLoading) {
     return (
-      <div className="py-10 text-center text-sm font-medium text-gray-500">
+      <div className="py-10 text-center text-sm font-medium text-text-muted">
         در حال دریافت اطلاعات دوره‌ها...
       </div>
     );
@@ -12,7 +11,7 @@ export default function CourseList({ courses, isLoading, isError }) {
 
   if (isError) {
     return (
-      <div className="py-10 text-center text-sm font-medium text-red-500">
+      <div className="py-10 text-center text-sm font-medium text-danger">
         خطا در دریافت اطلاعات. لطفا دوباره تلاش کنید.
       </div>
     );
@@ -20,10 +19,10 @@ export default function CourseList({ courses, isLoading, isError }) {
 
   return (
     <div
-      className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8"
+      className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8 dark:bg-bg-field"
       dir="rtl"
     >
-      <div className="hidden h-[44px] items-center rounded-2xl bg-text-light px-4 text-center text-sm font-medium text-gray-500 lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px]">
+      <div className="hidden h-[44px] items-center rounded-2xl bg-bg-field px-4 text-center text-sm font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px] dark:bg-bg-light">
         <span>#</span>
         <span className="text-right">نام</span>
         <span>مدرس</span>
@@ -35,14 +34,14 @@ export default function CourseList({ courses, isLoading, isError }) {
 
       <div className="flex flex-col gap-4 lg:gap-8">
         {courses.length === 0 ? (
-          <div className="py-10 text-center text-sm text-gray-500">
+          <div className="py-10 text-center text-sm text-text-muted">
             هیچ دوره‌ای یافت نشد.
           </div>
         ) : (
           courses.map((course, index) => (
             <div
               key={course.courseId || index}
-              className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
+              className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none dark:bg-bg-light dark:lg:bg-transparent"
             >
               <div className="hidden lg:block">
                 <img
@@ -64,14 +63,14 @@ export default function CourseList({ courses, isLoading, isError }) {
               </div>
 
               <div className="flex items-center justify-between text-sm font-bold text-text-dark lg:block">
-                <span className="text-xs font-normal text-gray-500 lg:hidden">
+                <span className="text-xs font-normal text-text-muted lg:hidden">
                   مدرس:
                 </span>
                 <span>{course.teacherName}</span>
               </div>
 
               <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
-                <span className="text-xs font-normal text-gray-500 lg:hidden">
+                <span className="text-xs font-normal text-text-muted lg:hidden">
                   تاریخ برگزاری:
                 </span>
                 <span>
@@ -82,7 +81,7 @@ export default function CourseList({ courses, isLoading, isError }) {
               </div>
 
               <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
-                <span className="text-xs font-normal text-gray-500 lg:hidden">
+                <span className="text-xs font-normal text-text-muted lg:hidden">
                   تاریخ اتمام:
                 </span>
                 <span>
@@ -92,9 +91,9 @@ export default function CourseList({ courses, isLoading, isError }) {
                 </span>
               </div>
 
-              <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
+              <div className="mt-2 flex items-center justify-between border-t border-border/50 pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
                 <div className="flex items-center justify-start lg:mx-auto lg:justify-center">
-                  <span className="rounded-full bg-[#F43DF4] px-4 py-1.5 text-[11px] font-medium tracking-wide text-white">
+                  <span className="rounded-full bg-badge-purple px-4 py-1.5 text-[11px] font-medium tracking-wide text-text-light">
                     {course.levelName || "پیشرفته"}
                   </span>
                 </div>
@@ -104,7 +103,7 @@ export default function CourseList({ courses, isLoading, isError }) {
                     <img
                       src={viewIcon}
                       alt="مشاهده"
-                      className="h-[24px] w-[24px]"
+                      className="h-[24px] w-[24px] dark:invert"
                     />
                   </button>
                 </div>

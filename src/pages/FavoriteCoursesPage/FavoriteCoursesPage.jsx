@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import FavoriteFilter from "../../Components/dashboard/FavoriteCoursesPage/FavoriteFilter";
 import FavoriteList from "../../Components/dashboard/FavoriteCoursesPage/FavoriteList";
 import CoursePagination from "../../Components/dashboard/MyCoursesPage/CoursePagination";

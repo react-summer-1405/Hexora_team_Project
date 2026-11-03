@@ -34,7 +34,6 @@ export default function ProfilePhotos() {
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   const isDeleteModalOpen = deleteTarget !== null;
-  const isBusy = isAdding || isSelecting;
 
   useEffect(() => {
     return () => {
@@ -56,7 +55,6 @@ export default function ProfilePhotos() {
       return;
     }
 
-    setSelectedId(null);
     setImage(file);
     setPreviewUrl(URL.createObjectURL(file));
   };
@@ -65,31 +63,37 @@ export default function ProfilePhotos() {
     setSelectedId((prev) => (prev === id ? null : id));
   };
 
-  const handleSubmit = () => {
-    if (isBusy) return;
+  const handleAddImage = () => {
+    if (isAdding) return;
 
-    if (selectedId) {
-      selectImage(selectedId, {
-        onSuccess: (data) => {
-          if (data?.success) setSelectedId(null);
-        },
-      });
+    if (!image) {
+      toast.error("ابتدا یک عکس آپلود کنید");
       return;
     }
 
-    if (image) {
-      addImage(image, {
-        onSuccess: (data) => {
-          if (data?.success) {
-            setImage(null);
-            setPreviewUrl(null);
-          }
-        },
-      });
+    addImage(image, {
+      onSuccess: (data) => {
+        if (data?.success) {
+          setImage(null);
+          setPreviewUrl(null);
+        }
+      },
+    });
+  };
+
+  const handleSetProfileImage = () => {
+    if (isSelecting) return;
+
+    if (!selectedId) {
+      toast.error("ابتدا یکی از عکس‌های لیست را انتخاب کنید");
       return;
     }
 
-    toast.error("ابتدا یک عکس انتخاب کنید");
+    selectImage(selectedId, {
+      onSuccess: (data) => {
+        if (data?.success) setSelectedId(null);
+      },
+    });
   };
 
   const handleToggleMenu = (id) => {
@@ -117,27 +121,37 @@ export default function ProfilePhotos() {
       },
       onSettled: () => setDeleteTarget(null),
     });
-
-    console.log("delete Image", deleteTarget);
   };
+
   return (
     <div className="flex w-full flex-col gap-6" dir="rtl">
-      <div className="flex w-full justify-start">
+      <div className="flex w-full flex-wrap items-center justify-between gap-3">
         <Button
           color="bg-primary"
           icon={addIcon}
-          content={isBusy ? "در حال ارسال..." : "اضافه کردن عکس"}
-          onClick={handleSubmit}
+          content={isAdding ? "در حال ارسال..." : "اضافه کردن عکس"}
+          customStyle={!image || isAdding ? "opacity-50" : ""}
+          onClick={handleAddImage}
+        />
+
+        <Button
+          color="bg-primary"
+          icon={imageAddIcon}
+          content={isSelecting ? "در حال ثبت..." : "انتخاب به‌عنوان عکس پروفایل"}
+          customStyle={!selectedId || isSelecting ? "opacity-50" : ""}
+          onClick={handleSetProfileImage}
         />
       </div>
 
-      <div className="mt-4 flex flex-wrap items-start justify-start gap-4 text-sm text-gray-500">
+      <div className="mt-4 flex flex-wrap items-start justify-start gap-4 text-sm text-text-muted">
         {profileImages.map((photo, index) => (
           <div
             key={photo.id}
             onClick={() => handleSelectImage(photo.id)}
             className={`relative flex cursor-pointer flex-col items-start justify-start rounded-[16px] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:scale-95 ${
-              selectedId === photo.id ? "ring-2 ring-primary ring-offset-2" : ""
+              selectedId === photo.id
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-white dark:ring-offset-bg-light"
+                : ""
             } ${menuOpenId === photo.id ? "z-20" : ""}`}
           >
             <div className="absolute top-2 right-2 z-20 flex items-center gap-2">
@@ -167,7 +181,7 @@ export default function ProfilePhotos() {
                       e.stopPropagation();
                       handleOpenDeleteModal(photo.id);
                     }}
-                    className="cursor-pointer text-center text-xs text-danger transition-colors hover:bg-gray-100"
+                    className="cursor-pointer text-center text-xs text-danger transition-colors hover:bg-bg-field"
                   >
                     <span>حذف عکس</span>
                   </div>
@@ -236,7 +250,7 @@ export default function ProfilePhotos() {
                 <div className="absolute top-full right-0 z-20 mt-2 w-max overflow-hidden rounded-[12px] bg-bg-light p-2 text-text-dark shadow-lg">
                   <div
                     onClick={() => handleOpenDeleteModal(PREVIEW_ID)}
-                    className="cursor-pointer text-center text-xs text-danger transition-colors hover:bg-gray-100"
+                    className="cursor-pointer text-center text-xs text-danger transition-colors hover:bg-bg-field"
                   >
                     <span>حذف عکس</span>
                   </div>
@@ -262,7 +276,7 @@ export default function ProfilePhotos() {
         onClick={() => setDeleteTarget(null)}
       >
         <div
-          className={`flex w-full max-w-sm flex-col items-center gap-5 rounded-[16px] bg-white p-6 text-center text-gray-800 transition-all duration-300 ease-out ${
+          className={`flex w-full max-w-sm flex-col items-center gap-5 rounded-[16px] bg-white p-6 text-center text-text-dark transition-all duration-300 ease-out dark:bg-bg-field ${
             isDeleteModalOpen
               ? "translate-y-0 scale-100 opacity-100"
               : "translate-y-4 scale-95 opacity-0"
@@ -284,7 +298,7 @@ export default function ProfilePhotos() {
             </div>
             <div
               onClick={() => setDeleteTarget(null)}
-              className="flex-1 cursor-pointer rounded-[12px] bg-gray-200 py-2 text-gray-800 transition-opacity hover:opacity-80"
+              className="flex-1 cursor-pointer rounded-[12px] bg-border py-2 text-text-dark transition-opacity hover:opacity-80"
             >
               <span>انصراف</span>
             </div>

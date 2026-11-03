@@ -10,23 +10,23 @@ export default function FavoriteBlogFilter({
 }) {
   return (
     <div className="mb-6 flex flex-col gap-6" dir="rtl">
-      <h2 className="text-xl font-bold text-right text-gray-800">
+      <h2 className="text-right text-xl font-bold text-text-dark">
         بلاگ های موردعلاقه
       </h2>
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end">
         <div className="flex flex-col gap-4 md:flex-row md:items-end">
           <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-1 text-gray-800">
+            <div className="flex items-center gap-1 text-text-dark">
               <img
                 src={searchLabelIcon}
                 alt="جست‌جو"
-                className="h-[24px] w-[24px]"
+                className="h-[24px] w-[24px] dark:invert"
               />
               <span className="text-sm font-bold">جست‌جو</span>
             </div>
 
-            <div className="flex h-[48px] w-full items-center rounded-[16px] bg-text-light lg:w-[340px]">
+            <div className="flex h-[48px] w-full items-center rounded-[16px] bg-bg-field lg:w-[340px]">
               <input
                 type="text"
                 placeholder="مورد نظر را جست‌جو کنید..."
@@ -35,9 +35,9 @@ export default function FavoriteBlogFilter({
                   setSearchText(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full bg-transparent px-4 pr-6 text-xs font-medium text-gray-700 outline-none placeholder:text-gray-400"
+                className="w-full bg-transparent px-4 pr-6 text-xs font-medium text-text-dark outline-none placeholder:text-text-muted"
               />
-              <button className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[16px] bg-blue-500 text-white shadow-sm transition-colors hover:bg-blue-600">
+              <button className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[16px] bg-primary text-text-light shadow-sm transition-colors hover:bg-primary-hover">
                 <img
                   src={searchBtnIcon}
                   alt="جست‌جو"
@@ -48,16 +48,16 @@ export default function FavoriteBlogFilter({
           </div>
 
           <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-1 text-gray-800">
+            <div className="flex items-center gap-1 text-text-dark">
               <img
                 src={calendarIcon}
                 alt="تقویم"
-                className="h-[24px] w-[24px]"
+                className="h-[24px] w-[24px] dark:invert"
               />
               <span className="text-sm font-bold">تاریخ برگزاری - اتمام</span>
             </div>
 
-            <div className="flex h-[48px] items-center justify-center rounded-[16px] bg-text-light px-6 text-xs font-medium text-gray-500 md:min-w-[260px]">
+            <div className="flex h-[48px] items-center justify-center rounded-[16px] bg-bg-field px-6 text-xs font-medium text-text-muted md:min-w-[260px]">
               ۲۹ اردیبهشت ۱۴۰۳ - ۵ خرداد ۱۴۰۳
             </div>
           </div>

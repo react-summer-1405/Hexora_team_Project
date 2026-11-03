@@ -11,6 +11,7 @@ import { loginProgressSteps } from "../../../Components/common/auth/authProgress
 import { useDispatch } from "react-redux";
 import { setUserId } from "../../../Components/features/auth/authSlice.js";
 import toast from "react-hot-toast";
+import home from "../../../assets/icons/home-04.svg"
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -19,18 +20,16 @@ export default function LoginPage() {
 
   const loginMutation = useMutation({
   mutationFn: loginApi,
-  onSuccess: (data) => {
-         // console.log("ورود موفقیت‌آمیز بود (ریسپانس سرور):", data);
+onSuccess: (data) => {
+  if (data?.token) {
+    setItem("token", data.token);
+  }
 
-    dispatch(setUserId(data.id));
+  dispatch(setUserId(data.id));
 
-    if (data?.token) {
-      setItem("token", data.token);
-    }
-
-    toast.success("با موفقیت وارد شدید");
-    navigate("/");
-  },
+  toast.success("با موفقیت وارد شدید");
+  navigate("/");
+},
   onError: (error) => { 
 
     toast.error(
@@ -177,8 +176,9 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => navigate("/")}
-            className="mt-6 flex h-10 w-[141px] cursor-pointer items-center justify-center rounded-[34px] border border-[#dcdcdc] bg-[#fcfcfc] font-semibold text-primary transition-colors hover:bg-gray-50"
+            className="mt-6 flex h-10 w-[141px] cursor-pointer  gap-2 flex-row-reverse items-center justify-center rounded-[34px] border border-[#dcdcdc] bg-[#fcfcfc] font-semibold text-primary transition-colors hover:bg-gray-50"
           >
+            <img src={home}  />
             صفحه اصلی
           </button>
         </div>

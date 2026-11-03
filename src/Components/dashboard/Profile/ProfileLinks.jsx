@@ -2,7 +2,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import Button from "../../common/Button";
-import { useProfile, useUpdateProfile } from "../../../hooks/dashboard/userProfile";
+import {
+  useProfile,
+  useUpdateProfile,
+} from "../../../hooks/dashboard/userProfile";
 
 const validationSchema = Yup.object({
   telegram: Yup.string().trim().url("لینک تلگرام معتبر نیست"),
@@ -12,12 +15,11 @@ const validationSchema = Yup.object({
 
 export default function ProfileLinks() {
   const { mutate, isPending } = useUpdateProfile();
-  const{data:profile}=useProfile()
+  const { data: profile } = useProfile();
 
-     const birthDay = profile?.birthDay ?? ""
+  const birthDay = profile?.birthDay ?? "";
 
-     console.log("birthday",birthDay);
-     
+  console.log("birthday", birthDay);
 
   const initialValues = {
     telegram: "",
@@ -26,7 +28,7 @@ export default function ProfileLinks() {
 
   const handleSubmit = (values) => {
     mutate({
-      BirthDay:birthDay,
+      BirthDay: birthDay,
       TelegramLink: values.telegram,
       LinkdinProfile: values.linkedin,
     });
@@ -48,13 +50,13 @@ export default function ProfileLinks() {
             type="text"
             name="telegram"
             placeholder="لینک تلگرام خود را وارد کنید"
-            className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-[#dcdcdc] bg-bg-main px-5 text-[12px] font-medium text-text-muted outline-none focus:border-blue-400"
+            className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-border bg-bg-main px-5 text-[12px] font-medium text-text-muted outline-none focus:border-primary"
           />
 
           <ErrorMessage
             name="telegram"
             component="p"
-            className="text-xs text-red-500"
+            className="text-xs text-danger"
           />
         </div>
 
@@ -67,13 +69,13 @@ export default function ProfileLinks() {
             type="text"
             name="linkedin"
             placeholder="لینک لینکدین خود را وارد کنید"
-            className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-[#dcdcdc] bg-bg-main px-5 text-[12px] font-medium text-text-muted outline-none focus:border-blue-400"
+            className="h-[48px] w-full max-w-[576px] rounded-[24px] border border-border bg-bg-main px-5 text-[12px] font-medium text-text-muted outline-none focus:border-primary"
           />
 
           <ErrorMessage
             name="linkedin"
             component="p"
-            className="text-xs text-red-500"
+            className="text-xs text-danger"
           />
         </div>
 

@@ -5,7 +5,10 @@ const initialState = {
   userId: localStorage.getItem("userId")
     ? Number(localStorage.getItem("userId"))
     : null,
+      profileImage: localStorage.getItem("profileImage") || null,
+
 };
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -18,17 +21,22 @@ const authSlice = createSlice({
 
         },
 
-        logout: (state) => {
+            setProfileImage: (state, action) => {
+      state.profileImage = action.payload;
+      setItem("profileImage", action.payload);
+    },
 
-            state.userId = null
+    logout: (state) => {
+      state.userId = null;
+      state.profileImage = null;
 
-        removeItem("userId");
-
-        }
+      removeItem("userId");
+      removeItem("profileImage");
+    },
     }
 })
 
-export const { setUserId, logout } = authSlice.actions;
+export const { setUserId,setProfileImage, logout } = authSlice.actions;
 
 
 export default authSlice.reducer;

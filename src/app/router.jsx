@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       { path: "courses/:id", element: <CourseDetailPage /> },
       { path: "blogs", element: <BlogsPage /> },
       { path: "blogs/:id", element: <BlogDetailPage /> },
-      {path:"contactUs" , element:<ContactUs/>},
+      { path: "contactUs", element: <ContactUs /> },
     ],
   },
   {
@@ -76,11 +76,11 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { index: true, element: <DashboardPage /> },
-      { path: "my-courses", element: <MyCoursesPage /> }, // مسیر: /dashboard/my-courses
-      { path: "my-reserve", element: <MyReservationsPage /> }, // مسیر: /dashboard/my-courses
-      { path: "my-FavoriteCourses", element: <FavoriteCoursesPage /> }, // مسیر: /dashboard/my-courses
-      { path: "my-FavoriteBlogs", element: <FavoriteBlogsPage /> }, // مسیر: /dashboard/my-FavoriteBlogs
-      { path: "profile", element: <ProfilePage /> }, // مسیر: /dashboard/profile
+      { path: "my-courses", element: <MyCoursesPage /> },
+      { path: "my-reserve", element: <MyReservationsPage /> },
+      { path: "my-FavoriteCourses", element: <FavoriteCoursesPage /> },
+      { path: "my-FavoriteBlogs", element: <FavoriteBlogsPage /> },
+      { path: "profile", element: <ProfilePage /> },
     ],
   },
 ]);

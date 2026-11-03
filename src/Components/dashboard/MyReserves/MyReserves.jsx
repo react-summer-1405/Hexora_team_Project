@@ -1,4 +1,3 @@
-import React from "react";
 import { useCourses } from "../../../hooks/dashboard/useCourses";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
@@ -14,7 +13,7 @@ export default function MyReserves() {
 
   if (isLoading) {
     return (
-      <div className="mt-6 w-full rounded-[24px] bg-bg-light p-10 text-center text-sm font-medium text-gray-500">
+      <div className="mt-6 w-full rounded-[24px] bg-bg-light p-10 text-center text-sm font-medium text-text-muted dark:bg-bg-field">
         در حال دریافت اطلاعات رزروها...
       </div>
     );
@@ -22,7 +21,7 @@ export default function MyReserves() {
 
   if (isError) {
     return (
-      <div className="mt-6 w-full rounded-[24px] bg-bg-light p-10 text-center text-sm font-medium text-red-500">
+      <div className="mt-6 w-full rounded-[24px] bg-bg-light p-10 text-center text-sm font-medium text-danger dark:bg-bg-field">
         خطا در دریافت اطلاعات.
       </div>
     );
@@ -30,14 +29,14 @@ export default function MyReserves() {
 
   return (
     <div
-      className="mt-6 w-full rounded-[24px] bg-bg-light p-4 text-right md:p-6"
+      className="mt-6 w-full rounded-[24px] bg-bg-light p-4 text-right md:p-6 dark:bg-bg-field"
       dir="rtl"
     >
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-base font-bold text-gray-800">رزرو من</h3>
+        <h3 className="text-base font-bold text-text-dark">رزرو من</h3>
         <a
           href="/reserves"
-          className="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-700"
+          className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary-hover"
         >
           <img
             src={arrowLeftIcon}
@@ -48,7 +47,7 @@ export default function MyReserves() {
         </a>
       </div>
 
-      <div className="mb-4 hidden items-center rounded-2xl bg-text-light px-4 py-3 text-center text-xs font-medium text-gray-500 md:grid md:grid-cols-[60px_1.5fr_1fr_1fr_80px]">
+      <div className="mb-4 hidden items-center rounded-2xl bg-bg-field px-4 py-3 text-center text-xs font-medium text-text-muted md:grid md:grid-cols-[60px_1.5fr_1fr_1fr_80px] dark:bg-bg-light">
         <span>#</span>
         <span>نام</span>
         <span>مدرس</span>
@@ -60,7 +59,7 @@ export default function MyReserves() {
         {reserves.map((reserve, index) => (
           <div
             key={reserve.courseId || index}
-            className="flex flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm md:grid md:grid-cols-[60px_1.5fr_1fr_1fr_80px] md:items-center md:gap-0 md:border-none md:p-0 md:px-4 md:text-center md:shadow-none"
+            className="flex flex-col gap-4 rounded-2xl border border-border/50 p-4 shadow-sm md:grid md:grid-cols-[60px_1.5fr_1fr_1fr_80px] md:items-center md:gap-0 md:border-none md:p-0 md:px-4 md:text-center md:shadow-none"
           >
             <div className="flex items-center gap-3 md:contents">
               <img
@@ -70,22 +69,22 @@ export default function MyReserves() {
               />
 
               <div className="flex flex-col gap-1 md:contents">
-                <span className="truncate text-sm font-bold text-[#2F2F2F]">
+                <span className="truncate text-sm font-bold text-text-dark">
                   {reserve.title}
                 </span>
-                <span className="text-xs font-medium text-gray-500 md:hidden">
+                <span className="text-xs font-medium text-text-muted md:hidden">
                   {reserve.teacherName}
                 </span>
               </div>
             </div>
 
-            <span className="hidden text-sm font-medium text-gray-700 md:block">
+            <span className="hidden text-sm font-medium text-text-dark md:block">
               {reserve.teacherName}
             </span>
 
-            <div className="flex items-center justify-between border-t border-gray-50 pt-3 md:contents md:border-none md:pt-0">
+            <div className="flex items-center justify-between border-t border-border/30 pt-3 md:contents md:border-none md:pt-0">
               <div className="flex items-center justify-center md:mx-auto">
-                <span className="rounded-full bg-red-500 px-4 py-1.5 text-[11px] font-medium tracking-wide text-white">
+                <span className="rounded-full bg-danger px-4 py-1.5 text-[11px] font-medium tracking-wide text-text-light">
                   تایید نشده
                 </span>
               </div>
@@ -95,7 +94,7 @@ export default function MyReserves() {
                   <img
                     src={viewIcon}
                     alt="مشاهده"
-                    className="h-[24px] w-[24px]"
+                    className="h-[24px] w-[24px] dark:invert"
                   />
                 </button>
                 <button className="transition-opacity hover:opacity-75">

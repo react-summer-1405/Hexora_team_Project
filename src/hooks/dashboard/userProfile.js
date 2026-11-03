@@ -1,16 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addProfileImage, deleteProfileImage, getProfileInfo, selectProfileImage, updateProfileInfo } from "../../core/services/dashboard/profile.api";
 import toast from "react-hot-toast";
+import { getItem } from "../../core/localStorage/localStorage";
 
 
 const profileKey = ["userProfile"];
 
 export const useProfile = () => {
+    const token = getItem("token");
+
   return useQuery({
     queryKey: profileKey,
     queryFn: getProfileInfo,
     staleTime: 5 * 60 * 1000,
     retry: 1,
+   enabled: !!token,
+
   });
 };
 

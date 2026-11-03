@@ -1,4 +1,3 @@
-import React from "react";
 import bahrLogo from "../../../assets/images/login/bahrlogo.webp";
 import bahrlogotext from "../../../assets/images/login/bahrlogotext.webp";
 import dashIcon from "../../../assets/images/dashboard/dash-icon.png";
@@ -48,9 +47,9 @@ export default function Sidebar({ isOpen, closeSidebar }) {
           onClick={closeSidebar}
         ></div>
       )}
-
+ 
       <div
-        className={`fixed inset-y-0 right-0 z-50 flex h-full w-[250px] flex-col bg-bg-dark p-4 text-white transition-transform duration-300 ease-in-out md:static md:translate-x-0 ${
+        className={`fixed inset-y-0 right-0 z-50 flex h-full w-[250px] flex-col  bg-bg-dark p-4 text-text-light transition-transform duration-300 ease-in-out md:static md:translate-x-0 dark:border-border dark:bg-bg-field ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -62,13 +61,13 @@ export default function Sidebar({ isOpen, closeSidebar }) {
             className="h-[38px] w-[189px]"
           />
         </div>
-
-        <ul className="mt-[53px] w-full pr-4 text-right space-y-7 text-lg font-medium">
+ 
+        <ul className="mt-[53px] w-full space-y-7 pr-4 text-right text-lg font-medium">
           {sidebarLinks.map((item) => (
             <li key={item.id}>
               <Link
                 to={item.href}
-                className="flex items-center gap-3 hover:text-gray-400 cursor-pointer"
+                className="flex cursor-pointer items-center gap-3 transition-colors hover:text-text-light/70"
               >
                 <img src={item.icon} alt={item.title} className="h-5 w-5" />
                 <span>{item.title}</span>
@@ -76,11 +75,12 @@ export default function Sidebar({ isOpen, closeSidebar }) {
             </li>
           ))}
         </ul>
-
-        <button className="mt-auto mx-auto flex w-full max-w-[214px] items-center justify-center rounded-full border border-[#e05656] bg-transparent px-6 py-3 text-[14px] font-semibold text-[#e05656] transition-all duration-300 hover:bg-[#e05656] hover:text-white">
+ 
+        <button className="mx-auto mt-auto flex w-full max-w-[214px] items-center justify-center rounded-full border border-danger bg-transparent px-6 py-3 text-[14px] font-semibold text-danger transition-all duration-300 hover:bg-danger hover:text-text-light">
           خروج از حساب کاربری
         </button>
       </div>
     </>
   );
 }
+ 

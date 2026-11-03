@@ -65,7 +65,7 @@ const Header = () => {
   );
   return (
     <Fragment>
-      <div ref={containerRef} className="header fixed top-0 inset-x-0 z-40 bg-[#ffffffa1] dark:bg-[#000000a1] backdrop-blur-sm flex flex-row justify-between items-center gap-4 px-10 py-3 ">
+      <div ref={containerRef} className="header fixed top-0  inset-x-0 z-40 bg-[#ffffffa1] dark:bg-[#0000001b] backdrop-blur-sm flex flex-row justify-between items-center gap-4   px-10 py-3 ">
         <Title />
         <NavigationBar navItems={navItems} />
         <Button

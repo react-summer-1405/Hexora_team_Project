@@ -1,10 +1,16 @@
-import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import computerImg from "../../../assets/images/login/computer.webp";
 import bahrLogo from "../../../assets/images/login/bahrlogo.webp";
 import bahrlogotext from "../../../assets/images/login/bahrlogotext.webp";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function AuthLayout() {
+  const formRef = useRef(null);
+  const authRef = useRef(null);
+  const { pathname } = useLocation();
+
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
@@ -16,22 +22,75 @@ export default function AuthLayout() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        formRef.current,
+        {
+          opacity: 0,
+          y: 30,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        },
+      );
+    },
+    {
+      scope: authRef,
+    },
+  );
+
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        formRef.current,
+        {
+          opacity: 0,
+          x: -50,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        },
+      );
+    },
+    {
+      scope: formRef,
+      dependencies: [pathname],
+      revertOnUpdate: true,
+    },
+  );
   if (isMobile) {
     return (
       <div
+        ref={authRef}
         dir="rtl"
-        className="flex items-center justify-center bg-bg-main p-4"
+        className="flex min-h-screen w-full flex-col justify-center bg-bg-main p-4"
       >
-        <Outlet />
+        <div ref={formRef} className="my-auto w-full">
+          <Outlet />
+        </div>
       </div>
     );
   }
 
   return (
-    <div dir="rtl" className="flex items-start justify-center px-12 ">
-      <div className="w-full max-w-[1600px] rounded-3xl bg-bg-main px-8 py-4 shadow-lg">
+    <div
+      ref={authRef}
+      dir="rtl"
+      className="flex min-h-screen w-full flex-col justify-center px-12 py-7 "
+    >
+      <div className="my-auto w-full max-w-[1600px] mx-auto rounded-3xl bg-bg-main px-8 py-4 shadow-lg">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div className="flex max-h-[650px]  w-full max-w-[748px] flex-col gap-6 rounded-2xl px-6">
+          <div
+            ref={formRef}
+            className="flex max-h-[650px]  w-full max-w-[748px] flex-col gap-6 rounded-2xl px-6"
+          >
             <Outlet />
           </div>
 

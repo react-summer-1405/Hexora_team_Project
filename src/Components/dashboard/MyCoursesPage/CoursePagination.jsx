@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function CoursePagination({
   currentPage,
   setCurrentPage,
@@ -12,7 +10,7 @@ export default function CoursePagination({
       <button
         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
         disabled={currentPage === 1}
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+        className="flex h-10 w-10 items-center justify-center rounded-xl text-text-muted transition-colors hover:bg-bg-field hover:text-text-dark disabled:opacity-50"
       >
         <svg
           width="20"
@@ -28,15 +26,15 @@ export default function CoursePagination({
         </svg>
       </button>
 
-      <div className="flex items-center gap-1 rounded-2xl bg-[#F6F6F6] px-2 py-1">
+      <div className="flex items-center gap-1 rounded-2xl bg-bg-light px-2 py-1 dark:bg-bg-field">
         {pages.map((page) => (
           <button
             key={page}
             onClick={() => setCurrentPage(page)}
             className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold transition-colors ${
               currentPage === page
-                ? "bg-blue-500 text-white shadow-sm"
-                : "text-gray-600 hover:bg-gray-200"
+                ? "bg-primary text-text-light shadow-sm"
+                : "text-text-muted hover:bg-border"
             }`}
           >
             {page}
@@ -47,7 +45,7 @@ export default function CoursePagination({
       <button
         onClick={() => setCurrentPage((prev) => prev + 1)}
         disabled={!hasMore}
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+        className="flex h-10 w-10 items-center justify-center rounded-xl text-text-muted transition-colors hover:bg-bg-field hover:text-text-dark disabled:opacity-50"
       >
         <svg
           width="20"

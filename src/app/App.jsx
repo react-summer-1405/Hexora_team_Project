@@ -8,21 +8,21 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {DrawSVGPlugin} from "gsap/DrawSVGPlugin";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { useGSAP } from "@gsap/react";
-
-
-const App = () => {
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText, DrawSVGPlugin);
 
+const App = () => {
   const mode = useSelector(selectThemeMode);
+
   useEffect(() => {
     if (mode === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
+
     try {
       localStorage.setItem("theme", mode);
     } catch {}

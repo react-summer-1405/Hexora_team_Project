@@ -33,14 +33,14 @@ const mockComments = [
 export default function MyComments() {
   return (
     <div
-      className="mt-6 flex w-full lg:w-[35%] flex-col rounded-[24px] bg-bg-light p-4 md:p-6 text-right"
+      className="mt-6 flex w-full flex-col rounded-[24px] bg-bg-light p-4 text-right md:p-6 lg:w-[35%] dark:bg-bg-field"
       dir="rtl"
     >
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-bold text-gray-800">نظرات شما</h3>
+        <h3 className="text-sm font-bold text-text-dark">نظرات شما</h3>
         <a
           href="/comments"
-          className="flex items-center gap-1 text-xs font-medium text-blue-500 transition-colors hover:text-blue-700"
+          className="flex items-center gap-1 text-xs font-medium text-primary transition-colors hover:text-primary-hover"
         >
           <img
             src={arrowLeftIcon}
@@ -52,11 +52,11 @@ export default function MyComments() {
       </div>
 
       <div className="mb-6 flex items-center justify-center">
-        <div className="h-[1px] flex-1 bg-gray-200"></div>
-        <span className="px-3 text-xs font-medium text-gray-400">
+        <div className="h-[1px] flex-1 bg-border"></div>
+        <span className="px-3 text-xs font-medium text-text-muted">
           دوره ها و بلاگ ها
         </span>
-        <div className="h-[1px] flex-1 bg-gray-200"></div>
+        <div className="h-[1px] flex-1 bg-border"></div>
       </div>
 
       <div className="flex flex-col gap-6">
@@ -64,7 +64,7 @@ export default function MyComments() {
           <div
             key={comment.id}
             className={`relative flex flex-col gap-3 ${
-              comment.hasBorder ? "border-r-[3px] border-blue-400 pr-3" : ""
+              comment.hasBorder ? "border-r-[3px] border-primary pr-3" : ""
             }`}
           >
             <div className="flex items-center justify-start gap-3">
@@ -74,24 +74,24 @@ export default function MyComments() {
                 className="h-10 w-10 rounded-full object-cover shadow-sm"
               />
               <div className="flex flex-col text-right">
-                <span className="text-sm font-bold text-gray-800">
+                <span className="text-sm font-bold text-text-dark">
                   {comment.author}
                 </span>
-                <span className="text-[10px] font-medium text-gray-400">
+                <span className="text-[10px] font-medium text-text-muted">
                   {comment.date}
                 </span>
               </div>
             </div>
 
-            <h4 className="text-right text-sm font-bold text-gray-800">
+            <h4 className="text-right text-sm font-bold text-text-dark">
               {comment.title}
             </h4>
-            <p className="text-justify text-right text-xs font-medium leading-6 text-gray-600">
+            <p className="text-justify text-right text-xs font-medium leading-6 text-text-muted">
               {comment.content}
             </p>
 
             {!comment.hasBorder && (
-              <div className="flex items-center justify-end gap-4 text-gray-500">
+              <div className="flex items-center justify-end gap-4 text-text-muted">
                 <div className="flex items-center gap-1">
                   <span className="text-xs font-bold">{comment.likes}</span>
                   <img
