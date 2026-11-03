@@ -9,14 +9,15 @@ export default function ProfileStatus() {
 
   return (
     <div
-      className="mt-6 flex w-full flex-col items-center justify-between rounded-[24px] bg-bg-light p-4 shadow-sm md:p-6 lg:w-[25%]"
+      className="mt-6 flex w-full min-w-0 flex-col items-center justify-between rounded-[24px] bg-bg-light p-4 shadow-sm lg:flex-[1] md:p-6"
       dir="rtl"
     >
-      <div className="mb-8 flex w-full items-center justify-between">
+      <div className="mb-8 flex w-full items-center justify-between gap-2">
         <span className="text-sm font-bold text-gray-800">
           وضعیت اطلاعات حساب کاربری
         </span>
-        <button className="text-blue-500 transition-colors hover:text-blue-700">
+
+        <button className="shrink-0 text-blue-500 transition-colors hover:text-blue-700">
           <svg
             width="18"
             height="18"
@@ -33,7 +34,7 @@ export default function ProfileStatus() {
         </button>
       </div>
 
-      <div className="mb-6 h-[120px] w-[120px] font-sans font-bold">
+      <div className="mb-6 h-[120px] w-[120px] shrink-0 font-sans font-bold">
         <CircularProgressbar
           value={percentage}
           text={`${percentage.toLocaleString("fa-IR")}٪`}
@@ -48,7 +49,7 @@ export default function ProfileStatus() {
         />
       </div>
 
-      <span className="text-xs font-bold text-gray-600">
+      <span className="text-center text-xs font-bold text-gray-600">
         اطلاعات حساب کاربری شما کامل نیست
       </span>
     </div>

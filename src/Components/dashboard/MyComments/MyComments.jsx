@@ -33,14 +33,15 @@ const mockComments = [
 export default function MyComments() {
   return (
     <div
-      className="mt-6 flex w-full lg:w-[35%] flex-col rounded-[24px] bg-bg-light p-4 md:p-6 text-right"
+      className="mt-6 flex w-full min-w-0 flex-col rounded-[24px] bg-bg-light p-4 text-right lg:flex-[1] md:p-6"
       dir="rtl"
     >
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between gap-2">
         <h3 className="text-sm font-bold text-gray-800">نظرات شما</h3>
+
         <a
           href="/comments"
-          className="flex items-center gap-1 text-xs font-medium text-blue-500 transition-colors hover:text-blue-700"
+          className="flex shrink-0 items-center gap-1 text-xs font-medium text-blue-500 transition-colors hover:text-blue-700"
         >
           <img
             src={arrowLeftIcon}
@@ -53,9 +54,11 @@ export default function MyComments() {
 
       <div className="mb-6 flex items-center justify-center">
         <div className="h-[1px] flex-1 bg-gray-200"></div>
-        <span className="px-3 text-xs font-medium text-gray-400">
+
+        <span className="shrink-0 px-3 text-xs font-medium text-gray-400">
           دوره ها و بلاگ ها
         </span>
+
         <div className="h-[1px] flex-1 bg-gray-200"></div>
       </div>
 
@@ -63,7 +66,7 @@ export default function MyComments() {
         {mockComments.map((comment) => (
           <div
             key={comment.id}
-            className={`relative flex flex-col gap-3 ${
+            className={`relative flex min-w-0 flex-col gap-3 ${
               comment.hasBorder ? "border-r-[3px] border-blue-400 pr-3" : ""
             }`}
           >
@@ -71,22 +74,25 @@ export default function MyComments() {
               <img
                 src={comment.avatar}
                 alt={comment.author}
-                className="h-10 w-10 rounded-full object-cover shadow-sm"
+                className="h-10 w-10 shrink-0 rounded-full object-cover shadow-sm"
               />
-              <div className="flex flex-col text-right">
+
+              <div className="flex min-w-0 flex-col text-right">
                 <span className="text-sm font-bold text-gray-800">
                   {comment.author}
                 </span>
+
                 <span className="text-[10px] font-medium text-gray-400">
                   {comment.date}
                 </span>
               </div>
             </div>
 
-            <h4 className="text-right text-sm font-bold text-gray-800">
+            <h4 className="break-words text-right text-sm font-bold text-gray-800">
               {comment.title}
             </h4>
-            <p className="text-justify text-right text-xs font-medium leading-6 text-gray-600">
+
+            <p className="break-words text-justify text-right text-xs font-medium leading-6 text-gray-600">
               {comment.content}
             </p>
 
@@ -94,14 +100,17 @@ export default function MyComments() {
               <div className="flex items-center justify-end gap-4 text-gray-500">
                 <div className="flex items-center gap-1">
                   <span className="text-xs font-bold">{comment.likes}</span>
+
                   <img
                     src={thumbsUpIcon}
                     alt="لایک"
                     className="h-[24px] w-[24px]"
                   />
                 </div>
+
                 <div className="flex items-center gap-1">
                   <span className="text-xs font-bold">{comment.dislikes}</span>
+
                   <img
                     src={thumbsDownIcon}
                     alt="دیس‌لایک"
