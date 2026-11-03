@@ -5,7 +5,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 
 import searchBtnIcon from "../../../assets/icons/dashboard/search-01-stroke-rounded 2.png";
 import searchLabelIcon from "../../../assets/icons/dashboard/search-01-stroke-rounded 1.png";
-import calendarIcon from "../../../assets/icons/dashboard/calendar-02-stroke-rounded 2.png";
+import calendarIcon from "../../../assets/icons/calendar.svg";
 import cancelIcon from "../../../assets/icons/dashboard/cancel-01.png";
 
 export default function FavoriteFilter({
