@@ -7,7 +7,7 @@ import cancelIcon from "../../../assets/icons/dashboard/cancel-01.png";
 import DetailModal from "../../common/DetailModal/DetailModal";
 import defaultReactImg from "../../../assets/images/react.png";
 
-export default function MyReserves() {
+export default function MyReserves({ showHeader = true }) {
   const { data, isLoading, isError } = useFavoriteCourses();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,20 +90,22 @@ export default function MyReserves() {
       className="mt-6 w-full rounded-[24px] bg-bg-light p-4 text-right md:p-6"
       dir="rtl"
     >
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-base font-bold text-gray-800">رزرو من</h3>
-        <Link
-          to="/dashboard/my-reserve"
-          className="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-700"
-        >
-          <img
-            src={arrowLeftIcon}
-            alt="مشاهده بیشتر"
-            className="h-[20px] w-[20px]"
-          />
-          مشاهده بیشتر
-        </Link>
-      </div>
+      {showHeader && (
+        <div className="mb-6 flex items-center justify-between">
+          <h3 className="text-base font-bold text-gray-800">رزرو من</h3>
+          <Link
+            to="/dashboard/my-reserve"
+            className="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-700"
+          >
+            <img
+              src={arrowLeftIcon}
+              alt="مشاهده بیشتر"
+              className="h-[20px] w-[20px]"
+            />
+            مشاهده بیشتر
+          </Link>
+        </div>
+      )}
 
       <div className="mb-4 hidden items-center rounded-2xl bg-text-light px-4 py-3 text-center text-xs font-medium text-gray-500 md:grid md:grid-cols-[60px_1.5fr_1fr_1fr_80px]">
         <span>#</span>

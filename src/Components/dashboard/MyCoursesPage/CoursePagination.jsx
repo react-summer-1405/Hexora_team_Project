@@ -8,7 +8,6 @@ export default function CoursePagination({
   itemsPerPage = 7,
 }) {
   const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
-
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
@@ -26,6 +25,7 @@ export default function CoursePagination({
           <button
             key={page}
             onClick={() => setCurrentPage(page)}
+            style={{ fontFamily: "Arial, sans-serif" }}
             className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold transition-colors ${
               currentPage === page
                 ? "bg-blue-500 text-white shadow-sm"
