@@ -92,11 +92,11 @@ export default function MyReserves({ showHeader = true }) {
     >
       {showHeader && (
         <div className="mb-6 flex items-center justify-between gap-2">
-          <h3 className="text-base font-bold text-gray-800">رزرو من</h3>
+          <h3 className="text-base font-bold text-text-muted">رزرو من</h3>
 
           <Link
             to="/dashboard/my-reserve"
-            className="flex shrink-0 items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-700"
+            className="flex shrink-0 items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary-hover"
           >
             <img
               src={arrowLeftIcon}
@@ -109,7 +109,7 @@ export default function MyReserves({ showHeader = true }) {
       )}
 
       {/* عنوان ستون‌ها؛ فقط در دسکتاپ */}
-      <div className="mb-4 hidden items-center rounded-2xl bg-text-light px-4 py-3 text-center text-xs font-medium text-gray-500 lg:grid lg:grid-cols-[60px_1.5fr_1fr_1fr_80px]">
+      <div className="mb-4 hidden items-center rounded-2xl bg-bg-main px-4 py-3 text-center text-xs font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1fr_1fr_80px]">
         <span>#</span>
         <span>نام</span>
         <span>مدرس</span>
@@ -119,7 +119,7 @@ export default function MyReserves({ showHeader = true }) {
 
       <div className="flex flex-col gap-4">
         {reserves.length === 0 ? (
-          <div className="py-4 text-center text-sm text-gray-500">
+          <div className="py-4 text-center text-sm text-text-muted">
             رزروی برای نمایش وجود ندارد.
           </div>
         ) : (
@@ -157,23 +157,23 @@ export default function MyReserves({ showHeader = true }) {
                   </div>
 
                   <div className="flex min-w-0 flex-col gap-1 lg:contents">
-                    <span className="truncate text-sm font-bold text-[#2F2F2F]">
+                    <span className="truncate text-sm font-bold text-text-dark">
                       {reserve.courseTitle}
                     </span>
 
-                    <span className="text-xs font-medium text-gray-500 lg:hidden">
+                    <span className="text-xs font-medium text-text-muted lg:hidden">
                       {reserve.teacheName}
                     </span>
                   </div>
                 </div>
 
-                <span className="hidden text-sm font-medium text-gray-700 lg:block">
+                <span className="hidden text-sm font-medium text-text-muted lg:block">
                   {reserve.teacheName}
                 </span>
 
                 <div className="flex items-center justify-between gap-3 border-t border-gray-50 pt-3 lg:contents lg:border-none lg:pt-0">
                   <div className="flex items-center justify-center lg:mx-auto">
-                    <span className="rounded-full bg-red-500 px-4 py-1.5 text-[11px] font-medium tracking-wide text-white">
+                    <span className="rounded-full bg-red-500 px-4 py-1.5 text-[11px] font-medium tracking-wide text-text-white">
                       تایید نشده
                     </span>
                   </div>

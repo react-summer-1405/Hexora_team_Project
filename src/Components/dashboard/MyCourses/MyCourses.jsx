@@ -74,11 +74,11 @@ export default function MyCourses() {
       dir="rtl"
     >
       <div className="mb-6 flex items-center justify-between gap-2">
-        <h3 className="text-base font-bold text-gray-800">دوره‌ من</h3>
+        <h3 className="text-base font-bold text-text-dark">دوره‌ من</h3>
 
         <Link
           to="/dashboard/my-FavoriteCourses"
-          className="flex shrink-0 items-center gap-1 text-sm font-medium text-blue-500 transition-colors hover:text-blue-600"
+          className="flex shrink-0 items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary-hover"
         >
           <img
             src={arrowLeftIcon}
@@ -147,7 +147,7 @@ export default function MyCourses() {
 
                   <div className="flex min-w-0 flex-col gap-1 2xl:contents">
                     <span
-                      className="min-w-0 truncate whitespace-nowrap text-sm font-bold text-gray-800 2xl:px-2"
+                      className="min-w-0 truncate whitespace-nowrap text-sm font-bold text-text-dark 2xl:px-2"
                       title={item.courseTitle}
                     >
                       {item.courseTitle?.length > 20
@@ -155,18 +155,18 @@ export default function MyCourses() {
                         : item.courseTitle}
                     </span>
 
-                    <span className="text-xs font-medium text-gray-500 2xl:hidden">
+                    <span className="text-xs font-medium text-text-muted 2xl:hidden">
                       {item.teacheName}
                     </span>
                   </div>
                 </div>
 
-                <span className="hidden min-w-0 break-words px-2 text-sm font-medium text-gray-700 2xl:block">
+                <span className="hidden min-w-0 break-words px-2 text-sm font-medium text-text-muted 2xl:block">
                   {item.teacheName}
                 </span>
 
                 <div className="flex min-w-0 items-center justify-between gap-3 border-t border-gray-50 pt-3 2xl:contents 2xl:border-none 2xl:pt-0">
-                  <span className="min-w-0 text-xs font-medium text-gray-600 2xl:whitespace-nowrap 2xl:px-1 2xl:text-sm 2xl:text-gray-700">
+                  <span className="min-w-0 text-xs font-medium text-text-muted 2xl:whitespace-nowrap 2xl:px-1 2xl:text-sm ">
                     {item.course?.startTime
                       ? new Date(item.course.startTime).toLocaleDateString(
                           "fa-IR",
@@ -180,7 +180,7 @@ export default function MyCourses() {
                   </span>
 
                   <div className="flex shrink-0 items-center justify-center 2xl:mx-auto">
-                    <span className="rounded-full bg-[#F43DF4] px-3 py-1 text-[10px] font-medium tracking-wide text-white 2xl:px-4 2xl:py-1.5 2xl:text-[11px]">
+                    <span className="rounded-full bg-[#F43DF4] px-3 py-1 text-[10px] font-medium tracking-wide text-text-light 2xl:px-4 2xl:py-1.5 2xl:text-[11px]">
                       پیشرفته
                     </span>
                   </div>
