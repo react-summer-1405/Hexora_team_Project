@@ -96,7 +96,7 @@ const Introduction = ({ course, toggleReserve }) => {
             />
           )}
         </div>
-        <div className="lg:w-[48%] w-[90%]  mx-auto lg:mx-1  flex flex-col gap-6 items-start  lg:order-2 order-1 ">
+        <div className="lg:w-[48%] w-full  mx-auto lg:mx-1  flex flex-col gap-6 items-start  lg:order-2 order-1 ">
           <h3 className="course-title md:text-[32px] text-2xl font-bold text-text-dark text-right">
             {title}
           </h3>

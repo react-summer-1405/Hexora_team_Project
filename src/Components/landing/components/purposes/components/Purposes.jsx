@@ -53,7 +53,7 @@ function Purposes() {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center justify-center gap-10 -mx-3.5"
+      className="flex flex-col items-center justify-center gap-10   py-6 overflow-hidden"
     >
       <div className="title">
         <Topic content="اهداف ما در آکادمی" />

@@ -44,7 +44,7 @@ const TopCoursesSection = () => {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center justify-center gap-10 "
+      className="flex flex-col items-center justify-center p-3  gap-10 overflow-hidden"
     >
       <Topic content="دوره های برتر هفته" className="title-text" />
       <TopCourses />

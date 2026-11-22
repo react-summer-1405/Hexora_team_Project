@@ -190,6 +190,7 @@ const CourseDetailPage = () => {
         toggleComment={toggleComment}
       />
       <RelatedOnes course={course} />
+      
       {/* modals */}
       <ReserveModal
         isOpen={isReserveModal}

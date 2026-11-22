@@ -1,4 +1,4 @@
-"use client";
+
 
 import { Slider } from "@heroui/react";
 import { Field } from "formik";
@@ -18,7 +18,7 @@ const PriceRange = ({ names, min, max, step }) => {
           <Slider
             dir="ltr"
             aria-label="بازه‌ی قیمت"
-            className="w-full flex flex-col gap-3"
+className="w-full min-w-0 flex flex-col gap-3"
             value={[flip(high), flip(low)]}
             onChange={(v) => {
               form.setFieldValue(minName, flip(v[1]));
@@ -28,10 +28,10 @@ const PriceRange = ({ names, min, max, step }) => {
             maxValue={max}
             step={step}
           >
-            <Slider.Track
-              className="relative h-2 w-full rounded-full bg-bg-lightGray
-                shadow-[inset_3px_3px_5px_rgba(0,0,0,0.15),inset_-3px_-3px_5px_rgba(255,255,255,0.9)]"
-            >
+<Slider.Track
+  className="relative h-2 w-full min-w-0 rounded-full
+  dark:bg-bg-lightDark bg-bg-lightGray"
+>
        {({ state }) => {
     const total = max - min;
     const start = ((state.values[0] - min) / total) * 100;
@@ -41,7 +41,6 @@ const PriceRange = ({ names, min, max, step }) => {
 
     return (
       <>
-        {/* خط آبی بین دو دستگیره */}
         <div
           className="absolute top-0 left h-full rounded-full bg-primary"
           style={{ left: `${start}%`, width: `${end - start}%` }}

@@ -6,7 +6,7 @@ const RelatedOnesPending = () => {
       <h3 className="text-[20px] font-bold text-text-muted items-start">
         دوره های مرتبط
       </h3>
-      <div className="flex flex-row flex-wrap items-start justify-start gap-4">
+      <div className="flex flex-row flex-wrap md:items-start md:justify-start items-center justify-center gap-4">
         {Array.from({ length: 3 }, (_, i) => (
           <PendingCard key={i} />
         ))}

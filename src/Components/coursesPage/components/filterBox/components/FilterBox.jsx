@@ -5,6 +5,7 @@ import costIcon from "../../../../../assets/icons/filter/money-04-stroke-rounded
 import teacherIcon from "../../../../../assets/icons/filter/teacher-stroke-rounded.svg";
 import levelIcon from "../../../../../assets/icons/filter/layers-01-stroke-rounded.svg";
 import dateIcon from "../../../../../assets/icons/filter/calendar-02-stroke-rounded.svg";
+import reset from "../../../../../assets/icons/Arrows_Reload.svg";
 import PriceRange from "./PriceRange";
 import DateRange from "./DateRange";
 import { useQuery } from "@tanstack/react-query";
@@ -13,10 +14,13 @@ import {
   getTeachers,
 } from "../../../../../core/services/courses/getFilterdData";
 import AutoSubmit from "./AutoSubmit";
+import Button from "../../../../common/Button";
+import SelectTech from "./SelectTech";
+import RadioSelect from "./RadioSelect";
 
 const initialValues = {
   Query: "",
-  ListTech: "",
+  ListTech: [],
   courseLevelId: "",
   TeacherId: "",
   CostDown: 0,
@@ -25,7 +29,7 @@ const initialValues = {
   EndDate: "",
 };
 
-const FilterBox = ({ setFilters ,toggleFilter,isFilterModal ,techs}) => {
+const FilterBox = ({ setFilters, toggleFilter, isFilterModal, techs }) => {
   const { data: levels = [] } = useQuery({
     queryKey: ["courseLevel"],
     queryFn: getCourseLevel,
@@ -36,8 +40,6 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal ,techs}) => {
         name: l.levelName,
       })),
   });
-
-
 
   const { data: teachers = [] } = useQuery({
     queryKey: ["allTeachers"],
@@ -62,7 +64,7 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal ,techs}) => {
       name: "ListTech",
       label: "دسته‌بندی",
       icon: catIcon,
-      type: "select",
+      type: "checkbox",
       placeholder: "دسته مورد نظر را انتخاب کنید",
       options: techs,
     },
@@ -103,8 +105,15 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal ,techs}) => {
 
   const handleSubmit = (values) => {
     if (values.StartDate && !values.EndDate) return;
+
+    const { ListTech, ...rest } = values;
+
     const params = Object.fromEntries(
-      Object.entries(values).filter(([, v]) => v !== "" && v !== null),
+      Object.entries({
+        ...rest,
+        ListTech: ListTech.join(","),
+        TechCount: ListTech.length,
+      }).filter(([, v]) => v !== "" && v !== null && v !== 0),
     );
 
     console.log("params", params);
@@ -112,71 +121,120 @@ const FilterBox = ({ setFilters ,toggleFilter,isFilterModal ,techs}) => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ values }) => (
-        <Form className={`filter lg:w-75 ${isFilterModal? "fixed bottom-0 left-0 flex":"hidden"} w-screen  md:mt-16.5   z-50 lg:static lg:flex lg:flex-col text-right px-5 py-4 gap-4  rounded-4xl border-2 bg-bg-main border-border`}>
-          <AutoSubmit delay={500} />
-          
-        <div  className="flex flex-col gap-4 w-full">
-          <div className="flex flex-row justify-between w-full">
-          <h2 className="text-2xl font-bold">فیلتر</h2>
-                  <button className={`${isFilterModal? "block":"hidden"} lg:hidden rounded-[34px] border border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] 
-        bg-no-repeat bg-[90%] bg-5 ps-9 transition-[border-color,text-color,scale]
-         duration-200 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`} 
-         onClick={toggleFilter}>بستن</button>
-          </div>
-          {filterFields.map((field) => (
-            <div key={field.label} className="flex flex-col gap-2 ">
-              <label className="flex flex-row gap-2 font-medium text-base text-text-dark ">
-                <img src={field.icon} className="dark:invert" />
-                {field.label}
-              </label>
+    <>
+      <div
+        onClick={toggleFilter}
+        className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 lg:hidden ${
+          isFilterModal
+            ? "visible opacity-100"
+            : "invisible opacity-0 pointer-events-none"
+        }`}
+      ></div>
 
-              {field.type === "search" && (
-                <div className="relative w-full">
-                <Field
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  className="w-full rounded-[16px] bg-bg-field p-4 px-3 text-xs"
-                />
-                <div className="absolute left-0 top-0 w-12 h-12 bg-[url(../../assets/icons/search-01.svg)] bg-no-repeat  bg-center bg-primary rounded-[16px] "></div>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ resetForm, values, setFieldValue }) => (
+          <Form
+            className={`filter w-full max-w-full lg:w-75 md:mt-16.5 z-50 text-right px-5 py-4 gap-4
+    rounded-4xl border-2 bg-bg-main border-border
+    flex lg:flex lg:flex-col
+    fixed bottom-0 left-0 lg:static
+    max-h-[85vh] overflow-y-auto lg:max-h-none lg:overflow-visible
+    transition-all duration-500 ease-out lg:transition-none
+    ${
+      isFilterModal
+        ? "visible opacity-100 translate-y-0"
+        : "invisible opacity-0 translate-y-full lg:visible lg:opacity-100 lg:translate-y-0"
+    }`}
+          >
+            <AutoSubmit delay={500} />
+            <div className="flex flex-col gap-4 w-full">
+              <div className="flex flex-row justify-between w-full">
+                <h2 className="text-2xl font-bold">فیلتر</h2>
+
+                <div className="flex flex-row items-center gap-2">
+                  <Button
+                    circle
+                    icon={reset}
+                    type="button"
+                    color="bg-bg-light"
+                    iconSize="dark:invert-0"
+                    customStyle="p-2 "
+                    onClick={() => {
+                      resetForm();
+                      setFilters(false);
+                    }}
+                  />
+
+                  <button
+                    className={`${isFilterModal ? "block" : "hidden"} lg:hidden rounded-[34px] border border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)] 
+        bg-no-repeat bg-[90%] bg-5 ps-9 transition-all
+         duration-200 cursor-pointer text-lg  font-medium py-1.5 px-4 active:scale-85`}
+                    onClick={toggleFilter}
+                  >
+                    بستن
+                  </button>
                 </div>
-              )}
-
-              {field.type === "select" && (
-                <Field
-                  as="select"
-                  name={field.name}
-                  className=" rounded-[16px] text-xs text-text-muted bg-bg-field px-3 py-4"
+              </div>
+              {filterFields.map((field) => (
+                <div
+                  key={field.label}
+                  className="filter-field flex flex-col gap-2 "
                 >
-                  <option value="">{field.placeholder}</option>
-                  {field.options.map((o) => (
-                    <option className="text-text-dark text-sm" key={o.id} value={o.id}>
-                      {o.name}
-                    </option>
-                  ))}
-                </Field>
-              )}
+                  <label className="flex flex-row gap-2 font-medium text-base text-text-dark ">
+                    <img src={field.icon} className="dark:invert" />
+                    {field.label}
+                  </label>
 
-              {field.type === "range" && (
-                <PriceRange
-                  min={field.min}
-                  max={field.max}
-                  step={field.step}
-                  names={field.names}
-                />
-              )}
+                  {field.type === "search" && (
+                    <div className="relative w-full">
+                      <Field
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        className="w-full rounded-[16px] outline-0 bg-bg-field p-4 px-3 text-xs"
+                      />
+                      <div className="absolute left-0 top-0 w-12 h-12 bg-[url(../../assets/icons/search-01.svg)] bg-no-repeat  bg-center bg-primary rounded-[16px] "></div>
+                    </div>
+                  )}
 
-              {field.type === "dateRange" && <DateRange names={field.names} />}
+                  {field.type === "select" && (
+                    <RadioSelect
+                      name={field.name}
+                      selected={values[field.name]}
+                      onChange={(v) => setFieldValue(field.name, v)}
+                      options={field.options}
+                      placeholder={field.placeholder}
+                    />
+                  )}
+
+                  {field.type === "checkbox" && (
+                    <SelectTech
+                      selected={values[field.name]}
+                      onChange={(v) => setFieldValue(field.name, v)}
+                      options={field.options}
+                      placeholder={field.placeholder}
+                    />
+                  )}
+
+                  {field.type === "range" && (
+                    <PriceRange
+                      min={field.min}
+                      max={field.max}
+                      step={field.step}
+                      names={field.names}
+                    />
+                  )}
+
+                  {field.type === "dateRange" && (
+                    <DateRange names={field.names} />
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-          </div>
-        </Form>
-      )}
-    </Formik>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
-
-
 };
 
 export default FilterBox;

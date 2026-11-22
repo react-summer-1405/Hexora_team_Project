@@ -32,6 +32,35 @@ export const addCourseComment = async ({
 
   return res.data;
 };
+ export const editCourseComment = async ({
+  courseId,
+  commentId,
+  title,
+  describe,
+}) => {
+  const formData = new FormData();
+
+  formData.append("CommentId", commentId);
+  formData.append("CourseId", courseId);
+  formData.append("Title", title);
+  formData.append("Describe", describe);
+
+  const res = await Api_Client.put(
+    "/Course/UpdateCourseComment",
+    formData
+  );
+
+  return res.data;
+};
+
+export const deleteCourseComment = async (commentId) => {
+  const res = await Api_Client.delete("/Course/DeleteCourseComment", {
+    params: { CourseCommandId: commentId },
+  });
+
+  return res.data;
+};
+
 export const addReplyComment = async ({ courseId, commentId, title, describe }) => {
 
   const formData = new FormData();

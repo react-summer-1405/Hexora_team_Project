@@ -12,11 +12,11 @@ const commentSchema = Yup.object({
   describe: Yup.string().trim().required("متن را وارد کنید"),
 });
 
-const CommentForm = ({ onSubmit, isPending , toggle , isOpenSticker }) => {
+const CommentForm = ({ onSubmit, isPending , toggle , isOpenSticker , initialValues=null }) => {
 
   return (
     <Formik
-      initialValues={{ title: "", describe: "" }}
+      initialValues={initialValues || { title: "", describe: "" }}
       validationSchema={commentSchema}
       onSubmit={(values, { resetForm }) =>
         onSubmit(

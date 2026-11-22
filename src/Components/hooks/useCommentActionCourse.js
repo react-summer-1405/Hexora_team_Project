@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addCourseComment, addReplyComment, dislikeComment, likeComment } from "../../core/services/courses/courseComments";
+import { addCourseComment, addReplyComment, deleteCourseComment, dislikeComment, editCourseComment, likeComment } from "../../core/services/courses/courseComments";
 import toast from "react-hot-toast";
 
 const errMsg = (e) => e.response?.data?.message || "مشکلی پیش آمد";
@@ -109,5 +109,19 @@ const dislike = useMutation({
       }),
   });
 
-  return { like, dislike, addComment, addReply };
-};
+    const deleteComment = useMutation({
+    mutationFn: (commentId) => deleteCourseComment(commentId),
+    onSuccess: (data) => toast.success(data?.message || "نظر شما حذف شد"),
+    onError: (e) => toast.error(errMsg(e)),
+    onSettled: () => qc.invalidateQueries({ queryKey: listKey }),
+  });
+
+    const editComment = useMutation({
+    mutationFn: ({ commentId, title, describe }) =>
+      editCourseComment({ courseId, commentId, title, describe }),
+    onSuccess: (data) => toast.success(data?.message || "نظر شما ویرایش شد"),
+    onError: (e) => toast.error(errMsg(e)),
+    onSettled: () => qc.invalidateQueries({ queryKey: listKey }),
+  });
+
+  return { like, dislike, addComment, addReply, editComment ,deleteComment};};

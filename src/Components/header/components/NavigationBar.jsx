@@ -19,7 +19,7 @@ const NavigationBar = ({ navItems }) => {
   const token = getItem("token");
 
   return (
-    <div className="flex flex-row items-center justify-center  rounded-full text-xs lg:text-base font-medium bg-bg-dark text-text-white">
+    <div className="flex flex-row items-center justify-center p-1 sm:py-1 lg:py-0  rounded-full text-xs lg:text-base font-medium bg-surface-dark text-text-white">
       <div className="hidden mx-6 my-3 sm:flex flex-row items-center justify-center gap-6 ">
         {navItems.map((item, index) => (
           <NavLink
@@ -31,7 +31,7 @@ const NavigationBar = ({ navItems }) => {
               <>
                 {item.name}
                 {isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-bg-main" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-bg-main"></span>
                 )}
               </>
             )}
@@ -41,7 +41,7 @@ const NavigationBar = ({ navItems }) => {
       {token ? (
         <div
           onClick={toggle}
-          className="relative flex justify-center items-center gap-2 cursor-pointer"
+          className="relative flex justify-center items-center gap-1 me-1 cursor-pointer"
         >
           <img
             src={arrow}
@@ -50,10 +50,13 @@ const NavigationBar = ({ navItems }) => {
             }`}
           />
 
-          {isOpen && (
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`origin-top-left transition-all duration-300
+    ${isOpen ? "visible opacity-100 scale-100 translate-y-0" : "invisible opacity-0 scale-95 -translate-y-2 pointer-events-none"}
+                overflow-hidden
+              duration-300
+              transition-all
       whitespace-nowrap
         select-none absolute top-12 left-0 z-50
         min-w-30 p-2
@@ -62,11 +65,11 @@ const NavigationBar = ({ navItems }) => {
         border border-white/10
         rounded-2xl
         shadow-xl shadow-black/20
-      "
-            >
-              <button
-                onClick={() => navigate("/dashboard")}
-                className="
+      `}
+          >
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="
           w-full text-right px-4 py-3
           rounded-xl text-sm
           text-text-white
@@ -74,13 +77,13 @@ const NavigationBar = ({ navItems }) => {
 cursor-pointer
           transition-all duration-200
         "
-              >
-                داشبورد
-              </button>
+            >
+              داشبورد
+            </button>
 
-              <button
-                onClick={() => navigate("/auth/login")}
-                className="
+            <button
+              onClick={() => navigate("/auth/login")}
+              className="
           w-full text-right px-4 py-3
           cursor-pointer
 
@@ -89,11 +92,10 @@ cursor-pointer
           hover:bg-bg-lightDark
           transition-all duration-200
         "
-              >
-                ورود به حساب
-              </button>
-            </div>
-          )}
+            >
+              ورود به حساب
+            </button>
+          </div>
 
           <img
             src={avatar}

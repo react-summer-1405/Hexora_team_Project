@@ -65,11 +65,11 @@ const CoursesPage = () => {
           duration: 1.2,
           clearProps: "transform,opacity",
         })
-        .from(".filter", {
+        .from(".filter .filter-field", {
           opacity: 0,
           y: 30,
           duration: 1,
-          stagger: 0.15,
+          stagger: 0.2,
           clearProps: "transform,opacity",
         })
 
@@ -91,7 +91,7 @@ const CoursesPage = () => {
           techs={techs}
         />
 
-        <div className="w-[75%] flex flex-col lg:items-start lg:self-start self-center gap-6">
+        <div className="sm:w-[75%] w-fit   flex flex-col lg:items-start lg:self-start self-center gap-6">
           <div className="lg:hidden flex flex-row w-full justify-between ">
             <Button content="فیلتر" icon={filterIcon} onClick={toggleFilter} />
             <Button content="ترتیب" icon={sortIcon} onClick={toggle} />

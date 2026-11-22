@@ -30,6 +30,8 @@ const {
 
 
 
+
+
    const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -56,7 +58,7 @@ const {
 
   return (
     <div className="flex flex-col gap-12 ">
-      <div className="introduction flex flex-row flex-wrap justify-start gap-5 ">
+      <div className="introduction  flex flex-row flex-wrap justify-start gap-5 ">
         <div className="intro-image bg-[#FF6C6C] flex lg:flex-row flex-col justify-center lg:items-end items-center rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2  min-w-90 mx-auto lg:mx-3  object-contain">
           {showLogo && (
             <img
@@ -76,7 +78,7 @@ const {
             />
           )}
         </div>
-        <div className="lg:w-[48%] w-[90%]  mx-auto lg:mx-1  flex flex-col gap-6 items-start  lg:order-2 order-1 ">
+        <div className="lg:w-[48%] w-full  mx-auto lg:mx-1  flex flex-col gap-6 items-start  lg:order-2 order-1 ">
           <h3 className="blog-title md:text-[32px] text-2xl font-bold text-text-dark text-right">
             {title}
           </h3>

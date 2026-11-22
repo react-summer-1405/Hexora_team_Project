@@ -47,7 +47,7 @@ const containerRef = useRef()
 
 
   if (isPending) return (
-          <div className="flex flex-row flex-wrap gap-6">
+          <div className=" w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-7 ">
         {Array.from({ length: 3 }, (_, i) => (
           <PendingCard key={i} />
         ))}

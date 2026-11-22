@@ -22,7 +22,7 @@ const CommentBox = ({
   const { like, dislike } = useCommentActions(courseId);
 
   return (
-    <div className="flex flex-col gap-4 p-4 items-start justify-between text-right w-81 h-70.5 rounded-[24px] bg-bg-light transition duration-300 hover:-translate-y-1">
+    <div className="flex flex-col gap-4 p-4 items-start justify-between text-right w-81 h-70.5 rounded-[24px] bg-bg-field transition duration-300 hover:-translate-y-1">
       <div>
         <h6 className="cursor-default text-lg font-bold text-text-dark">
           {title}

@@ -41,7 +41,6 @@ useGSAP(
           opacity: 1,
           y: 0,
           duration: 0.7,
-          stagger: 0.12,
           ease: "power3.out",
           clearProps: "transform,opacity",
           overwrite: true,
@@ -52,7 +51,7 @@ useGSAP(
 );
 
   return (
-    <div ref={sectionRef} className=" flex flex-col gap-6">
+    <div ref={sectionRef} className=" flex flex-col gap-6 py-3">
       <h3 className="comments-title text-[20px] font-bold text-text-muted self-start">
         نظرات دانشجو ها و اساتید
       </h3>

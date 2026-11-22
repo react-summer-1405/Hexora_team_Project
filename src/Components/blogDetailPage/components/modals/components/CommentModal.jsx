@@ -65,12 +65,14 @@ const CommentModal = ({ isOpen, onClose, blogTitle, blogId, comments = [] }) => 
 
         <div
           className="w-full flex flex-col items-start gap-4
-          max-md:order-last max-md:sticky max-md:bottom-0 max-md:z-10 max-md:mt-auto
-          max-md:flex-col-reverse max-md:items-stretch
-          max-md:-mx-4 max-md:-mb-4 max-md:w-[calc(100%+2rem)]
-          max-md:bg-bg-main max-md:px-4 max-md:pt-3 max-md:pb-4
-          max-md:shadow-[0_-8px_16px_rgba(0,0,0,0.08)]"
+  max-md:order-last max-md:sticky max-md:-bottom-4 max-md:z-10 max-md:mt-auto
+  max-md:flex-col-reverse max-md:items-stretch
+  max-md:self-stretch max-md:w-auto
+  max-md:-mx-4 max-md:-mb-4
+  max-md:bg-bg-main max-md:px-4 max-md:pt-3 max-md:pb-4
+  max-md:shadow-[0_-8px_16px_rgba(0,0,0,0.08)]"
         >
+
           <Button
             content={showForm ? "انصراف" : "نظر شما"}
             color="bg-primary "

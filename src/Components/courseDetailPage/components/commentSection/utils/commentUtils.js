@@ -11,4 +11,5 @@ export const normalizeComment = (c) => ({
   dislikes: c.disslikeCount ?? 0,
   isLiked: !!c.currentUserIsLike,
   isDisliked: !!c.currentUserIsDissLike,
+  userId:c.userId
 });

@@ -4,15 +4,17 @@ const Sk = ({ className }) => (
   <Skeleton animationType="shimmer" className={className} />
 );
 
-const InfoBoxPending = () => (
-  <div className="flex flex-row flex-wrap rounded-2xl border border-border">
-    {Array.from({ length: 4 }, (_, i) => (
+const InfoBoxPending = ({ count = 4, className = "" }) => (
+  <div
+    className={`grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border ${className}`}
+  >
+    {Array.from({ length: count }, (_, i) => (
       <div
         key={i}
-        className="flex flex-col items-start justify-center gap-3 py-4 px-8 border-l border-border last:border-l-0"
+        className="min-w-0 flex flex-col items-start justify-start gap-3 p-3 md:p-4 border-l border-b md:border-b-0 border-border"
       >
-        <Sk className="h-4 w-12 rounded-lg" />
-        <Sk className="h-6 w-24 rounded-[32px]" />
+        <Sk className="h-5 w-12 rounded-lg" />
+        <Sk className="h-7 md:h-8 w-24 rounded-[32px]" />
       </div>
     ))}
   </div>
@@ -21,35 +23,31 @@ const InfoBoxPending = () => (
 const IntroductionPending = () => {
   return (
     <div className="flex flex-col gap-12">
-      <div className="flex flex-row gap-8">
-        <Sk className="rounded-[32px] h-106 w-[45%]" />
+      <div className="flex flex-row flex-wrap justify-start gap-5">
+        <Sk className="rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2 min-w-90 mx-auto lg:mx-3" />
 
-        <div className="w-[47%] flex flex-col gap-6 items-start">
-          <Sk className="h-10 w-2/3 rounded-lg" />
+        <div className="lg:w-[48%] w-[90%] mx-auto lg:mx-1 flex flex-col gap-6 items-start lg:order-2 order-1">
+          <Sk className="h-8 md:h-10 w-2/3 rounded-lg" />
 
-          <div className="flex flex-col gap-4 w-full">
-            <InfoBoxPending />
-            <InfoBoxPending />
+          <div className="flex flex-col gap-4 lg:w-full w-5/6 md:mx-0 mx-auto">
+            <InfoBoxPending count={4} className="lg:grid-cols-4" />
+            <InfoBoxPending count={2} className="lg:w-1/2" />
           </div>
 
-          <div className="w-full flex flex-row-reverse justify-between items-center">
-            <div className="flex flex-row gap-2 items-center">
-              <Sk className="h-8 w-32 rounded-lg" />
-              <Sk className="h-4 w-12 rounded-lg" />
-            </div>
+          <div className="w-full flex flex-row justify-end md:justify-between">
             <div className="flex flex-row items-center gap-2">
-              <Sk className="h-5 w-8 rounded-lg" />
-              <div className="flex flex-row gap-0.5">
-                {Array.from({ length: 4 }, (_, i) => (
+              <Sk className="h-6 w-8 rounded-lg" />
+              <div className="flex flex-row items-center gap-0.5">
+                {Array.from({ length: 5 }, (_, i) => (
                   <Sk key={i} className="w-7 h-7 rounded-full" />
                 ))}
               </div>
-              <Sk className="h-5 w-24 rounded-lg" />
+              <Sk className="h-6 w-24 rounded-lg" />
             </div>
           </div>
 
-          <div className="w-full flex flex-row justify-center gap-5">
-            <Sk className="h-12 w-40 rounded-full" />
+          <div className="w-full flex flex-row flex-wrap justify-start items-center gap-2">
+            <Sk className="h-12 w-48 rounded-full" />
             <Sk className="h-12 w-60 rounded-full" />
             <Sk className="w-14 h-14 rounded-full" />
             <Sk className="w-14 h-14 rounded-full" />
@@ -57,22 +55,21 @@ const IntroductionPending = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 items-start w-full">
-        <Sk className="h-6 w-32 rounded-lg" />
+      <div className="flex flex-col gap-4 px-4 items-start w-full">
+        <Sk className="h-6 w-1/2 rounded-lg" />
         <div className="flex flex-col gap-2 w-full">
           <Sk className="h-4 w-full rounded-lg" />
           <Sk className="h-4 w-full rounded-lg" />
           <Sk className="h-4 w-full rounded-lg" />
           <Sk className="h-4 w-4/5 rounded-lg" />
         </div>
-        <div className="flex flex-row items-center gap-4">
-          <Sk className="h-5 w-24 rounded-lg" />
+        <div className="flex flex-row flex-wrap justify-start items-center gap-4">
+          <Sk className="h-6 w-20 rounded-lg" />
           <div className="flex flex-row gap-0.5">
-            {Array.from({ length: 4 }, (_, i) => (
+            {Array.from({ length: 5 }, (_, i) => (
               <Sk key={i} className="w-7 h-7 rounded-full" />
             ))}
           </div>
-          <Sk className="h-12 w-52 rounded-full" />
         </div>
       </div>
     </div>

@@ -8,8 +8,8 @@ const HeroSection = () => {
   
 
   return (
-  <div className="cursor-default flex flex-col gap-30">
-    <div className="flex flex-log flex-wrap lg:flex-row justify-evenly items-center p-10 gap-12">
+  <div className="cursor-default flex flex-col gap-30 py-3 overflow-hidden">
+    <div className=" flex flex-log flex-wrap lg:flex-row justify-evenly items-center p-10 gap-12">
           <div className="lg:order-2">
         <HeroTitle />
       </div>  

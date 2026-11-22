@@ -56,13 +56,13 @@ const RoadMap = () => {
   return (
     <div
       ref={container}
-      className="relative bg-[#eee] h-1.5 flex flex-row justify-around items-center mt-15 -mx-3.5"
+      className=" relative bg-[#eee] h-1.5 flex flex-row justify-around items-center mt-15 "
     >
-      <div className="road-line absolute inset-0 bg-primary origin-right" />
+      <div className="road-line absolute inset-0 bg-primary origin-right"></div>
 
       {logoImages.map((image, index) => (
         <div key={index} className="relative ">
-          <div className="road-dot w-6 h-6 rounded-full border-6 border-[#D9D9D9] bg-[#FCFCFC]" />
+          <div className="road-dot w-6 h-6 rounded-full border-6 border-[#D9D9D9] bg-[#FCFCFC]" ></div>
           <div className="road-icon absolute -top-18 sm:-top-23 -left-5 sm:-left-8 w-15 sm:w-22 h-15 sm:h-22 rounded-full">
             <img src={image} />
           </div>

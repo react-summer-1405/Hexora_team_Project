@@ -6,7 +6,7 @@ const InfoItem = ({ label, value, variant }) => {
   };
 
   return (
-    <div className="min-w-0 flex flex-col items-start justify-start gap-3 p-3 md:p-4 border-l border-b cursor-default border-border">
+    <div className="min-w-0 flex flex-col items-start justify-start gap-3 p-3 md:p-4 border-l  border-b md:border-b-0  cursor-default border-border">
       <span className="text-text-muted text-sm font-medium">
         {label}
       </span>

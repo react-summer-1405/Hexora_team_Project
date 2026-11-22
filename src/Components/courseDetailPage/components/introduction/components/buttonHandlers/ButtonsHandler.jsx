@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import {
   addCourseFavorite,
+  addCourseReserve,
   deleteCourseFavorite,
 } from "../../../../../../core/services/courses/courseHandling";
 import toast from "react-hot-toast";
@@ -23,78 +24,99 @@ const ButtonsHandler = ({
   isUserFavorite,
   courseId,
   userFavoriteId,
+  
 }) => {
-
   const queryClient = useQueryClient();
-const [optimisticFav, setOptimisticFav] = useState(null);
+  const [optimisticFav, setOptimisticFav] = useState(null);
 
-const favView = optimisticFav ?? isUserFavorite;
+  const favView = optimisticFav ?? isUserFavorite;
 
-const favoriteMutation = useMutation({
-  mutationFn: (nextFav) =>
-    nextFav
-      ? addCourseFavorite(courseId)
-      : deleteCourseFavorite(userFavoriteId),
+  const favoriteMutation = useMutation({
+    mutationFn: (nextFav) =>
+      nextFav
+        ? addCourseFavorite(courseId)
+        : deleteCourseFavorite(userFavoriteId),
 
-  onMutate: (nextFav) => {
-    setOptimisticFav(nextFav);
-  },
+    onMutate: (nextFav) => {
+      setOptimisticFav(nextFav);
+    },
 
-  onError: (error) => {
-    setOptimisticFav(null);
+    onError: (error) => {
+      setOptimisticFav(null);
 
-    toast.error(
-      error.response?.data?.message || "مشکلی پیش آمد"
-    );
-  },
+      toast.error(error.response?.data?.message || "مشکلی پیش آمد");
+    },
+
+    onSuccess: (data) => {
+      toast.success(data?.message || "عملیات موفق بود");
+    },
+
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["getCourseById", courseId],
+      });
+
+      setOptimisticFav(null);
+    },
+  });
+
+const reserveMutation = useMutation({
+  mutationFn: () => addCourseReserve(courseId),
 
   onSuccess: (data) => {
     toast.success(data?.message || "عملیات موفق بود");
+    toggleReserve();
   },
 
-  onSettled: async () => {
-    await queryClient.invalidateQueries({
+  onError: (error) => {
+    toast.error(error.response?.data?.message || "مشکلی پیش آمد");
+  },
+
+  onSettled: () => {
+    queryClient.invalidateQueries({
       queryKey: ["getCourseById", courseId],
     });
-
-    setOptimisticFav(null);
   },
 });
 
-const handleFavorite = () => {
-  if (favoriteMutation.isPending) return;
 
-  const nextFav = !favView;
-  setOptimisticFav(nextFav); 
-  favoriteMutation.mutate(nextFav);
-};
+  const handleFavorite = () => {
+    if (favoriteMutation.isPending) return;
+    favoriteMutation.mutate(!favView);
+  };
+
+  const handleReserve = () => {
+    if (reserveMutation.isPending) return;
+    reserveMutation.mutate(courseId);
+    
+  };
 
   return (
-    <div className="buttons-handler w-full flex flex-row flex-wrap  justify-start items-center gap-4">
+    <div className="buttons-handler w-full flex flex-row flex-wrap  justify-start items-center gap-4 ">
       <Button
         content={isCourseReseve ? "رزرو شده" : "رزرو دوره"}
         color="bg-primary"
         icon={book}
-        customStyle="hidden md:flex md:px-11"
-        onClick={toggleReserve}
+        customStyle="hidden md:flex md:px-11 py-4"
+        onClick={handleReserve}
       />
       <Button
-        content={
-          isUserFavorite ? "حذف از لیست موردعلاقه" : "اضافه به لیست موردعلاقه"
-        }
+        content={favView ? "حذف از لیست موردعلاقه" : "اضافه به لیست موردعلاقه"}
         icon={archive}
-        customStyle="md:px-11 "
+        iconSize="w-6 h-6 dark:invert hidden md:block"
+        customStyle="py-4 md:px-11"
         onClick={handleFavorite}
       />
-<LikeAndDislike
-  courseId={courseId}
-  likeCount={likeCount}
-  dissLikeCount={dissLikeCount}
-  userIsLiked={userIsLiked}
-  userIsDissLike={userIsDissLike}
-  userLikeId={userLikeId}
-  userDissLikeId={userDissLikeId}
-/>    </div>
+      <LikeAndDislike
+        courseId={courseId}
+        likeCount={likeCount}
+        dissLikeCount={dissLikeCount}
+        userIsLiked={userIsLiked}
+        userIsDissLike={userIsDissLike}
+        userLikeId={userLikeId}
+        userDissLikeId={userDissLikeId}
+      />{" "}
+    </div>
   );
 };
 

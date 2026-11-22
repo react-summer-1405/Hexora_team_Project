@@ -28,7 +28,7 @@ export const deleteBlogFavorite = async (blogFavoriteId) => {
   const response = await Api_Client.delete(
     "/News/DeleteFavoriteNews", {
     
-     data:{ deleteEntityId: blogFavoriteId}   
+     data:{ deleteEntityId:blogFavoriteId}   
     }
   
   );

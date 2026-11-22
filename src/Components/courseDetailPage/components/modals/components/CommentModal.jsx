@@ -5,11 +5,16 @@ import { useState } from "react";
 import { useCommentActions } from "../../../../hooks/useCommentActionCourse";
 import CommentForm from "../../commentSection/components/CommentForm";
 
-const CommentModal = ({ isOpen, onClose, courseTitle, courseId, comments = [] }) => {
+const CommentModal = ({
+  isOpen,
+  onClose,
+  courseTitle,
+  courseId,
+  comments = [],
+}) => {
   const [showForm, setShowForm] = useState(false);
   const { addComment } = useCommentActions(courseId);
-      const [isOpenSticker, toggle] = useState(false);
-
+  const [isOpenSticker, toggle] = useState(false);
 
   const handleAdd = (values, resetForm) =>
     addComment.mutate(values, {
@@ -25,10 +30,13 @@ const CommentModal = ({ isOpen, onClose, courseTitle, courseId, comments = [] })
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      <div onClick={()=>{
-              onClose()
-              toggle(false)
-            }} className="absolute inset-0 bg-black/40"></div>
+      <div
+        onClick={() => {
+          onClose();
+          toggle(false);
+        }}
+        className="absolute inset-0 bg-black/40"
+      ></div>
 
       <div
         className={`relative w-full max-w-212 h-full max-h-163 rounded-3xl md:rounded-[32px] z-50 bg-bg-main
@@ -50,9 +58,9 @@ const CommentModal = ({ isOpen, onClose, courseTitle, courseId, comments = [] })
             className="shrink-0 rounded-[34px] border border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)]
             bg-no-repeat bg-[90%] bg-5 ps-9 transition-[border-color,text-color,scale]
             duration-200 cursor-pointer text-base md:text-lg font-medium py-1.5 px-4 active:scale-85"
-            onClick={()=>{
-              onClose()
-              toggle(false)
+            onClick={() => {
+              onClose();
+              toggle(false);
             }}
           >
             بستن
@@ -61,11 +69,12 @@ const CommentModal = ({ isOpen, onClose, courseTitle, courseId, comments = [] })
 
         <div
           className="w-full flex flex-col items-start gap-4
-          max-md:order-last max-md:sticky max-md:bottom-0 max-md:z-10 max-md:mt-auto
-          max-md:flex-col-reverse max-md:items-stretch
-          max-md:-mx-4 max-md:-mb-4 max-md:w-[calc(100%+2rem)]
-          max-md:bg-bg-main max-md:px-4 max-md:pt-3 max-md:pb-4
-          max-md:shadow-[0_-8px_16px_rgba(0,0,0,0.08)]"
+  max-md:order-last max-md:sticky max-md:-bottom-4 max-md:z-10 max-md:mt-auto
+  max-md:flex-col-reverse max-md:items-stretch
+  max-md:self-stretch max-md:w-auto
+  max-md:-mx-4 max-md:-mb-4
+  max-md:bg-bg-main max-md:px-4 max-md:pt-3 max-md:pb-4
+  max-md:shadow-[0_-8px_16px_rgba(0,0,0,0.08)]"
         >
           <Button
             content={showForm ? "انصراف" : "نظر شما"}
@@ -77,18 +86,25 @@ const CommentModal = ({ isOpen, onClose, courseTitle, courseId, comments = [] })
 
           {showForm && (
             <div className="w-full max-md:max-h-[50vh] max-md:overflow-y-auto">
-              <CommentForm onSubmit={handleAdd} isPending={addComment.isPending} toggle={toggle} isOpenSticker={isOpenSticker} />
+              <CommentForm
+                onSubmit={handleAdd}
+                isPending={addComment.isPending}
+                toggle={toggle}
+                isOpenSticker={isOpenSticker}
+              />
             </div>
           )}
         </div>
 
         {comments.length === 0 && (
-          <p className="text-base font-medium text-text-muted">هنوز نظری ثبت نشده.</p>
+          <p className="text-base font-medium text-text-muted">
+            هنوز نظری ثبت نشده.
+          </p>
         )}
-    <div className="flex flex-col gap-10 w-full">
-        {comments.map((comment) => (
-          <CommentRow key={comment.id} {...comment} courseId={courseId} />
-        ))}
+        <div className="flex flex-col gap-10 w-full">
+          {comments.map((comment) => (
+            <CommentRow key={comment.id} {...comment} courseId={courseId} />
+          ))}
         </div>
       </div>
     </div>

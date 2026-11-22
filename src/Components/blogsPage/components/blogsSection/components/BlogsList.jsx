@@ -7,7 +7,8 @@ import PaginationBox from "../../../../common/Pagination";
 import SortingRow from "./SortingRow";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap/all";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+
 
 const BlogsList = ({
   page,
@@ -78,12 +79,19 @@ const BlogsList = ({
         })
   },
   { scope: containerRef, dependencies: [isPending] },
+
+  
 );
+
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, [page]);
+
   if (isPending)
     return (
-        <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8 mt-16">
+      <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8 mt-17">
           {Array.from({ length: rowsOfPage }, (_, i) => (
-            <PendingCard key={i} width="w-108" />
+            <PendingCard key={i} width="sm:w-108 w-80" />
           ))}
         </div>
     );

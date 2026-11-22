@@ -76,12 +76,10 @@ const PresentServices = () => {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center justify-center gap-15"
+      className="w-full flex flex-col items-center justify-center gap-15  p-3 overflow-hidden"
     >
-      <div className="w-85 text-3xl font-bold text-center cursor-default">
-        <div className="title-text">
-          <Topic content="خدماتی که ما در طی دوره‌ها به شما ارائه میدیم" />
-        </div>
+      <div className="  title-text text-3xl font-bold text-center cursor-default">        
+          <Topic content="خدماتی که ما در طی دوره‌ها  به شما ارائه میدیم" />      
       </div>
       <ServicesDivisions />
     </div>

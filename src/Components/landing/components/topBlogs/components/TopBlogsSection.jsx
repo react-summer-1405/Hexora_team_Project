@@ -41,7 +41,7 @@ const TopBlogsSection = () => {
       
     },{scope:containerRef})
   return (
-     <div ref={containerRef} className="flex flex-col items-center justify-center gap-12">
+     <div ref={containerRef} className=" p-3 flex flex-col items-center justify-center gap-12 overflow-hidden">
         <Topic content="بلاگ های برتر هفته" className="title-text"/>
         <TopBlogsList/>
         <div className="button">

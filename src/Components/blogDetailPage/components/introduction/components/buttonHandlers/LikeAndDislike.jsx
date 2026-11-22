@@ -19,6 +19,7 @@ import { addDislikeForBlog, addLikeForBlog, deleteBlogLike } from "../../../../.
   const queryClient = useQueryClient();
   const [optimistic, setOptimistic] = useState(null);
 
+
   const server = {
     liked: userIsLiked,
     disliked: userIsDissLike,
@@ -99,6 +100,7 @@ const dislikeMutation = useMutation({
 
   console.log("view.disliked",view.disliked);
   
+
 
   return (
     <div className="flex flex-row gap-4 ">

@@ -33,9 +33,9 @@ const PurposeDivisions = () => {
   ];
   return (
     <div
-      className={`relative my-20  w-full  flex flex-wrap lg:flex-nowrap flex-row justify-center items-center gap-10 `}
+      className={`relative my-5  w-full  flex flex-wrap lg:flex-nowrap flex-row justify-center items-center gap-10 `}
     >
-<CurlyLine className="curly-line absolute inset-0 w-full h-full pointer-events-none hidden lg:block" />
+<CurlyLine className="curly-line absolute inset-0 w-full h-full pointer-events-none lg:block hidden" />
       {purposes.map((purpose, index) => (
         <div key={index} className="divisions relative cursor-pointer w-80 h-108 rounded-3xl border-2 border-border hover:border-primary hover:scale-105 transition duration-300 bg-bg-main flex flex-col items-start justify-between p-5 gap-5 text-right">
           <h4 className="text-[20px] font-bold">{purpose.title}</h4>

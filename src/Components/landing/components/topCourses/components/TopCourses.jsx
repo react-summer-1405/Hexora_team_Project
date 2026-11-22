@@ -47,9 +47,10 @@ const count = 4;
     { scope: containerRef, dependencies: [topCourses] },
   );
 
+
   if (isPending)
     return (
-      <div className="flex flex-row flex-wrap gap-6">
+      <div className=" w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-6 ">
         {Array.from({ length: 4 }, (_, i) => (
           <PendingCard key={i} />
         ))}
@@ -88,7 +89,8 @@ const count = 4;
     return (
 
         <div ref={containerRef}
-          className={` w-full  flex-wrap flex md:flex-row flex-col  justify-center items-center gap-6  overflow-hidden  py-5 px-6 `}
+          className={` w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-6 
+                  `}
         >
           {result.map((course) => (
             <div className="flex  cards " key={course.id}>

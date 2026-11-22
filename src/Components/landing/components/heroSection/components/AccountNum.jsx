@@ -67,14 +67,16 @@ const AccountNum = () => {
             />
           ))}
         </div>
-        <span className="text flex flex-row items-center font-semibold">
+        <div className="flex flex-row items-center font-semibold whitespace-nowrap gap-2">
+        <span className="text ">
           + ۱۰۰
         </span>
         <span className="text">دانشجو فعال در دوره</span>
+        </div>
       </div>
 
-      <div className="row flex flex-row gap-2 items-center">
-        <div className="flex flex-row justify-center items-center ms-20 lg:ms-0">
+      <div className="row flex flex-row gap-2 items-center ms-9">
+        <div className="flex flex-row justify-center items-center ">
           {randomImageStudents.map((image, index) => (
             <img
               className={`images w-8 h-8 -mx-1 rounded-full border-white border-2 ${image.bgColor}`}
@@ -84,10 +86,13 @@ const AccountNum = () => {
             />
           ))}
         </div>
-        <span className="text flex flex-row items-center font-semibold">
+                <div className="flex flex-row items-center font-semibold whitespace-nowrap gap-2">
+
+        <span className="text">
           + ۵۰
         </span>
         <span className="text">اساتید برتر جهان </span>
+        </div>
       </div>
     </div>
   );

@@ -5,13 +5,13 @@ import { formatNumber } from "../../../../hooks/formatters";
 
 const PointAndPrice = ({ cost = 0, rate = 0, studentCount = 0 }) => {
   return (
-    <div className="point-price  w-full flex flex-row-reverse justify-end md:justify-between cursor-default">
+    <div className="point-price  w-full flex flex-row-reverse justify-end items-center md:justify-between cursor-default">
       <div className="hidden md:flex flex-row gap-1 items-center text-text-dark">
         <span className="text-2xl font-bold">{formatNumber(cost)}</span>
         <span className="text-sm font-medium">تومان</span>
       </div>
       <div className="flex flex-row items-center gap-2 text-base font-medium text-text-dark">
-        <span>({formatNumber(rate)})</span>
+        <span>({formatNumber(rate.toFixed(1))})</span>
         <div className="flex flex-row items-center gap-0.5">
           {Array.from({ length: 5 }, (_, i) => (
             <img
@@ -22,7 +22,7 @@ const PointAndPrice = ({ cost = 0, rate = 0, studentCount = 0 }) => {
           ))}
         </div>
         <span className="text-base font-medium text-text-dark">
-          + ( {formatNumber(studentCount)} ) دانشجو
+          + ( {formatNumber(studentCount)} ) نظرات
         </span>
       </div>
     </div>

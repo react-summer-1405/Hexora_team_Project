@@ -38,7 +38,7 @@ const DateRange = ({ names }) => {
               form.setFieldValue(endName, endDate);
             }}
             placeholder="انتخاب بازه‌ی تاریخ"
-            inputClass="w-full text-sm rounded-xl bg-bg-field p-3"
+            inputClass="w-full text-sm rounded-xl bg-bg-field p-3 outline-0"
           />
         );
       }}

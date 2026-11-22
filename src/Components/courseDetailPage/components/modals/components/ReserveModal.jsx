@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../../../../common/Button";
 
 const ReserveModal = ({ isOpen, onClose, courseTitle }) => {
+ const navigate = useNavigate()
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
@@ -52,11 +54,12 @@ const ReserveModal = ({ isOpen, onClose, courseTitle }) => {
             content="رزرو من"
             color="bg-primary"
             customStyle="w-full sm:w-auto sm:px-16 text-lg sm:text-[20px]"
+            onClick={()=>{navigate('/dashboard/my-reserve')}}
           />
 
           <Button
             content="باشه"
-            color="bg-[#DCDCDC]"
+            color="bg-bg-dark"
             customStyle="w-full sm:w-auto sm:px-13 text-lg sm:text-[20px]"
             onClick={onClose}
           />

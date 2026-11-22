@@ -32,7 +32,7 @@ useGSAP(
 
 useGSAP(
   () => {
-    gsap.set(".comments-grid > *", { opacity: 0, y: 40 });
+    gsap.set(".comments-grid > *", { opacity: 0, y: 30 });
 
     ScrollTrigger.batch(".comments-grid > *", {
       start: "top 92%",
@@ -57,12 +57,12 @@ useGSAP(
         نظرات دانشجو ها و اساتید
       </h3>
       <div
-        className={`comments-grid flex flex-row flex-wrap items-start md:justify-start justify-center gap-4 p-3 ${isOpen ? "h-max" : "h-75"}  overflow-hidden`}
+        className={`comments-grid flex flex-row flex-wrap items-start md:justify-start justify-center gap-6   ${isOpen ? "h-max" : "h-78"}  overflow-hidden`}
       >
         <div
           onClick={toggleComment}
           
-          className="group flex flex-col justify-center items-center gap-4 text-center cursor-pointer bg-primary text-text-white w-81 h-70.5 rounded-[24px] transition duration-300 hover:-translate-y-1"
+          className="group flex flex-col justify-center items-center gap-4 text-center cursor-pointer bg-primary text-text-white w-81 h-70.5 m-1 rounded-[24px] transition duration-300 hover:-translate-y-1"
         >
           <img src={commentIcon} className="w-8 h-8 group-hover:scale-115 transition-all duration-300" />
           <h6 className="text-lg text-white font-semibold group-hover:scale-120 transition-all duration-300">نظر شما</h6>

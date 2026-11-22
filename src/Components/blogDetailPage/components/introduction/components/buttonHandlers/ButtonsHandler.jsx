@@ -19,6 +19,11 @@ const ButtonsHandler = ({
   blogId,
   userFavoriteId,
 }) => {
+
+  console.log("isUserFavorite",isUserFavorite);
+  console.log("userFavoriteId",userFavoriteId);
+  
+  
   
   
 
@@ -28,14 +33,14 @@ const ButtonsHandler = ({
   const queryClient = useQueryClient();
 const [optimisticFav, setOptimisticFav] = useState(null);
 
-const favView = optimisticFav ?? isUserFavorite;
+const favView = optimisticFav ?? !!userFavoriteId;
 
 
 const favoriteMutation = useMutation({
   mutationFn: (nextFav) =>
     nextFav
-      ? addBlogFavorite(blogId)
-      : deleteBlogFavorite(userFavoriteId),
+      ?  addBlogFavorite(blogId)
+      :deleteBlogFavorite(userFavoriteId) ,
 
   onMutate: (nextFav) => {
     setOptimisticFav(nextFav);
@@ -62,22 +67,15 @@ const favoriteMutation = useMutation({
   },
 });
 
-const handleFavorite = () => {
-  if (favoriteMutation.isPending) return;
+  const handleFavorite = () => {
+    if (favoriteMutation.isPending) return;
+    favoriteMutation.mutate(!favView);
+  };
 
-  const nextFav = !favView;
-
-  if (!nextFav && !userFavoriteId) {
-    toast.error("شناسه علاقه‌مندی دریافت نشده است");
-    return;
-  }
-
-  setOptimisticFav(nextFav);
-  favoriteMutation.mutate(nextFav);
-};
 
   return (
-    <div className="w-full flex flex-row flex-wrap  justify-start items-center gap-2">
+    <div className="buttons-handler w-full flex flex-row flex-wrap  justify-start items-center gap-4 ">
+      <div className="md:block hidden">
         <Button
           content="کپی کردن لینک صفحه"
           customStyle="border border-primary dark:border-border"
@@ -85,15 +83,16 @@ const handleFavorite = () => {
           color="bg-bg-main"
           icon={attachment}
           onClick={handleCopy}
-        />
+          />  
+          </div>
+      
       <Button
-        content={
-          favView ? "حذف از لیست موردعلاقه" : "اضافه به لیست موردعلاقه"
-        }
+        content={favView ? "حذف از لیست موردعلاقه" : "اضافه به لیست موردعلاقه"}
         icon={archive}
-        customStyle="md:px-8 "
-        onClick={handleFavorite}
-      />
+        iconSize="w-6 h-6 dark:invert hidden md:block"
+        customStyle="py-4 md:px-11"
+        onClick={handleFavorite}/>
+
 <LikeAndDislike
   blogId={blogId}
   likeCount={likeCount}

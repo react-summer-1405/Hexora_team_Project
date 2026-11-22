@@ -39,37 +39,31 @@ const BlogsPage = () => {
       }
     : { SortingCol: "Active", SortType: "desc" };
 
-useGSAP(
-  () => {
-    const tl = gsap.timeline({
-      defaults: {
-        ease: "expo.out",
-      },
-    });
-
-    tl.from(containerRef.current, {
-      y: 60,
-      opacity: 0,
-      duration: 1.2,
-      clearProps: "transform,opacity",
-    })
-      .from(
-        ".filter",
-        {
-          opacity: 0,
-          y: 30,
-          duration: 1,
-          stagger: 0.15,
-          clearProps: "transform,opacity",
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        defaults: {
+          ease: "expo.out",
         },
-        "-=0.5",
-      )
+      });
 
-  },
-  {
-    scope: containerRef,
-  },
-);
+      tl.from(containerRef.current, {
+        y: 60,
+        opacity: 0,
+        duration: 1.2,
+        clearProps: "transform,opacity",
+      }).from(".filter .filter-field", {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        stagger: 0.2,
+        clearProps: "transform,opacity",
+      });
+    },
+    {
+      scope: containerRef,
+    },
+  );
   return (
     <div className="flex flex-col gap-28 ">
       <HeroSection />
@@ -83,7 +77,7 @@ useGSAP(
           isFilterModal={isFilterModal}
         />
 
-        <div className="w-[65%]  flex flex-col justify-center lg:items-start self-center gap-6">
+        <div className="sm:w-[75%] w-fit  flex  flex-col lg:items-start lg:self-start self-center gap-6">
           <div className="lg:hidden flex flex-row w-full justify-between ">
             <Button content="فیلتر" icon={filterIcon} onClick={toggleFilter} />
             <Button content="ترتیب" icon={sortIcon} onClick={toggle} />

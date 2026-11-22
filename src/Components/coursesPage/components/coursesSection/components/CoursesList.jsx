@@ -7,11 +7,22 @@ import PaginationBox from "../../../../common/Pagination";
 import SortingRow from "./SortingRow";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap/all";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,selected, sortingHandler,toggle,isOpenModal}) => {
+
+const CoursesList = ({
+  page,
+  setPage,
+  sortParams,
+  filters,
+  sortingButtons,
+  selected,
+  sortingHandler,
+  toggle,
+  isOpenModal,
+}) => {
   const rowsOfPage = 6;
-  const containerRef = useRef()
+  const containerRef = useRef();
 
   const { data, isError, error, isPending, refetch, isFetching } = useQuery({
     queryKey: ["coursesByPagination", page, rowsOfPage, sortParams, filters],
@@ -33,49 +44,51 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
     ? data?.courseFilterDtos.filter((c) => c.title.includes(searchText))
     : data?.courseFilterDtos;
 
-    useGSAP(
-  () => {
-    if (!data) return;
+  useGSAP(
+    () => {
+      if (!data) return;
 
-    gsap
-      .timeline({ defaults: { ease: "expo.out" } })
-      .from(".sort", {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        clearProps: "transform,opacity",
-      })
-      .from(
-        ".sort-btn",
-        {
+      gsap
+        .timeline({ defaults: { ease: "expo.out" } })
+        .from(".sort", {
           opacity: 0,
-          y: 20,
-          scale: 0.9,
-          duration: 0.6,
-          stagger: 0.12,
+          y: 30,
+          duration: 0.8,
           clearProps: "transform,opacity",
-        },
-        "-=0.5",
-      )
-              .from('.pagination', {
+        })
+        .from(
+          ".sort-btn",
+          {
+            opacity: 0,
+            y: 20,
+            scale: 0.9,
+            duration: 0.6,
+            stagger: 0.12,
+            clearProps: "transform,opacity",
+          },
+          "-=0.5",
+        )
+        .from(".pagination .course-card", {
           y: 30,
           duration: 1,
           stagger: 0.15,
           clearProps: "transform,opacity",
-        })
-  },
-  { scope: containerRef, dependencies: [isPending] },
-);
+        });
+    },
+    { scope: containerRef, dependencies: [isPending] },
+  );
+
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, [page]);
 
   if (isPending)
     return (
-      
-        <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8 mt-17">
-          {Array.from({ length: rowsOfPage }, (_, i) => (
-            <PendingCard key={i} />
-          ))}
-        </div>
-        
+      <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8 mt-17">
+        {Array.from({ length: rowsOfPage }, (_, i) => (
+          <PendingCard key={i} />
+        ))}
+      </div>
     );
 
   if (isError)
@@ -104,10 +117,9 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
       </div>
     );
 
-  const totalPages = Math.ceil(data.totalCount / rowsOfPage);
+  const totalPages = Math.ceil(data?.totalCount / rowsOfPage);
 
-
-  if (visibleCourses.length === 0)
+  if (visibleCourses?.length === 0)
     return (
       <div className=" w-full min-h-187 flex items-start justify-center py-8 px-6">
         <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4 rounded-2xl border border-border bg-red-50 p-8 text-center shadow-sm">
@@ -128,7 +140,10 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
     );
 
   return (
-    <div ref={containerRef}  className="w-full flex flex-col lg:items-start lg:self-start self-center gap-6">
+    <div
+      ref={containerRef}
+      className="w-full flex flex-col lg:items-start lg:self-start self-center gap-6"
+    >
       <SortingRow
         sortingButtons={sortingButtons}
         selected={selected}
@@ -141,8 +156,12 @@ const CoursesList = ({ page, setPage, sortParams, filters ,sortingButtons,select
         <div
           className={` flex flex-row flex-wrap lg:justify-start justify-center  items-start gap-8 `}
         >
-          {visibleCourses.map((course) => (
-            <CourseCard course={course} id={course.courseId} />
+          {visibleCourses?.map((course) => (
+            <CourseCard
+              key={course.courseId}
+              course={course}
+              id={course.courseId}
+            />
           ))}
         </div>
         <PaginationBox

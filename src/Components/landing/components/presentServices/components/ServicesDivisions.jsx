@@ -37,11 +37,11 @@ const ServicesDivisions = () => {
   ];
 
   return (
-  <div className="flex flex-row flex-wrap justify-center items-center gap-6">
+  <div className="w-full  flex flex-row flex-wrap justify-center items-center gap-6">
     {services.map((service, index) => (
       <div
         key={index}
-        className={`divisions group w-full sm:w-166 py-5 sm:h-36 border-2 border-border cursor-pointer ${service.cardHover} hover:scale-[1.03] hover:shadow-lg transition-[border-color,scale,box-shadow] duration-300 bg-bg-main rounded-4xl flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 px-5`}
+        className={`divisions group w-full sm:max-w-166 py-5 sm:h-36 border-2 border-border cursor-pointer ${service.cardHover} hover:scale-[1.03] hover:shadow-lg transition-[border-color,scale,box-shadow] duration-300 bg-bg-main rounded-4xl flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 px-5`}
       >
         <div
           className={`service-icon w-22 h-22 rounded-full bg-bg-main border-2 border-border ${service.iconHover} group-hover:scale-110 group-hover:-rotate-6 transition-[border-color,scale,rotate] duration-300 flex flex-col items-center justify-center`}
