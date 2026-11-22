@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "Dana";
+  src: url("../font/Dana/Farsi numerals/DanaFaNum-Regular.ttf") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dana";
+  src: url("../font/Dana/Farsi numerals/DanaFaNum-Medium.ttf") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "Dana";
+  src: url("../font/Dana/Farsi numerals/DanaFaNum-DemiBold.ttf") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "Dana";
+  src: url("../font/Dana/Farsi numerals/DanaFaNum-Bold.ttf") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "Dana";
+  src: url("../font/Dana/Farsi numerals/DanaFaNum-ExtraBold.ttf") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: "Dana";
+  direction: rtl;
+}
+
+#root {
+  margin: 0 auto;
+  padding: 24px 15px;
+  text-align: center;
+  min-height: 100svh;
+  max-width: 1536px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+}
+
+p {
+  margin: 0;
+}
