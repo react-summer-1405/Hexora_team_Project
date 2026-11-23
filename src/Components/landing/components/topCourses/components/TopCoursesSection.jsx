@@ -60,4 +60,3 @@ const TopCoursesSection = () => {
 };
 
 export default TopCoursesSection;
-س;
