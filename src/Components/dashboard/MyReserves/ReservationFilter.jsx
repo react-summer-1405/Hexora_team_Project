@@ -52,7 +52,7 @@ export default function ReservationFilter({
               e.preventDefault();
               setCurrentPage(1);
             }}
-            className="flex h-[48px] w-full items-center rounded-[16px] bg-text-light lg:w-[340px]"
+            className="flex h-[48px] w-full items-center rounded-[16px] bg-bg-light lg:w-[340px]"
           >
             <input
               type="text"
@@ -101,7 +101,7 @@ export default function ReservationFilter({
                 digits={["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]}
                 dateSeparator=" تا "
                 placeholder="انتخاب بازه تاریخ"
-                inputClass="h-12 w-full rounded-[16px] bg-text-light px-6 text-xs font-medium text-gray-700 outline-none placeholder:text-gray-400 text-right"
+                inputClass="h-12 w-full rounded-[16px] bg-bg-light px-6 text-xs font-medium text-gray-700 outline-none placeholder:text-gray-400 text-right"
                 containerClassName="w-full"
                 calendarPosition="bottom-right"
                 zIndex={1000}
@@ -126,7 +126,7 @@ export default function ReservationFilter({
         </div>
 
         <div className="flex flex-wrap items-center justify-start gap-3 pb-2 lg:pb-1">
-          <span className="text-sm font-bold text-gray-800">ترتیب</span>
+          <span className="text-sm font-bold text-text-dark">ترتیب</span>
 
           <button
             type="button"

@@ -80,10 +80,10 @@ export default function FavoriteList({ favorites, isLoading, isError }) {
 
   return (
     <div
-      className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8 dark:bg-bg-field"
+      className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8"
       dir="rtl"
     >
-      <div className="hidden h-[44px] items-center rounded-2xl bg-bg-field px-4 text-center text-sm font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_120px] dark:bg-bg-light">
+      <div className="hidden h-[44px] items-center rounded-2xl bg-bg-main px-4 text-center text-sm font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_120px]">
         <span>#</span>
         <span className="text-right">نام</span>
         <span>مدرس</span>

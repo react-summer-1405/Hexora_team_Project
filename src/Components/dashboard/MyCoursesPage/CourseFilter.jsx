@@ -60,7 +60,7 @@ export default function CourseFilter({
 
           <form
             onSubmit={handleSubmit}
-            className="flex h-12 w-full items-center rounded-[16px] bg-text-light lg:w-auto"
+            className="flex h-12 w-full items-center rounded-[16px] bg-bg-light lg:w-auto"
           >
             <input
               type="text"
@@ -88,7 +88,7 @@ export default function CourseFilter({
         </div>
 
         <div className="flex min-w-0 flex-col gap-3">
-          <div className="flex items-center gap-1 text-gray-800">
+          <div className="flex items-center gap-1 text-text-dark">
             <img src={calendarIcon} alt="تقویم" className="h-[24px] w-[24px]" />
             <span className="text-base font-medium">تاریخ برگزاری - اتمام</span>
           </div>
@@ -106,7 +106,7 @@ export default function CourseFilter({
                 digits={["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]}
                 dateSeparator=" تا "
                 placeholder="انتخاب بازه تاریخ"
-                inputClass="h-12 w-full rounded-[16px] bg-text-light px-6 text-xs font-medium text-gray-700 outline-none placeholder:text-gray-400 text-right"
+                inputClass="h-12 w-full rounded-[16px] bg-bg-light px-6 text-xs font-medium text-gray-700 outline-none placeholder:text-gray-400 text-right"
                 containerClassName="w-full"
                 calendarPosition="bottom-right"
                 zIndex={1000}

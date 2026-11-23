@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { Calendar } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
@@ -72,7 +72,7 @@ export default function FavoriteBlogFilter({
                 e.preventDefault();
                 setCurrentPage(1);
               }}
-              className="flex h-[48px] w-full items-center rounded-[16px] bg-text-light lg:w-[340px]"
+              className="flex h-[48px] w-full items-center rounded-[16px] bg-bg-light lg:w-[340px]"
             >
               <input
                 type="text"
@@ -112,7 +112,7 @@ export default function FavoriteBlogFilter({
                 <button
                   type="button"
                   onClick={() => setIsCalendarOpen((prev) => !prev)}
-                  className="flex h-[48px] w-full items-center justify-between rounded-[16px] bg-text-light px-6 text-right text-xs font-medium text-gray-500"
+                  className="flex h-[48px] w-full items-center justify-between rounded-[16px] bg-bg-light px-6 text-right text-xs font-medium text-gray-500"
                 >
                   <span>{getDateLabel()}</span>
 
@@ -124,7 +124,7 @@ export default function FavoriteBlogFilter({
                 </button>
 
                 {isCalendarOpen && (
-                  <div className="absolute right-0 top-[56px] z-[1000] rounded-2xl bg-white p-3 shadow-xl">
+                  <div className="absolute right-0 top-[56px] z-[1000] rounded-2xl bg-bg-light p-3 shadow-xl">
                     <Calendar
                       value={dateRange}
                       onChange={handleDateChange}
