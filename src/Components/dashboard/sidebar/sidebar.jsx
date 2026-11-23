@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import bahrLogo from "../../../assets/images/login/bahrlogo.webp";
 import bahrlogotext from "../../../assets/images/login/bahrlogotext.webp";
 import dashIcon from "../../../assets/images/dashboard/dash-icon.png";
@@ -6,8 +8,7 @@ import myreserveIcon from "../../../assets/images/dashboard/myreserve-icon.png";
 import favoriteIcon from "../../../assets/images/dashboard/favorite-icon.png";
 import favoriteblogIcon from "../../../assets/images/dashboard/favoriteblog-icon.png";
 import profileIcon from "../../../assets/images/dashboard/profile-icon.png";
-import { Link } from "react-router-dom";
-// import paymentIcon from "../../../assets/images/dashboard/payment-icon.png";
+import LogoutModal from "../LogoutModal/LogoutModal";
 
 const sidebarLinks = [
   { id: 1, title: "داشبورد", href: "/dashboard", icon: dashIcon },
@@ -39,6 +40,18 @@ const sidebarLinks = [
 ];
 
 export default function Sidebar({ isOpen, closeSidebar }) {
+  const navigate = useNavigate();
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const handleConfirmLogout = () => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    setIsLogoutModalOpen(false);
+    navigate("/");
+  };
+
   return (
     <>
       {isOpen && (
@@ -47,9 +60,9 @@ export default function Sidebar({ isOpen, closeSidebar }) {
           onClick={closeSidebar}
         ></div>
       )}
- 
+
       <div
-        className={`fixed inset-y-0 right-0 z-50 flex h-full w-[250px] flex-col  bg-bg-dark p-4 text-text-light transition-transform duration-300 ease-in-out md:static md:translate-x-0 dark:border-border dark:bg-bg-field ${
+        className={`fixed inset-y-0 right-0 z-50 flex h-full w-[250px] flex-col bg-bg-dark p-4 text-text-light transition-transform duration-300 ease-in-out md:static md:translate-x-0 dark:border-border dark:bg-bg-field ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -61,7 +74,6 @@ export default function Sidebar({ isOpen, closeSidebar }) {
             className="h-[38px] w-[189px]"
           />
         </div>
- 
         <ul className="mt-[53px] w-full space-y-7 pr-4 text-right text-lg font-medium">
           {sidebarLinks.map((item) => (
             <li key={item.id}>
@@ -75,12 +87,20 @@ export default function Sidebar({ isOpen, closeSidebar }) {
             </li>
           ))}
         </ul>
- 
-        <button className="mx-auto mt-auto flex w-full max-w-[214px] items-center justify-center rounded-full border border-danger bg-transparent px-6 py-3 text-[14px] font-semibold text-danger transition-all duration-300 hover:bg-danger hover:text-text-light">
+
+        <button
+          onClick={() => setIsLogoutModalOpen(true)}
+          className="mx-auto mt-auto flex w-full max-w-[214px] items-center justify-center rounded-full border border-danger bg-transparent px-6 py-3 text-[14px] font-semibold text-danger transition-all duration-300 hover:bg-danger hover:text-text-light"
+        >
           خروج از حساب کاربری
         </button>
       </div>
+
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
     </>
   );
 }
- 

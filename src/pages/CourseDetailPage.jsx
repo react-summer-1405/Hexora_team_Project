@@ -17,7 +17,6 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { SplitText } from "gsap/SplitText";
 
-
 const CourseDetailPage = () => {
   const containerRef = useRef();
   const [isReserveModal, toggleReserve] = useToggle(false);
@@ -48,33 +47,33 @@ const CourseDetailPage = () => {
       if (isPending || isError) return;
 
       const titleTarget = ".course-title";
-     const paragraphTargets = ".description > .texts";
+      const paragraphTargets = ".description > .texts";
 
-       const parSplit = SplitText.create(paragraphTargets, {
-            type: "words",
-          });
-    
-       const titleSplit = SplitText.create(titleTarget, {
-            type: "words",
-          });
-    
-          gsap
-            .timeline({ defaults: { ease: "expo.out" } })
-            .from(titleSplit.words, {
-              opacity: 0,
-              y: 20,
-              duration: 0.7,
-              stagger: 0.5,
-            })
-            .from(parSplit.words, {
-              opacity: 0,
-              duration: 0.2,
-              stagger: 0.03,
-            },"-=1.5")
+      const parSplit = SplitText.create(paragraphTargets, {
+        type: "words",
+      });
 
-      
+      const titleSplit = SplitText.create(titleTarget, {
+        type: "words",
+      });
 
-
+      gsap
+        .timeline({ defaults: { ease: "expo.out" } })
+        .from(titleSplit.words, {
+          opacity: 0,
+          y: 20,
+          duration: 0.7,
+          stagger: 0.5,
+        })
+        .from(
+          parSplit.words,
+          {
+            opacity: 0,
+            duration: 0.2,
+            stagger: 0.03,
+          },
+          "-=1.5",
+        );
 
       const clear = "transform,opacity,clipPath";
       gsap
@@ -121,8 +120,7 @@ const CourseDetailPage = () => {
             clearProps: clear,
           },
           "<0.1",
-        )
-
+        );
 
       gsap.from(".description > h6", {
         opacity: 0,
@@ -169,7 +167,6 @@ const CourseDetailPage = () => {
     { scope: containerRef, dependencies: [isPending, isError, id] },
   );
 
-  
   if (isPending) return <CourseDetailPending />;
 
   if (isError)
@@ -190,7 +187,6 @@ const CourseDetailPage = () => {
         toggleComment={toggleComment}
       />
       <RelatedOnes course={course} />
-      
       {/* modals */}
       <ReserveModal
         isOpen={isReserveModal}

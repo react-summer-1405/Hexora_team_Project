@@ -1,7 +1,6 @@
-
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Skeleton } from "@heroui/react";
 import { useProfile } from "../../../hooks/dashboard/userProfile";
-
 import dayjs from "dayjs";
 import jalaliday from "jalaliday";
 
@@ -29,15 +28,13 @@ const toPersianDigits = (value) =>
   String(value).replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)]);
 
 export default function WelcomeHeader() {
-  const { data: profile } = useProfile();
-
+  const { data: profile, isLoading } = useProfile();
   const [currentTime, setCurrentTime] = useState(() => dayjs());
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(dayjs());
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -52,18 +49,30 @@ export default function WelcomeHeader() {
   return (
     <div className="flex w-full min-w-0 flex-col gap-4 p-6 lg:flex-1">
       <div className="flex min-w-0 flex-col text-right">
-        <div className="flex flex-wrap items-center gap-2 text-lg font-bold text-text-dark md:text-xl">
-          <span className="min-w-0">
-            سلام {profile?.fName || "کاربر"} {profile?.lName || "ناشناس"}، روزت
-            بخیر
-          </span>
-
-          <span>👋</span>
-
-          <span className="basis-full text-xs font-normal text-text-muted lg:basis-auto">
-            {profile?.userAbout || "امیدوارم امروز روز خوبی رو داشته باشید"}
-          </span>
-        </div>
+        {isLoading ? (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-6 w-48 rounded-lg">
+                <div className="h-6 w-full rounded-lg bg-default-200"></div>
+              </Skeleton>
+              <span>👋</span>
+            </div>
+            <Skeleton className="h-4 w-64 rounded-lg">
+              <div className="h-4 w-full rounded-lg bg-default-200"></div>
+            </Skeleton>
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center gap-2 text-lg font-bold text-text-dark md:text-xl">
+            <span className="min-w-0">
+              سلام {profile?.fName || "کاربر"} {profile?.lName || "ناشناس"}،
+              روزت بخیر
+            </span>
+            <span>👋</span>
+            <span className="basis-full text-xs font-normal text-text-muted lg:basis-auto">
+              {profile?.userAbout || "امیدوارم امروز روز خوبی رو داشته باشید"}
+            </span>
+          </div>
+        )}
       </div>
 
       <div
@@ -83,10 +92,15 @@ export default function WelcomeHeader() {
             <span className="text-[14px] font-medium text-text-muted">
               ساعت
             </span>
-
-            <span className="whitespace-nowrap text-[16px] font-semibold text-text-dark">
-              {formattedTime}
-            </span>
+            {isLoading ? (
+              <Skeleton className="h-5 w-16 rounded-lg">
+                <div className="h-5 w-full rounded-lg bg-default-200"></div>
+              </Skeleton>
+            ) : (
+              <span className="whitespace-nowrap text-[16px] font-semibold text-text-dark">
+                {formattedTime}
+              </span>
+            )}
           </div>
         </div>
 
@@ -103,10 +117,15 @@ export default function WelcomeHeader() {
             <span className="text-[14px] font-medium text-text-muted">
               تاریخ
             </span>
-
-            <span className="whitespace-nowrap text-[16px] font-semibold text-text-dark">
-              {formattedDate}
-            </span>
+            {isLoading ? (
+              <Skeleton className="h-5 w-24 rounded-lg">
+                <div className="h-5 w-full rounded-lg bg-default-200"></div>
+              </Skeleton>
+            ) : (
+              <span className="whitespace-nowrap text-[16px] font-semibold text-text-dark">
+                {formattedDate}
+              </span>
+            )}
           </div>
         </div>
       </div>

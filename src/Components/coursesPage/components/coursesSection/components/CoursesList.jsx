@@ -9,7 +9,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap/all";
 import { useEffect, useRef } from "react";
 
-
 const CoursesList = ({
   page,
   setPage,
@@ -78,9 +77,9 @@ const CoursesList = ({
     { scope: containerRef, dependencies: [isPending] },
   );
 
-useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}, [page]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
 
   if (isPending)
     return (

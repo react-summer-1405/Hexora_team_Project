@@ -1,5 +1,7 @@
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { Skeleton } from "@heroui/react";
 
 import Button from "../../common/Button";
 import {
@@ -9,21 +11,18 @@ import {
 
 const validationSchema = Yup.object({
   telegram: Yup.string().trim().url("لینک تلگرام معتبر نیست"),
-
   linkedin: Yup.string().trim().url("لینک لینکدین معتبر نیست"),
 });
 
 export default function ProfileLinks() {
   const { mutate, isPending } = useUpdateProfile();
-  const { data: profile } = useProfile();
+  const { data: profile, isLoading } = useProfile();
 
   const birthDay = profile?.birthDay ?? "";
 
-  console.log("birthday", birthDay);
-
   const initialValues = {
-    telegram: "",
-    linkedin: "",
+    telegram: profile?.telegramLink ?? "",
+    linkedin: profile?.linkdinProfile ?? "",
   };
 
   const handleSubmit = (values) => {
@@ -34,13 +33,44 @@ export default function ProfileLinks() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex w-full flex-col gap-6 text-right" dir="rtl">
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-5 w-16 rounded-lg">
+            <div className="h-5 w-full rounded-lg bg-default-200"></div>
+          </Skeleton>
+          <Skeleton className="h-[48px] w-full max-w-[576px] rounded-[24px]">
+            <div className="h-full w-full rounded-[24px] bg-default-200"></div>
+          </Skeleton>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-5 w-16 rounded-lg">
+            <div className="h-5 w-full rounded-lg bg-default-200"></div>
+          </Skeleton>
+          <Skeleton className="h-[48px] w-full max-w-[576px] rounded-[24px]">
+            <div className="h-full w-full rounded-[24px] bg-default-200"></div>
+          </Skeleton>
+        </div>
+
+        <div className="mt-2 w-full sm:w-auto">
+          <Skeleton className="h-[48px] w-full rounded-[24px] sm:w-[150px]">
+            <div className="h-full w-full rounded-[24px] bg-default-200"></div>
+          </Skeleton>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      enableReinitialize
     >
-      <Form className="flex w-full flex-col gap-6 text-right">
+      <Form className="flex w-full flex-col gap-6 text-right" dir="rtl">
         <div className="flex flex-col gap-3">
           <label className="text-[16px] font-semibold text-text-dark">
             تلگرام
@@ -79,12 +109,15 @@ export default function ProfileLinks() {
           />
         </div>
 
-        <Button
-          type="submit"
-          content={isPending ? "در حال ثبت..." : "ذخیره اطلاعات"}
-          color="bg-primary"
-          disabled={isPending}
-        />
+        <div className="mt-2 w-full sm:w-auto">
+          <Button
+            type="submit"
+            content={isPending ? "در حال ثبت..." : "ذخیره اطلاعات"}
+            color="bg-primary"
+            disabled={isPending}
+            customStyle="w-full sm:w-auto"
+          />
+        </div>
       </Form>
     </Formik>
   );

@@ -68,10 +68,8 @@ const AccountNum = () => {
           ))}
         </div>
         <div className="flex flex-row items-center font-semibold whitespace-nowrap gap-2">
-        <span className="text ">
-          + ۱۰۰
-        </span>
-        <span className="text">دانشجو فعال در دوره</span>
+          <span className="text ">+ ۱۰۰</span>
+          <span className="text">دانشجو فعال در دوره</span>
         </div>
       </div>
 
@@ -86,12 +84,9 @@ const AccountNum = () => {
             />
           ))}
         </div>
-                <div className="flex flex-row items-center font-semibold whitespace-nowrap gap-2">
-
-        <span className="text">
-          + ۵۰
-        </span>
-        <span className="text">اساتید برتر جهان </span>
+        <div className="flex flex-row items-center font-semibold whitespace-nowrap gap-2">
+          <span className="text">+ ۵۰</span>
+          <span className="text">اساتید برتر جهان </span>
         </div>
       </div>
     </div>

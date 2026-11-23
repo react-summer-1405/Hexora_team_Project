@@ -71,8 +71,7 @@ const CoursesPage = () => {
           duration: 1,
           stagger: 0.2,
           clearProps: "transform,opacity",
-        })
-
+        });
     },
     { scope: containerRef },
   );

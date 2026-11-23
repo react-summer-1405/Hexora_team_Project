@@ -44,8 +44,7 @@ function Purposes() {
             stagger: 0.2,
           },
           "<",
-        )
-
+        );
     },
     { scope: containerRef },
   );

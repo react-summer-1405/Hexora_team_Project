@@ -24,7 +24,6 @@ const ButtonsHandler = ({
   isUserFavorite,
   courseId,
   userFavoriteId,
-  
 }) => {
   const queryClient = useQueryClient();
   const [optimisticFav, setOptimisticFav] = useState(null);
@@ -60,25 +59,24 @@ const ButtonsHandler = ({
     },
   });
 
-const reserveMutation = useMutation({
-  mutationFn: () => addCourseReserve(courseId),
+  const reserveMutation = useMutation({
+    mutationFn: () => addCourseReserve(courseId),
 
-  onSuccess: (data) => {
-    toast.success(data?.message || "عملیات موفق بود");
-    toggleReserve();
-  },
+    onSuccess: (data) => {
+      toast.success(data?.message || "عملیات موفق بود");
+      toggleReserve();
+    },
 
-  onError: (error) => {
-    toast.error(error.response?.data?.message || "مشکلی پیش آمد");
-  },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "مشکلی پیش آمد");
+    },
 
-  onSettled: () => {
-    queryClient.invalidateQueries({
-      queryKey: ["getCourseById", courseId],
-    });
-  },
-});
-
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getCourseById", courseId],
+      });
+    },
+  });
 
   const handleFavorite = () => {
     if (favoriteMutation.isPending) return;
@@ -88,7 +86,6 @@ const reserveMutation = useMutation({
   const handleReserve = () => {
     if (reserveMutation.isPending) return;
     reserveMutation.mutate(courseId);
-    
   };
 
   return (

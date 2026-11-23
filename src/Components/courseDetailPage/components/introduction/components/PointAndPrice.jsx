@@ -2,7 +2,6 @@ import yellowStar from "../../../../../assets/icons/details/yellowStar.svg";
 import grayStar from "../../../../../assets/icons/details/grayStar.svg";
 import { formatNumber } from "../../../../hooks/formatters";
 
-
 const PointAndPrice = ({ cost = 0, rate = 0, studentCount = 0 }) => {
   return (
     <div className="point-price  w-full flex flex-row-reverse justify-end items-center md:justify-between cursor-default">

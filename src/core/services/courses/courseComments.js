@@ -1,38 +1,32 @@
-import Api_Client from "../../interceptor/interceptor"
+import Api_Client from "../../interceptor/interceptor";
 
 export const getCourseComments = async (CourseId) => {
-  const response = await Api_Client.get(`/Course/GetCourseCommnets/${CourseId}`)
+  const response = await Api_Client.get(
+    `/Course/GetCourseCommnets/${CourseId}`,
+  );
 
-  return response.data
-}
+  return response.data;
+};
 
 export const getCourseReplies = async (courseId, commentId) => {
   const res = await Api_Client.get(
-    `/Course/GetCourseReplyCommnets/${courseId}/${commentId}`
+    `/Course/GetCourseReplyCommnets/${courseId}/${commentId}`,
   );
   return res.data;
 };
 
-
-export const addCourseComment = async ({
-  courseId,
-  title,
-  describe,
-}) => {
+export const addCourseComment = async ({ courseId, title, describe }) => {
   const formData = new FormData();
 
   formData.append("CourseId", courseId);
   formData.append("Title", title);
   formData.append("Describe", describe);
 
-  const res = await Api_Client.post(
-    "/Course/AddCommentCourse",
-    formData
-  );
+  const res = await Api_Client.post("/Course/AddCommentCourse", formData);
 
   return res.data;
 };
- export const editCourseComment = async ({
+export const editCourseComment = async ({
   courseId,
   commentId,
   title,
@@ -45,10 +39,7 @@ export const addCourseComment = async ({
   formData.append("Title", title);
   formData.append("Describe", describe);
 
-  const res = await Api_Client.put(
-    "/Course/UpdateCourseComment",
-    formData
-  );
+  const res = await Api_Client.put("/Course/UpdateCourseComment", formData);
 
   return res.data;
 };
@@ -61,20 +52,20 @@ export const deleteCourseComment = async (commentId) => {
   return res.data;
 };
 
-export const addReplyComment = async ({ courseId, commentId, title, describe }) => {
-
+export const addReplyComment = async ({
+  courseId,
+  commentId,
+  title,
+  describe,
+}) => {
   const formData = new FormData();
 
-  formData.append("CommentId", commentId)
+  formData.append("CommentId", commentId);
   formData.append("CourseId", courseId);
   formData.append("Title", title);
   formData.append("Describe", describe);
 
-
-  const res = await Api_Client.post(
-    "/Course/AddReplyCourseComment",
-    formData
-  );
+  const res = await Api_Client.post("/Course/AddReplyCourseComment", formData);
   return res.data;
 };
 

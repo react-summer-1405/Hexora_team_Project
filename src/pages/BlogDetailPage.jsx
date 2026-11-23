@@ -18,7 +18,7 @@ const BlogDetailPage = () => {
   const [isCommentModal, toggleComment] = useToggle(false);
   const { id } = useParams();
 
-const containerRef = useRef();
+  const containerRef = useRef();
   const {
     data: blog,
     isError,
@@ -31,46 +31,44 @@ const containerRef = useRef();
     queryFn: () => getBlogById(id),
   });
 
-  
-
-  const { data: comments=[]  } = useQuery({
+  const { data: comments = [] } = useQuery({
     queryKey: ["blogComments", id],
     queryFn: () => getBlogComments(id),
-    select: (data)=>data.map(normalizeBlogComment),
-    staleTime:0,
+    select: (data) => data.map(normalizeBlogComment),
+    staleTime: 0,
   });
   useGSAP(
     () => {
       if (isPending || isError) return;
 
       const titleTarget = ".blog-title";
-     const paragraphTargets = ".description > .texts";
+      const paragraphTargets = ".description > .texts";
 
-       const parSplit = SplitText.create(paragraphTargets, {
-            type: "words",
-          });
-    
-       const titleSplit = SplitText.create(titleTarget, {
-            type: "words",
-          });
-    
-          gsap
-            .timeline({ defaults: { ease: "expo.out" } })
-            .from(titleSplit.words, {
-              opacity: 0,
-              y: 20,
-              duration: 0.7,
-              stagger: 0.5,
-            })
-            .from(parSplit.words, {
-              opacity: 0,
-              duration: 0.2,
-              stagger: 0.03,
-            },"-=1.5")
+      const parSplit = SplitText.create(paragraphTargets, {
+        type: "words",
+      });
 
-      
+      const titleSplit = SplitText.create(titleTarget, {
+        type: "words",
+      });
 
-
+      gsap
+        .timeline({ defaults: { ease: "expo.out" } })
+        .from(titleSplit.words, {
+          opacity: 0,
+          y: 20,
+          duration: 0.7,
+          stagger: 0.5,
+        })
+        .from(
+          parSplit.words,
+          {
+            opacity: 0,
+            duration: 0.2,
+            stagger: 0.03,
+          },
+          "-=1.5",
+        );
 
       const clear = "transform,opacity,clipPath";
       gsap
@@ -117,8 +115,7 @@ const containerRef = useRef();
             clearProps: clear,
           },
           "<0.1",
-        )
-
+        );
 
       gsap.from(".description > h6", {
         opacity: 0,
@@ -164,10 +161,8 @@ const containerRef = useRef();
 
     { scope: containerRef, dependencies: [isPending, isError, id] },
   );
-  
 
-  if (isPending) return <BlogDetailPending/>;
-
+  if (isPending) return <BlogDetailPending />;
 
   if (isError)
     return (
@@ -182,12 +177,8 @@ const containerRef = useRef();
     return (
       <div className=" flex flex-col gap-12" ref={containerRef}>
         <Introduction blog={blog} />
-        <CommentSection
-          comments={comments}
-          toggleComment={toggleComment}
-        />
-        <RelatedOnes blog={blog}/>
-      
+        <CommentSection comments={comments} toggleComment={toggleComment} />
+        <RelatedOnes blog={blog} />
 
         <CommentModal
           isOpen={isCommentModal}
@@ -196,8 +187,7 @@ const containerRef = useRef();
           blogId={id}
           comments={comments}
         />
-
-     </div>
+      </div>
     );
   }
 };

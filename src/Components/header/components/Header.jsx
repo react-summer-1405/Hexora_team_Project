@@ -24,8 +24,8 @@ import { selectThemeMode, toggleTheme } from "../../features/theme/themeSlice";
 
 const Header = () => {
   const containerRef = useRef();
-    const menuRef = useRef()
-    const menuTl = useRef(null);
+  const menuRef = useRef();
+  const menuTl = useRef(null);
   const dispatch = useDispatch();
   const mode = useSelector(selectThemeMode);
 
@@ -75,39 +75,39 @@ const Header = () => {
   );
 
   useGSAP(
-  () => {
-    if (!menuRef.current) return;
+    () => {
+      if (!menuRef.current) return;
 
-    gsap.set(menuRef.current, { autoAlpha: 0, yPercent: -8 });
+      gsap.set(menuRef.current, { autoAlpha: 0, yPercent: -8 });
 
-    menuTl.current = gsap
-      .timeline({ paused: true })
-      .to(menuRef.current, {
-        autoAlpha: 1,
-        yPercent: 0,
-        duration: 0.35,
-        ease: "power2.out",
-      })
-      .from(
-        ".menu-item",
-        {
-          opacity: 0,
-          x: 20,
-          stagger: 0.07,
-          duration: 0.3,
+      menuTl.current = gsap
+        .timeline({ paused: true })
+        .to(menuRef.current, {
+          autoAlpha: 1,
+          yPercent: 0,
+          duration: 0.35,
           ease: "power2.out",
-        },
-        "-=0.15",
-      );
-  },
-  { scope: menuRef, dependencies:[isMobile] },
-);
+        })
+        .from(
+          ".menu-item",
+          {
+            opacity: 0,
+            x: 20,
+            stagger: 0.07,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "-=0.15",
+        );
+    },
+    { scope: menuRef, dependencies: [isMobile] },
+  );
 
-useEffect(() => {
-  if (!menuTl.current) return;
-  if (isOpen) menuTl.current.timeScale(1).play();
-  else menuTl.current.timeScale(1.5).reverse();
-}, [isOpen ]);
+  useEffect(() => {
+    if (!menuTl.current) return;
+    if (isOpen) menuTl.current.timeScale(1).play();
+    else menuTl.current.timeScale(1.5).reverse();
+  }, [isOpen]);
   return (
     <Fragment>
       <div
@@ -128,10 +128,11 @@ useEffect(() => {
         <Toolbar />
       </div>
 
-      {isMobile &&  (
+      {isMobile && (
         <div
-            ref={menuRef}
- className="fixed inset-0 z-50 flex flex-col justify-between overflow-y-auto p-2 bg-bg-main px-5">
+          ref={menuRef}
+          className="fixed inset-0 z-50 flex flex-col justify-between overflow-y-auto p-2 bg-bg-main px-5"
+        >
           <div className="flex flex-col gap-8">
             <div className="flex flex-row justify-between items-center">
               <div className=" flex gap-2 justify-center items-center">
@@ -163,10 +164,7 @@ useEffect(() => {
                 icon={mode === "dark" ? sunIcon : moonIcon}
                 customStyle="p-3"
                 color="bg-text-dark"
-                onClick={() => 
-                  dispatch(toggleTheme())
-                 
-                }
+                onClick={() => dispatch(toggleTheme())}
               />
             </div>
           </div>

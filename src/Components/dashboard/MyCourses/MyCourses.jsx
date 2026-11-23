@@ -1,5 +1,6 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Skeleton } from "@heroui/react";
 import { useFavoriteCourses } from "../../../hooks/dashboard/useFavoriteCourses";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
@@ -100,9 +101,49 @@ export default function MyCourses() {
 
       <div className="flex flex-col gap-4">
         {isLoading ? (
-          <div className="py-4 text-center text-sm text-text-muted">
-            در حال دریافت اطلاعات دوره‌ها...
-          </div>
+          Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="flex min-w-0 flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm 2xl:grid 2xl:grid-cols-[90px_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)_90px_40px] 2xl:items-center 2xl:gap-0 2xl:border-none 2xl:p-0 2xl:px-4 2xl:text-center 2xl:shadow-none"
+            >
+              <div className="flex min-w-0 items-center gap-3 2xl:contents">
+                <Skeleton className="flex h-[52px] w-[83px] shrink-0 rounded-[14px] 2xl:mx-auto">
+                  <div className="h-full w-full rounded-[14px] bg-default-200"></div>
+                </Skeleton>
+
+                <div className="flex min-w-0 flex-col gap-2 2xl:contents">
+                  <Skeleton className="h-4 w-3/4 rounded-lg 2xl:mx-auto">
+                    <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                  </Skeleton>
+                  <Skeleton className="h-3 w-1/2 rounded-lg 2xl:hidden">
+                    <div className="h-3 w-full rounded-lg bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+
+              <Skeleton className="hidden h-4 w-3/4 rounded-lg 2xl:mx-auto 2xl:block">
+                <div className="h-4 w-full rounded-lg bg-default-200"></div>
+              </Skeleton>
+
+              <div className="flex min-w-0 items-center justify-between gap-3 border-t border-gray-50 pt-3 2xl:contents 2xl:border-none 2xl:pt-0">
+                <Skeleton className="h-4 w-24 rounded-lg 2xl:mx-auto">
+                  <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                </Skeleton>
+
+                <div className="flex shrink-0 items-center justify-center 2xl:mx-auto">
+                  <Skeleton className="h-6 w-12 rounded-full 2xl:w-16">
+                    <div className="h-6 w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+
+                <div className="flex shrink-0 items-center justify-end gap-3 2xl:justify-center">
+                  <Skeleton className="h-[24px] w-[24px] rounded-full">
+                    <div className="h-[24px] w-[24px] rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+            </div>
+          ))
         ) : isError ? (
           <div className="py-4 text-center text-sm text-danger">
             خطا در دریافت اطلاعات.

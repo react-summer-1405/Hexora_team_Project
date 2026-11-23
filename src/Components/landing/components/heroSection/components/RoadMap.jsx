@@ -62,7 +62,7 @@ const RoadMap = () => {
 
       {logoImages.map((image, index) => (
         <div key={index} className="relative ">
-          <div className="road-dot w-6 h-6 rounded-full border-6 border-[#D9D9D9] bg-[#FCFCFC]" ></div>
+          <div className="road-dot w-6 h-6 rounded-full border-6 border-[#D9D9D9] bg-[#FCFCFC]"></div>
           <div className="road-icon absolute -top-18 sm:-top-23 -left-5 sm:-left-8 w-15 sm:w-22 h-15 sm:h-22 rounded-full">
             <img src={image} />
           </div>

@@ -6,7 +6,7 @@ import Topic from "../../../../common/texts/Topic";
 import ServicesDivisions from "./ServicesDivisions";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger, SplitText)
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const PresentServices = () => {
   const containerRef = useRef(null);
@@ -28,7 +28,7 @@ const PresentServices = () => {
 
       tl.from(split.words, {
         yPercent: 110,
-        opacity:0,
+        opacity: 0,
         duration: 0.8,
         stagger: 0.12,
         ease: "expo.out",
@@ -78,8 +78,8 @@ const PresentServices = () => {
       ref={containerRef}
       className="w-full flex flex-col items-center justify-center gap-15  p-3 overflow-hidden"
     >
-      <div className="  title-text text-3xl font-bold text-center cursor-default">        
-          <Topic content="خدماتی که ما در طی دوره‌ها  به شما ارائه میدیم" />      
+      <div className="  title-text text-3xl font-bold text-center cursor-default">
+        <Topic content="خدماتی که ما در طی دوره‌ها  به شما ارائه میدیم" />
       </div>
       <ServicesDivisions />
     </div>

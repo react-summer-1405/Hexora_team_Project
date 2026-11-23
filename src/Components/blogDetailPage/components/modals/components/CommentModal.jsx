@@ -6,24 +6,30 @@ import CommentForm from "../../commentSection/components/CommentForm";
 import { useCommentActionBlog } from "../../../../hooks/useCommentActionBlog";
 import { useSelector } from "react-redux";
 
-const CommentModal = ({ isOpen, onClose, blogTitle, blogId, comments = [] }) => {
+const CommentModal = ({
+  isOpen,
+  onClose,
+  blogTitle,
+  blogId,
+  comments = [],
+}) => {
   const [showForm, setShowForm] = useState(false);
-    const [isOpenSticker, toggle] = useState(false);
+  const [isOpenSticker, toggle] = useState(false);
 
   const { addComment } = useCommentActionBlog(blogId);
 
+  const userId = useSelector((state) => state.auth.userId);
 
-    const userId = useSelector((state) => state.auth.userId);
-
-  const handleAdd = (values, resetForm) =>   
-    addComment.mutate({...values,userId}, {
-      onSuccess: () => {
-        resetForm();
-        setShowForm(false);
+  const handleAdd = (values, resetForm) =>
+    addComment.mutate(
+      { ...values, userId },
+      {
+        onSuccess: () => {
+          resetForm();
+          setShowForm(false);
+        },
       },
-    }
-  
-  );
+    );
 
   return (
     <div
@@ -31,9 +37,13 @@ const CommentModal = ({ isOpen, onClose, blogTitle, blogId, comments = [] }) => 
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      <div onClick={()=> {onClose();
-              toggle(false)
-            }} className="absolute inset-0 bg-black/40"></div>
+      <div
+        onClick={() => {
+          onClose();
+          toggle(false);
+        }}
+        className="absolute inset-0 bg-black/40"
+      ></div>
 
       <div
         className={`relative w-full max-w-212 h-full max-h-163 rounded-3xl md:rounded-[32px] z-50 bg-bg-main
@@ -55,8 +65,9 @@ const CommentModal = ({ isOpen, onClose, blogTitle, blogId, comments = [] }) => 
             className="shrink-0 rounded-[34px] border border-danger text-danger bg-[url(../../assets/icons/cancel-01.svg)]
             bg-no-repeat bg-[90%] bg-5 ps-9 transition-[border-color,text-color,scale]
             duration-200 cursor-pointer text-base md:text-lg font-medium py-1.5 px-4 active:scale-85"
-            onClick={()=> {onClose();
-              toggle(false)
+            onClick={() => {
+              onClose();
+              toggle(false);
             }}
           >
             بستن
@@ -72,7 +83,6 @@ const CommentModal = ({ isOpen, onClose, blogTitle, blogId, comments = [] }) => 
   max-md:bg-bg-main max-md:px-4 max-md:pt-3 max-md:pb-4
   max-md:shadow-[0_-8px_16px_rgba(0,0,0,0.08)]"
         >
-
           <Button
             content={showForm ? "انصراف" : "نظر شما"}
             color="bg-primary "
@@ -83,13 +93,20 @@ const CommentModal = ({ isOpen, onClose, blogTitle, blogId, comments = [] }) => 
 
           {showForm && (
             <div className="w-full max-md:max-h-[50vh] max-md:overflow-y-auto">
-              <CommentForm onSubmit={handleAdd} isPending={addComment.isPending} isOpenSticker={isOpenSticker} toggle={toggle} />
+              <CommentForm
+                onSubmit={handleAdd}
+                isPending={addComment.isPending}
+                isOpenSticker={isOpenSticker}
+                toggle={toggle}
+              />
             </div>
           )}
         </div>
 
         {comments.length === 0 && (
-          <p className="text-base font-medium text-text-muted">هنوز نظری ثبت نشده.</p>
+          <p className="text-base font-medium text-text-muted">
+            هنوز نظری ثبت نشده.
+          </p>
         )}
 
         {comments.map((comment) => (

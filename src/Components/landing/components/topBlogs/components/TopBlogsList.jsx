@@ -8,8 +8,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 const TopBlogsList = () => {
-const containerRef = useRef()
- 
+  const containerRef = useRef();
 
   const {
     data: topBlogs,
@@ -23,8 +22,7 @@ const containerRef = useRef()
     queryFn: getBlogsTop,
   });
 
-
-    useGSAP(
+  useGSAP(
     () => {
       if (!topBlogs) return;
 
@@ -45,15 +43,14 @@ const containerRef = useRef()
     { scope: containerRef, dependencies: [topBlogs] },
   );
 
-
-  if (isPending) return (
-          <div className=" w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-7 ">
+  if (isPending)
+    return (
+      <div className=" w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-7 ">
         {Array.from({ length: 3 }, (_, i) => (
           <PendingCard key={i} />
         ))}
       </div>
-  )
-
+    );
 
   if (isError)
     return (
@@ -81,23 +78,20 @@ const containerRef = useRef()
       </div>
     );
 
-    const result = topBlogs.data.news;
+  const result = topBlogs.data.news;
 
-  
-    return (
-
-        <div ref={containerRef}
-          className={` w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-7  `}
-        >
-          {result.map((blog ) => (
-            <div className="flex cards" key={blog.id}>
-              <BlogCard blog={blog} />
-            </div>
-          ))}
+  return (
+    <div
+      ref={containerRef}
+      className={` w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-7  `}
+    >
+      {result.map((blog) => (
+        <div className="flex cards" key={blog.id}>
+          <BlogCard blog={blog} />
         </div>
-
-
-    );
+      ))}
+    </div>
+  );
 };
 
 export default TopBlogsList;

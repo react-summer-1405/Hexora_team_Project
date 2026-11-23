@@ -7,7 +7,10 @@ import { useState } from "react";
 
 import toast from "react-hot-toast";
 import LikeAndDislike from "./LikeAndDislike";
-import { addBlogFavorite, deleteBlogFavorite } from "../../../../../../core/services/blogs/blogHandling";
+import {
+  addBlogFavorite,
+  deleteBlogFavorite,
+} from "../../../../../../core/services/blogs/blogHandling";
 
 const ButtonsHandler = ({
   dissLikeCount = 0,
@@ -19,59 +22,47 @@ const ButtonsHandler = ({
   blogId,
   userFavoriteId,
 }) => {
+  console.log("isUserFavorite", isUserFavorite);
+  console.log("userFavoriteId", userFavoriteId);
 
-  console.log("isUserFavorite",isUserFavorite);
-  console.log("userFavoriteId",userFavoriteId);
-  
-  
-  
-  
-
-    const handleCopy = () => navigator.clipboard.writeText(window.location.href);
-
+  const handleCopy = () => navigator.clipboard.writeText(window.location.href);
 
   const queryClient = useQueryClient();
-const [optimisticFav, setOptimisticFav] = useState(null);
+  const [optimisticFav, setOptimisticFav] = useState(null);
 
-const favView = optimisticFav ?? !!userFavoriteId;
+  const favView = optimisticFav ?? !!userFavoriteId;
 
+  const favoriteMutation = useMutation({
+    mutationFn: (nextFav) =>
+      nextFav ? addBlogFavorite(blogId) : deleteBlogFavorite(userFavoriteId),
 
-const favoriteMutation = useMutation({
-  mutationFn: (nextFav) =>
-    nextFav
-      ?  addBlogFavorite(blogId)
-      :deleteBlogFavorite(userFavoriteId) ,
+    onMutate: (nextFav) => {
+      setOptimisticFav(nextFav);
+    },
 
-  onMutate: (nextFav) => {
-    setOptimisticFav(nextFav);
-  },
+    onError: (error) => {
+      setOptimisticFav(null);
 
-  onError: (error) => {
-    setOptimisticFav(null);
+      toast.error(error.response?.data?.message || "مشکلی پیش آمد");
+    },
 
-    toast.error(
-      error.response?.data?.message || "مشکلی پیش آمد"
-    );
-  },
+    onSuccess: (data) => {
+      toast.success(data?.message || "عملیات موفق بود");
+    },
 
-  onSuccess: (data) => {
-    toast.success(data?.message || "عملیات موفق بود");
-  },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["getBlogById", blogId],
+      });
 
-  onSettled: async () => {
-    await queryClient.invalidateQueries({
-      queryKey: ["getBlogById", blogId],
-    });
-
-    setOptimisticFav(null);
-  },
-});
+      setOptimisticFav(null);
+    },
+  });
 
   const handleFavorite = () => {
     if (favoriteMutation.isPending) return;
     favoriteMutation.mutate(!favView);
   };
-
 
   return (
     <div className="buttons-handler w-full flex flex-row flex-wrap  justify-start items-center gap-4 ">
@@ -83,24 +74,24 @@ const favoriteMutation = useMutation({
           color="bg-bg-main"
           icon={attachment}
           onClick={handleCopy}
-          />  
-          </div>
-      
+        />
+      </div>
       <Button
         content={favView ? "حذف از لیست موردعلاقه" : "اضافه به لیست موردعلاقه"}
         icon={archive}
         iconSize="w-6 h-6 dark:invert hidden md:block"
         customStyle="py-4 md:px-11"
-        onClick={handleFavorite}/>
-
-<LikeAndDislike
-  blogId={blogId}
-  likeCount={likeCount}
-  dissLikeCount={dissLikeCount}
-  userIsLiked={userIsLiked}
-  userIsDissLike={userIsDissLike}
-  userLikeId={userLikeId}
-/>    </div>
+        onClick={handleFavorite}
+      />
+      <LikeAndDislike
+        blogId={blogId}
+        likeCount={likeCount}
+        dissLikeCount={dissLikeCount}
+        userIsLiked={userIsLiked}
+        userIsDissLike={userIsDissLike}
+        userLikeId={userLikeId}
+      />{" "}
+    </div>
   );
 };
 

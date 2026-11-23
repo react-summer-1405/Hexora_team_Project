@@ -3,7 +3,6 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import DatePickerModule from "react-multi-date-picker";
 
-
 const DateRange = ({ names }) => {
   const DatePicker = DatePickerModule.default ?? DatePickerModule;
   const [startName, endName] = names;

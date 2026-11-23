@@ -9,7 +9,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap/all";
 import { useEffect, useRef } from "react";
 
-
 const BlogsList = ({
   page,
   setPage,
@@ -47,53 +46,51 @@ const BlogsList = ({
     ? news.filter((c) => c.title.includes(searchText))
     : news;
 
-    useGSAP(
-  () => {
-    if (!data) return;
+  useGSAP(
+    () => {
+      if (!data) return;
 
-    gsap
-      .timeline({ defaults: { ease: "expo.out" } })
-      .from(".sort", {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        clearProps: "transform,opacity",
-      })
-      .from(
-        ".sort-btn",
-        {
+      gsap
+        .timeline({ defaults: { ease: "expo.out" } })
+        .from(".sort", {
           opacity: 0,
-          y: 20,
-          scale: 0.9,
-          duration: 0.6,
-          stagger: 0.12,
+          y: 30,
+          duration: 0.8,
           clearProps: "transform,opacity",
-        },
-        "-=0.5",
-      )
-              .from('.pagination', {
+        })
+        .from(
+          ".sort-btn",
+          {
+            opacity: 0,
+            y: 20,
+            scale: 0.9,
+            duration: 0.6,
+            stagger: 0.12,
+            clearProps: "transform,opacity",
+          },
+          "-=0.5",
+        )
+        .from(".pagination", {
           y: 30,
           duration: 1,
           stagger: 0.15,
           clearProps: "transform,opacity",
-        })
-  },
-  { scope: containerRef, dependencies: [isPending] },
+        });
+    },
+    { scope: containerRef, dependencies: [isPending] },
+  );
 
-  
-);
-
-useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}, [page]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
 
   if (isPending)
     return (
       <div className="flex flex-row flex-wrap lg:justify-start justify-center items-start gap-8 mt-17">
-          {Array.from({ length: rowsOfPage }, (_, i) => (
-            <PendingCard key={i} width="sm:w-108 w-80" />
-          ))}
-        </div>
+        {Array.from({ length: rowsOfPage }, (_, i) => (
+          <PendingCard key={i} width="sm:w-108 w-80" />
+        ))}
+      </div>
     );
 
   if (isError)
@@ -143,7 +140,10 @@ useEffect(() => {
     );
 
   return (
-    <div ref={containerRef}  className="w-full flex flex-col lg:items-start lg:self-start self-center gap-6">
+    <div
+      ref={containerRef}
+      className="w-full flex flex-col lg:items-start lg:self-start self-center gap-6"
+    >
       <SortingRow
         sortingButtons={sortingButtons}
         selected={selected}

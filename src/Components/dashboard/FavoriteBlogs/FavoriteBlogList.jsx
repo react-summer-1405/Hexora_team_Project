@@ -1,5 +1,5 @@
-
-import  { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Skeleton } from "@heroui/react";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
 import cancelIcon from "../../../assets/icons/dashboard/cancel-01.png";
 import DetailModal from "../../common/DetailModal/DetailModal";
@@ -68,54 +68,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
     }
   }, [blogs]);
 
-  if (isLoading) {
-    return (
-      <div
-        className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8"
-        dir="rtl"
-      >
-        <div className="hidden h-[44px] items-center rounded-2xl bg-bg-field px-4 text-center text-sm font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_80px]">
-          <span>#</span>
-          <span className="text-right">نام خبر</span>
-          <span>نویسنده</span>
-          <span>تاریخ انتشار</span>
-          <span>تاریخ آخرین ویرایش</span>
-          <span>دسته‌بندی</span>
-          <span></span>
-        </div>
-
-        <div className="flex flex-col gap-4 lg:gap-8">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <div
-              key={index}
-              className="flex animate-pulse flex-col gap-3 rounded-2xl bg-bg-main p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_80px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
-            >
-              <div className="mx-auto hidden h-12 w-12 rounded-[14px] bg-border lg:block"></div>
-
-              <div className="flex items-center gap-3 lg:block lg:text-right">
-                <div className="h-14 w-14 shrink-0 rounded-[14px] bg-border lg:hidden"></div>
-                <div className="mt-3 h-4 w-3/4 rounded-full bg-border"></div>
-              </div>
-
-              <div className="mx-auto hidden h-4 w-2/3 rounded-full bg-border lg:block"></div>
-              <div className="mx-auto hidden h-4 w-2/3 rounded-full bg-border lg:block"></div>
-              <div className="mx-auto hidden h-4 w-2/3 rounded-full bg-border lg:block"></div>
-
-              <div className="hidden justify-center lg:flex">
-                <div className="h-6 w-16 rounded-full bg-border"></div>
-              </div>
-
-              <div className="hidden justify-center gap-3 lg:flex">
-                <div className="h-5 w-5 rounded-full bg-border"></div>
-                <div className="h-5 w-5 rounded-full bg-border"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   if (isError) {
     return (
       <div className="py-10 text-center text-sm font-medium text-danger">
@@ -129,7 +81,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
       className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8"
       dir="rtl"
     >
-      {/* Table Header */}
       <div className="hidden h-[44px] items-center rounded-2xl bg-bg-field px-4 text-center text-sm font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_80px]">
         <span>#</span>
         <span className="text-right">نام خبر</span>
@@ -140,9 +91,76 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
         <span></span>
       </div>
 
-      {/* Blog List */}
       <div className="flex flex-col gap-4 lg:gap-8">
-        {!blogs || blogs.length === 0 ? (
+        {isLoading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={`skeleton-${index}`}
+              className="flex flex-col gap-3 rounded-2xl bg-bg-main p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_80px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
+            >
+              <div className="hidden lg:block">
+                <Skeleton className="mx-auto h-12 w-12 rounded-[14px]">
+                  <div className="h-full w-full rounded-[14px] bg-default-200"></div>
+                </Skeleton>
+              </div>
+
+              <div className="flex items-center gap-3 lg:block lg:text-right">
+                <Skeleton className="h-14 w-14 shrink-0 rounded-[14px] lg:hidden">
+                  <div className="h-full w-full rounded-[14px] bg-default-200"></div>
+                </Skeleton>
+                <div className="flex w-full flex-col gap-2">
+                  <Skeleton className="mt-1 h-4 w-3/4 rounded-lg lg:mt-0">
+                    <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between lg:block">
+                <span className="text-xs font-normal text-text-muted lg:hidden">
+                  نویسنده:
+                </span>
+                <Skeleton className="h-4 w-24 rounded-lg lg:mx-auto">
+                  <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                </Skeleton>
+              </div>
+
+              <div className="flex items-center justify-between lg:block">
+                <span className="text-xs font-normal text-text-muted lg:hidden">
+                  تاریخ انتشار:
+                </span>
+                <Skeleton className="h-4 w-24 rounded-lg lg:mx-auto">
+                  <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                </Skeleton>
+              </div>
+
+              <div className="flex items-center justify-between lg:block">
+                <span className="text-xs font-normal text-text-muted lg:hidden">
+                  تاریخ ویرایش:
+                </span>
+                <Skeleton className="h-4 w-24 rounded-lg lg:mx-auto">
+                  <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                </Skeleton>
+              </div>
+
+              <div className="mt-2 flex items-center justify-between border-t border-border pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
+                <div className="flex items-center justify-start lg:mx-auto lg:justify-center">
+                  <Skeleton className="h-6 w-16 rounded-full">
+                    <div className="h-6 w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+
+                <div className="flex items-center justify-end gap-3 lg:justify-center">
+                  <Skeleton className="h-[24px] w-[24px] rounded-full">
+                    <div className="h-full w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                  <Skeleton className="h-[20px] w-[20px] rounded-full">
+                    <div className="h-full w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : !blogs || blogs.length === 0 ? (
           <div className="py-10 text-center text-sm text-text-muted">
             هیچ بلاگی یافت نشد.
           </div>
@@ -166,7 +184,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
                 key={currentId}
                 className="flex flex-col gap-3 rounded-2xl bg-bg-main p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_80px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
               >
-                {/* Desktop Image */}
                 <div className="hidden lg:block">
                   <div
                     className={`mx-auto flex h-12 w-12 items-center justify-center rounded-[14px] shadow-sm ${
@@ -189,7 +206,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
                   </div>
                 </div>
 
-                {/* Title + Mobile Image */}
                 <div className="flex items-center gap-3 lg:block lg:text-right">
                   <div
                     className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] shadow-sm lg:hidden ${
@@ -216,7 +232,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
                   </span>
                 </div>
 
-                {/* Author */}
                 <div className="flex items-center justify-between text-sm font-bold text-text-dark lg:block lg:font-medium">
                   <span className="text-xs font-normal text-text-muted lg:hidden">
                     نویسنده:
@@ -224,7 +239,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
                   <span>{author}</span>
                 </div>
 
-                {/* Publish Date */}
                 <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
                   <span className="text-xs font-normal text-text-muted lg:hidden">
                     تاریخ انتشار:
@@ -236,7 +250,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
                   </span>
                 </div>
 
-                {/* Update Date */}
                 <div className="flex items-center justify-between text-sm font-medium text-text-dark lg:block">
                   <span className="text-xs font-normal text-text-muted lg:hidden">
                     تاریخ ویرایش:
@@ -248,7 +261,6 @@ export default function FavoriteBlogList({ blogs, isLoading, isError }) {
                   </span>
                 </div>
 
-                {/* Status + Actions */}
                 <div className="mt-2 flex items-center justify-between border-t border-border pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
                   <div className="flex items-center justify-start lg:mx-auto lg:justify-center">
                     <span

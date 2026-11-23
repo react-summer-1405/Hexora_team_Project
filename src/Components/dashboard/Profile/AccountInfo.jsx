@@ -1,3 +1,4 @@
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
@@ -8,6 +9,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
+import { Skeleton } from "@heroui/react";
 import { accountInfoFieldRows } from "../../../core/constants/dashboard/userProfile/constantFeild";
 import {
   useProfile,
@@ -32,13 +34,13 @@ const validationSchema = Yup.object({
 
 const labelClass = "text-sm font-bold text-text-dark";
 const inputClass =
-  "h-[48px] rounded-[24px] border border-border bg-transparent px-4 text-xs font-medium text-text-dark outline-none placeholder:text-text-muted";
+  "h-[48px] w-full rounded-[24px] border border-border bg-transparent px-4 text-xs font-medium text-text-dark outline-none placeholder:text-text-muted";
 const errorClass = "text-xs font-medium text-danger";
 
 const DatePicker = DatePickerModule.default ?? DatePickerModule;
 
-const renderField = (field, widthClass, calendarClass) => (
-  <div key={field.name} className="flex flex-col gap-2">
+const renderField = (field, calendarClass) => (
+  <div key={field.name} className="flex w-full flex-col gap-2 md:flex-1">
     {field.type === "radio" ? (
       <span className={labelClass}>{field.label}</span>
     ) : (
@@ -53,15 +55,13 @@ const renderField = (field, widthClass, calendarClass) => (
         id={field.name}
         name={field.name}
         placeholder={field.placeholder}
-        className="h-[123px] w-[576px] resize-none rounded-[24px] border border-border bg-transparent p-4 text-xs font-medium text-text-dark outline-none placeholder:text-text-muted"
+        className="h-[123px] w-full resize-none rounded-[24px] border border-border bg-transparent p-4 text-xs font-medium text-text-dark outline-none placeholder:text-text-muted"
       />
     )}
 
     {field.type === "radio" && (
-      <div
-        className={`flex h-[48px] items-center justify-between px-2 ${widthClass}`}
-      >
-        <div className="flex items-center gap-6">
+      <div className="flex h-[48px] w-full items-center justify-between px-2">
+        <div className="flex items-center gap-4 sm:gap-6">
           {field.options.map((option) => (
             <label
               key={option}
@@ -87,7 +87,7 @@ const renderField = (field, widthClass, calendarClass) => (
     )}
 
     {field.type === "date" && (
-      <div className="relative">
+      <div className="relative w-full">
         <Field name={field.name}>
           {({ field: formikField, form }) => (
             <DatePicker
@@ -107,7 +107,8 @@ const renderField = (field, widthClass, calendarClass) => (
               editable={false}
               placeholder={field.placeholder}
               className={calendarClass}
-              inputClass={`${inputClass} ${widthClass} pl-12`}
+              inputClass={`${inputClass} pl-12`}
+              containerClassName="w-full"
             />
           )}
         </Field>
@@ -124,13 +125,13 @@ const renderField = (field, widthClass, calendarClass) => (
     {field.type !== "textarea" &&
       field.type !== "radio" &&
       field.type !== "date" && (
-        <div className="relative">
+        <div className="relative w-full">
           <Field
             id={field.name}
             type={field.type || "text"}
             name={field.name}
             placeholder={field.placeholder}
-            className={`${inputClass} ${widthClass}`}
+            className={inputClass}
           />
         </div>
       )}
@@ -200,15 +201,43 @@ export default function AccountInfo() {
 
   if (isLoading) {
     return (
-      <div className="text-sm text-text-muted" dir="rtl">
-        در حال دریافت اطلاعات...
+      <div className="flex flex-col gap-6 text-right" dir="rtl">
+        {accountInfoFieldRows.map((row, index) => (
+          <div
+            key={`skeleton-row-${index}`}
+            className="flex w-full flex-col gap-6 md:max-w-[576px] md:flex-row md:gap-[40px]"
+          >
+            {row.map((field, i) => (
+              <div
+                key={`skeleton-field-${i}`}
+                className="flex w-full flex-col gap-2 md:flex-1"
+              >
+                <Skeleton className="h-4 w-20 rounded-lg">
+                  <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                </Skeleton>
+                <Skeleton
+                  className={`w-full rounded-[24px] ${
+                    field.type === "textarea" ? "h-[123px]" : "h-[48px]"
+                  }`}
+                >
+                  <div className="h-full w-full rounded-[24px] bg-default-200"></div>
+                </Skeleton>
+              </div>
+            ))}
+          </div>
+        ))}
+        <div className="mt-4 flex w-full justify-end md:max-w-[576px]">
+          <Skeleton className="h-[48px] w-[150px] rounded-[24px]">
+            <div className="h-full w-full rounded-[24px] bg-default-200"></div>
+          </Skeleton>
+        </div>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="text-sm text-danger" dir="rtl">
+      <div className="text-sm font-medium text-danger" dir="rtl">
         خطا در دریافت اطلاعات پروفایل
       </div>
     );
@@ -223,28 +252,22 @@ export default function AccountInfo() {
     >
       {({ isSubmitting }) => (
         <Form className="flex flex-col gap-6 text-right" dir="rtl" noValidate>
-          {accountInfoFieldRows.map((row) =>
-            row.length === 2 ? (
-              <div
-                key={row.map((f) => f.name).join("-")}
-                className="flex w-[576px] items-start justify-between gap-[40px]"
-              >
-                {row.map((field) =>
-                  renderField(field, "w-[268px]", calendarClass),
-                )}
-              </div>
-            ) : (
-              renderField(row[0], "w-[576px]", calendarClass)
-            ),
-          )}
+          {accountInfoFieldRows.map((row) => (
+            <div
+              key={row.map((f) => f.name).join("-")}
+              className="flex w-full flex-col gap-6 md:max-w-[576px] md:flex-row md:gap-[40px]"
+            >
+              {row.map((field) => renderField(field, calendarClass))}
+            </div>
+          ))}
 
-          <div className="mt-4 flex w-[576px] justify-end">
+          <div className="mt-4 flex w-full justify-end md:max-w-[576px]">
             <Button
               color="bg-primary"
               content="اعمال تغییرات"
               type="submit"
               disabled={isSubmitting}
-              className="flex h-[48px] items-center justify-center rounded-[24px] bg-primary px-8 text-sm font-bold text-text-light transition-colors hover:bg-primary-hover disabled:opacity-60"
+              className="flex h-[48px] w-full items-center justify-center rounded-[24px] bg-primary px-8 text-sm font-bold text-text-light transition-colors hover:bg-primary-hover sm:w-auto disabled:opacity-60"
             />
           </div>
         </Form>

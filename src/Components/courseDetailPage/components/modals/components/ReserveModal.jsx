@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../../../common/Button";
 
 const ReserveModal = ({ isOpen, onClose, courseTitle }) => {
- const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
@@ -44,8 +44,8 @@ const ReserveModal = ({ isOpen, onClose, courseTitle }) => {
           </div>
 
           <span className="flex-1 max-w-60 w-min text-sm sm:text-base font-medium text-text-muted">
-             بعد از تایید ادمین ، دوره مورد نظر به لیست
-            <span className="text-text-dark">  دوره من </span> شما اضافه خواهد شد 
+            بعد از تایید ادمین ، دوره مورد نظر به لیست
+            <span className="text-text-dark"> دوره من </span> شما اضافه خواهد شد
           </span>
         </div>
 
@@ -54,7 +54,9 @@ const ReserveModal = ({ isOpen, onClose, courseTitle }) => {
             content="رزرو من"
             color="bg-primary"
             customStyle="w-full sm:w-auto sm:px-16 text-lg sm:text-[20px]"
-            onClick={()=>{navigate('/dashboard/my-reserve')}}
+            onClick={() => {
+              navigate("/dashboard/my-reserve");
+            }}
           />
 
           <Button

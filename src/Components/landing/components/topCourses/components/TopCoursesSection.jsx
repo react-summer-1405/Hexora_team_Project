@@ -32,12 +32,16 @@ const TopCoursesSection = () => {
         duration: 0.8,
         stagger: 0.12,
         ease: "expo.out",
-      }).from(".button", {
-        yPercent: 110,
-        opacity: 0,
-        duration: 0.8,
-        clearProps: "transform,opacity",
-      },"+=0.5");
+      }).from(
+        ".button",
+        {
+          yPercent: 110,
+          opacity: 0,
+          duration: 0.8,
+          clearProps: "transform,opacity",
+        },
+        "+=0.5",
+      );
     },
     { scope: containerRef },
   );
@@ -56,3 +60,4 @@ const TopCoursesSection = () => {
 };
 
 export default TopCoursesSection;
+س;

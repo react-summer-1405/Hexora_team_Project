@@ -6,49 +6,49 @@ import { useState } from "react";
 import figmaLogo from "../../../../../assets/images/figma.png";
 import Points from "./Points";
 const Introduction = ({ blog }) => {
-const {
-  id,
-  title,
-  miniDescribe,
-  describe,
-  currentImageAddress: imageAddress,
-  insertDate,
-  newsCatregoryName: categoryName,
-  addUserFullName: authorName,
-  newsRate,
-  commentsCount,
-  currentView: viewCount,
-  currentLikeCount: likeCount,
-  currentDissLikeCount: dissLikeCount,
-  currentUserIsLike: userIsLiked,
-  currentUserIsDissLike: userIsDissLike,
-  isCurrentUserFavorite: isUserFavorite,
-  currentUserFavoriteId: userFavoriteId,
-  likeId: userLikeId,
-  currentUserRateNumber,
-} = blog;
+  const {
+    id,
+    title,
+    miniDescribe,
+    describe,
+    currentImageAddress: imageAddress,
+    insertDate,
+    newsCatregoryName: categoryName,
+    addUserFullName: authorName,
+    newsRate,
+    commentsCount,
+    currentView: viewCount,
+    currentLikeCount: likeCount,
+    currentDissLikeCount: dissLikeCount,
+    currentUserIsLike: userIsLiked,
+    currentUserIsDissLike: userIsDissLike,
+    isCurrentUserFavorite: isUserFavorite,
+    currentUserFavoriteId: userFavoriteId,
+    likeId: userLikeId,
+    currentUserRateNumber,
+  } = blog;
 
-
-
-
-
-   const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const showLogo = !imageAddress || isError || !isLoaded;
   const showImage = imageAddress && !isError;
-
 
   const itemsRow1 = [
     { id: 1, label: "دسته‌بندی", value: categoryName, variant: "danger" },
     {
       id: 2,
       label: "منتشرکننده",
-      value:authorName,
+      value: authorName,
       variant: "purple",
     },
-    { id: 3, label: "تاریخ انتشار", value: formatDate(insertDate), variant: "primary" },
-    { id: 4, label: "بازدیدکنندگان", value:  formatNumber(viewCount)+" نفر" },
+    {
+      id: 3,
+      label: "تاریخ انتشار",
+      value: formatDate(insertDate),
+      variant: "primary",
+    },
+    { id: 4, label: "بازدیدکنندگان", value: formatNumber(viewCount) + " نفر" },
   ];
 
   const itemsRow2 = [
@@ -83,16 +83,12 @@ const {
             {title}
           </h3>
           <div className="flex flex-col gap-4 lg:w-full w-5/6 md:mx-0 mx-auto">
-            <InfoBox items={itemsRow1} className="lg:grid-cols-4"/>
+            <InfoBox items={itemsRow1} className="lg:grid-cols-4" />
             <InfoBox items={itemsRow2} className="lg:w-1/2" />
-            
           </div>
-          <Points
-            rate={newsRate}
-            commentsCount={commentsCount}
-          />
+          <Points rate={newsRate} commentsCount={commentsCount} />
           <ButtonsHandler
-            blogId={id}         
+            blogId={id}
             likeCount={likeCount}
             dissLikeCount={dissLikeCount}
             userIsLiked={userIsLiked}

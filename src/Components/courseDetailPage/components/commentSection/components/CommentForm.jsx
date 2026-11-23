@@ -12,8 +12,13 @@ const commentSchema = Yup.object({
   describe: Yup.string().trim().required("متن را وارد کنید"),
 });
 
-const CommentForm = ({ onSubmit, isPending , toggle , isOpenSticker , initialValues=null }) => {
-
+const CommentForm = ({
+  onSubmit,
+  isPending,
+  toggle,
+  isOpenSticker,
+  initialValues = null,
+}) => {
   return (
     <Formik
       initialValues={initialValues || { title: "", describe: "" }}
@@ -58,10 +63,10 @@ const CommentForm = ({ onSubmit, isPending , toggle , isOpenSticker , initialVal
             color="bg-primary"
             disable={isPending}
           />
-          
+
           <Button
             type="button"
-            onClick={()=>toggle(!isOpenSticker)}
+            onClick={() => toggle(!isOpenSticker)}
             circle
             icon={smileIcon}
             color="bg-bg-main"

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Skeleton } from "@heroui/react";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
 import DetailModal from "../../common/DetailModal/DetailModal";
 import defaultReactImg from "../../../assets/images/react.png";
@@ -66,14 +67,6 @@ export default function CourseList({ courses, isLoading, isError }) {
     }
   }, [courses]);
 
-  if (isLoading) {
-    return (
-      <div className="py-10 text-center text-sm font-medium text-text-muted">
-        در حال دریافت اطلاعات دوره‌ها...
-      </div>
-    );
-  }
-
   if (isError) {
     return (
       <div className="py-10 text-center text-sm font-medium text-danger">
@@ -98,7 +91,56 @@ export default function CourseList({ courses, isLoading, isError }) {
       </div>
 
       <div className="flex flex-col gap-4 lg:gap-8">
-        {!courses || courses.length === 0 ? (
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={`skeleton-${index}`}
+              className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
+            >
+              <div className="hidden lg:block">
+                <Skeleton className="mx-auto h-12 w-12 rounded-[14px]">
+                  <div className="h-full w-full rounded-[14px] bg-default-200"></div>
+                </Skeleton>
+              </div>
+
+              <div className="flex items-center gap-3 lg:block lg:text-right">
+                <Skeleton className="h-14 w-14 shrink-0 rounded-[14px] lg:hidden">
+                  <div className="h-full w-full rounded-[14px] bg-default-200"></div>
+                </Skeleton>
+                <div className="flex w-full flex-col gap-2">
+                  <Skeleton className="h-4 w-3/4 rounded-lg">
+                    <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                  </Skeleton>
+                  <Skeleton className="h-3 w-1/2 rounded-lg lg:hidden">
+                    <div className="h-3 w-full rounded-lg bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+
+              <Skeleton className="hidden h-4 w-3/4 rounded-lg lg:mx-auto lg:block">
+                <div className="h-4 w-full rounded-lg bg-default-200"></div>
+              </Skeleton>
+
+              <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-3 lg:contents lg:border-none lg:pt-0">
+                <Skeleton className="h-4 w-24 rounded-lg lg:mx-auto">
+                  <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                </Skeleton>
+
+                <div className="flex items-center justify-center lg:mx-auto">
+                  <Skeleton className="h-6 w-16 rounded-full">
+                    <div className="h-6 w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+
+                <div className="flex items-center justify-end lg:justify-center">
+                  <Skeleton className="h-[24px] w-[24px] rounded-full">
+                    <div className="h-[24px] w-[24px] rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : !courses || courses.length === 0 ? (
           <div className="py-10 text-center text-sm text-gray-500">
             هیچ دوره‌ای یافت نشد.
           </div>

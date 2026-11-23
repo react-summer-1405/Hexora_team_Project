@@ -9,10 +9,9 @@ import gsap from "gsap";
 import { useRef } from "react";
 
 const TopCourses = () => {
+  const containerRef = useRef();
 
-const containerRef = useRef()
-
-const count = 4;
+  const count = 4;
 
   const {
     data: topCourses,
@@ -22,11 +21,11 @@ const count = 4;
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["coursesTop",count],
-    queryFn:()=> getCoursesTop(count),
+    queryKey: ["coursesTop", count],
+    queryFn: () => getCoursesTop(count),
   });
 
-    useGSAP(
+  useGSAP(
     () => {
       if (!topCourses) return;
 
@@ -46,7 +45,6 @@ const count = 4;
     },
     { scope: containerRef, dependencies: [topCourses] },
   );
-
 
   if (isPending)
     return (
@@ -87,18 +85,17 @@ const count = 4;
 
   if (topCourses)
     return (
-
-        <div ref={containerRef}
-          className={` w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-6 
+      <div
+        ref={containerRef}
+        className={` w-full overflow-hidden  py-5 px-6  flex md:flex-row flex-col  justify-center items-center gap-6 
                   `}
-        >
-          {result.map((course) => (
-            <div className="flex  cards " key={course.id}>
-              <CourseCard course={course} />
-            </div>
-          ))}
-        </div>
-
+      >
+        {result.map((course) => (
+          <div className="flex  cards " key={course.id}>
+            <CourseCard course={course} />
+          </div>
+        ))}
+      </div>
     );
 };
 

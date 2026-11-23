@@ -22,7 +22,7 @@ const IntroductionPending = () => {
   return (
     <div className="flex flex-col gap-12">
       <div className="flex flex-row flex-wrap justify-start gap-5">
-<Sk className="rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2 min-w-90 mx-auto lg:mx-3" />
+        <Sk className="rounded-[32px] h-106 lg:w-[45%] w-[70%] lg:order-1 order-2 min-w-90 mx-auto lg:mx-3" />
         <div className="lg:w-[48%] w-full mx-auto lg:mx-1 flex flex-col gap-6 items-start lg:order-2 order-1">
           <Sk className="h-8 md:h-10 w-2/3 rounded-lg" />
 

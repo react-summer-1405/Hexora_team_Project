@@ -7,8 +7,12 @@ import blackLike from "../../../../../../assets/icons/details/blackLike.svg";
 import whiteLike from "../../../../../../assets/icons/details/whiteLike.svg";
 import blackDislike from "../../../../../../assets/icons/details/blackDislike.svg";
 import whiteDislike from "../../../../../../assets/icons/details/whiteDislike.svg";
-import { addDislikeForBlog, addLikeForBlog, deleteBlogLike } from "../../../../../../core/services/blogs/blogHandling";
- const LikeAndDislike = ({
+import {
+  addDislikeForBlog,
+  addLikeForBlog,
+  deleteBlogLike,
+} from "../../../../../../core/services/blogs/blogHandling";
+const LikeAndDislike = ({
   userIsLiked,
   userIsDissLike,
   likeCount,
@@ -18,7 +22,6 @@ import { addDislikeForBlog, addLikeForBlog, deleteBlogLike } from "../../../../.
 }) => {
   const queryClient = useQueryClient();
   const [optimistic, setOptimistic] = useState(null);
-
 
   const server = {
     liked: userIsLiked,
@@ -56,37 +59,41 @@ import { addDislikeForBlog, addLikeForBlog, deleteBlogLike } from "../../../../.
     },
     onSuccess: (data) => toast.success(data?.message),
     onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["getBlogById",blogId] });
+      await queryClient.invalidateQueries({
+        queryKey: ["getBlogById", blogId],
+      });
       setOptimistic(null);
     },
   });
 
-const dislikeMutation = useMutation({
-  mutationFn: () => addDislikeForBlog(blogId),
+  const dislikeMutation = useMutation({
+    mutationFn: () => addDislikeForBlog(blogId),
 
-  onMutate: () => {
-    if (view.disliked) return;
+    onMutate: () => {
+      if (view.disliked) return;
 
-    setOptimistic({
-      disliked: true,
-      dislikes: view.dislikes + 1,
-      liked: false,
-      likes: view.likes - (view.liked ? 1 : 0),
-    });
-  },
+      setOptimistic({
+        disliked: true,
+        dislikes: view.dislikes + 1,
+        liked: false,
+        likes: view.likes - (view.liked ? 1 : 0),
+      });
+    },
 
-  onError: (error) => {
-    setOptimistic(null);
-    toast.error(error.response?.data?.message || "مشکلی پیش آمد");
-  },
+    onError: (error) => {
+      setOptimistic(null);
+      toast.error(error.response?.data?.message || "مشکلی پیش آمد");
+    },
 
-  onSuccess: (data) => toast.success(data?.message),
+    onSuccess: (data) => toast.success(data?.message),
 
-  onSettled: async () => {
-    await queryClient.invalidateQueries({ queryKey: ["getBlogById", blogId] });
-    setOptimistic(null);
-  },
-});
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["getBlogById", blogId],
+      });
+      setOptimistic(null);
+    },
+  });
 
   const isBusy = likeMutation.isPending || dislikeMutation.isPending;
 
@@ -98,9 +105,7 @@ const dislikeMutation = useMutation({
     if (!isBusy) dislikeMutation.mutate();
   };
 
-  console.log("view.disliked",view.disliked);
-  
-
+  console.log("view.disliked", view.disliked);
 
   return (
     <div className="flex flex-row gap-4 ">

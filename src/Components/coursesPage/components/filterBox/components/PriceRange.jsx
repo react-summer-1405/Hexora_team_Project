@@ -1,5 +1,3 @@
-
-
 import { Slider } from "@heroui/react";
 import { Field } from "formik";
 
@@ -12,13 +10,13 @@ const PriceRange = ({ names, min, max, step }) => {
         const low = Number(form.values[minName]);
         const high = Number(form.values[maxName]);
 
- const flip = (v) => min + max - v;
+        const flip = (v) => min + max - v;
 
         return (
           <Slider
             dir="ltr"
             aria-label="بازه‌ی قیمت"
-className="w-full min-w-0 flex flex-col gap-3"
+            className="w-full min-w-0 flex flex-col gap-3"
             value={[flip(high), flip(low)]}
             onChange={(v) => {
               form.setFieldValue(minName, flip(v[1]));
@@ -28,43 +26,42 @@ className="w-full min-w-0 flex flex-col gap-3"
             maxValue={max}
             step={step}
           >
-<Slider.Track
-  className="relative h-2 w-full min-w-0 rounded-full
+            <Slider.Track
+              className="relative h-2 w-full min-w-0 rounded-full
   dark:bg-bg-lightDark bg-bg-lightGray"
->
-       {({ state }) => {
-    const total = max - min;
-    const start = ((state.values[0] - min) / total) * 100;
-    const end = ((state.values[1] - min) / total) * 100;
-    const thumbLabels = ["حداکثر قیمت", "حداقل قیمت"];
+            >
+              {({ state }) => {
+                const total = max - min;
+                const start = ((state.values[0] - min) / total) * 100;
+                const end = ((state.values[1] - min) / total) * 100;
+                const thumbLabels = ["حداکثر قیمت", "حداقل قیمت"];
 
+                return (
+                  <>
+                    <div
+                      className="absolute top-0 left h-full rounded-full bg-primary"
+                      style={{ left: `${start}%`, width: `${end - start}%` }}
+                    />
 
-    return (
-      <>
-        <div
-          className="absolute top-0 left h-full rounded-full bg-primary"
-          style={{ left: `${start}%`, width: `${end - start}%` }}
-        />
-
-        {state.values.map((_, i) => (
-          <Slider.Thumb
-            key={i}
-            index={i}
-              aria-label={thumbLabels[i]}
-            className="relative top-1/2 h-5 w-5 rounded-full bg-white
+                    {state.values.map((_, i) => (
+                      <Slider.Thumb
+                        key={i}
+                        index={i}
+                        aria-label={thumbLabels[i]}
+                        className="relative top-1/2 h-5 w-5 rounded-full bg-white
               border-4 border-blue-500 shadow-md cursor-grab
               transition-transform duration-200
               data-[dragging=true]:scale-125 data-[dragging=true]:cursor-grabbing
               data-[focus-visible=true]:ring-2 data-[focus-visible=true]:ring-blue-300
               outline-none"
-          />
-        ))}
-      </>
-    );
-  }}
+                      />
+                    ))}
+                  </>
+                );
+              }}
             </Slider.Track>
 
-            <div   className="flex justify-between text-sm font-medium text-text-dark">
+            <div className="flex justify-between text-sm font-medium text-text-dark">
               <span>تا {high.toLocaleString("fa-IR")}</span>
               <span>از {low.toLocaleString("fa-IR")}</span>
             </div>

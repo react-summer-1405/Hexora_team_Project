@@ -1,18 +1,19 @@
 const Button = ({
-  type="",
+  type = "",
   content,
   color = "bg-bg-dark",
-  textColor="text-text-white",
+  textColor = "text-text-white",
   textSize = "text-base ",
   icon,
   onClick,
   customStyle = "",
   circle = false,
-  iconSize="w-6 h-6 dark:invert",
-  disabled
+  iconSize = "w-6 h-6 dark:invert",
+  disabled,
 }) => {
   return (
-    <button type={type}
+    <button
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={`
@@ -26,10 +27,10 @@ const Button = ({
         select-none
       `}
     >
-      {icon && <img src={icon} className={iconSize}  />}
+      {icon && <img src={icon} className={iconSize} />}
       {content}
     </button>
   );
 };
 
-export default Button
+export default Button;

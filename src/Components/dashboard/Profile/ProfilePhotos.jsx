@@ -5,6 +5,7 @@ import uploadIcon from "../../../assets/icons/dashboard/Upload.svg";
 import Button from "../../common/Button";
 
 import { useEffect, useState } from "react";
+import { Skeleton } from "@heroui/react";
 import {
   useAddProfileImage,
   useDeleteProfileImage,
@@ -18,7 +19,7 @@ const maxSizeMB = 5;
 const PREVIEW_ID = "preview";
 
 export default function ProfilePhotos() {
-  const { data: profileData } = useProfile();
+  const { data: profileData, isLoading } = useProfile();
   const { mutate: addImage, isPending: isAdding } = useAddProfileImage();
   const { mutate: selectImage, isPending: isSelecting } =
     useSelectProfileImage();
@@ -123,32 +124,64 @@ export default function ProfilePhotos() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex w-full flex-col gap-6" dir="rtl">
+        <div className="flex w-full flex-col items-center justify-between gap-3 sm:flex-row">
+          <Skeleton className="h-[48px] w-full rounded-full sm:w-[200px]">
+            <div className="h-full w-full rounded-full bg-default-200"></div>
+          </Skeleton>
+          <Skeleton className="h-[48px] w-full rounded-full sm:w-[250px]">
+            <div className="h-full w-full rounded-full bg-default-200"></div>
+          </Skeleton>
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton
+              key={`skeleton-img-${i}`}
+              className="aspect-square w-full rounded-[16px]"
+            >
+              <div className="h-full w-full rounded-[16px] bg-default-200"></div>
+            </Skeleton>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex w-full flex-col gap-6" dir="rtl">
-      <div className="flex w-full flex-wrap items-center justify-between gap-3">
+      <div className="flex w-full flex-col items-center justify-between gap-3 sm:flex-row">
         <Button
           color="bg-primary"
           icon={addIcon}
           content={isAdding ? "در حال ارسال..." : "اضافه کردن عکس"}
-          customStyle={!image || isAdding ? "opacity-50" : ""}
+          customStyle={`w-full sm:w-auto ${
+            !image || isAdding ? "opacity-50" : ""
+          }`}
           onClick={handleAddImage}
         />
 
         <Button
           color="bg-primary"
           icon={imageAddIcon}
-          content={isSelecting ? "در حال ثبت..." : "انتخاب به‌عنوان عکس پروفایل"}
-          customStyle={!selectedId || isSelecting ? "opacity-50" : ""}
+          content={
+            isSelecting ? "در حال ثبت..." : "انتخاب به‌عنوان عکس پروفایل"
+          }
+          customStyle={`w-full sm:w-auto ${
+            !selectedId || isSelecting ? "opacity-50" : ""
+          }`}
           onClick={handleSetProfileImage}
         />
       </div>
 
-      <div className="mt-4 flex flex-wrap items-start justify-start gap-4 text-sm text-text-muted">
+      <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-text-muted sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
         {profileImages.map((photo, index) => (
           <div
             key={photo.id}
             onClick={() => handleSelectImage(photo.id)}
-            className={`relative flex cursor-pointer flex-col items-start justify-start rounded-[16px] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:scale-95 ${
+            className={`relative flex aspect-square w-full cursor-pointer flex-col items-start justify-start rounded-[16px] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:scale-95 ${
               selectedId === photo.id
                 ? "ring-2 ring-primary ring-offset-2 ring-offset-white dark:ring-offset-bg-light"
                 : ""
@@ -192,13 +225,13 @@ export default function ProfilePhotos() {
             <img
               src={photo.puctureAddress}
               alt={`Photo ${index + 1}`}
-              className="h-47 w-47 rounded-[16px] object-cover"
+              className="h-full w-full rounded-[16px] object-cover"
             />
           </div>
         ))}
 
         <div
-          className={`relative h-47 w-47 rounded-[16px] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:scale-95 ${
+          className={`relative aspect-square w-full rounded-[16px] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:scale-95 ${
             menuOpenId === PREVIEW_ID ? "z-20" : ""
           }`}
         >
@@ -228,7 +261,7 @@ export default function ProfilePhotos() {
                   src={uploadIcon}
                   className="h-6 w-6 transition-all duration-300 group-hover:scale-120"
                 />
-                <span className="text-base text-primary transition-all duration-300 ease-in-out group-hover:text-primary-hover group-hover:scale-x-105">
+                <span className="text-base text-primary transition-all duration-300 ease-in-out group-hover:scale-x-105 group-hover:text-primary-hover">
                   آپلود عکس
                 </span>
               </>

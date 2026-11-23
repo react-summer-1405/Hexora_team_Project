@@ -8,12 +8,12 @@ import TopTeachersSection from "../Components/landing/components/topTeachers/com
 const LandingPage = () => {
   return (
     <div className=" flex flex-col gap-28">
-      <HeroSection/>
-      <Purposes/>
-      <PresentServices/>
-      <TopCoursesSection/>
-      <TopBlogsSection/>
-      <TopTeachersSection/>
+      <HeroSection />
+      <Purposes />
+      <PresentServices />
+      <TopCoursesSection />
+      <TopBlogsSection />
+      <TopTeachersSection />
     </div>
   );
 };

@@ -134,28 +134,28 @@ export const CommentRow = ({
             </span>
           </div>
         </div>
-        
-          {isOwner && (
-            <div className="flex flex-row justify-center gap-2">
-              <Button
-                circle
-                icon={pen}
-                customStyle="border border-primary p-1 shrink-0"
-                color="bg-bg-main"
-                onClick={toggleEdit}
-              />
 
-              <Button
-                circle
-                icon={cancel}
-                customStyle="border border-danger p-1 shrink-0"
-                color="bg-bg-main"
-                disabled={deleteComment.isPending}
-                onClick={() => deleteComment.mutate(id)}
-              />
-            </div>
-          )}
-        
+        {isOwner && (
+          <div className="flex flex-row justify-center gap-2">
+            <Button
+              circle
+              icon={pen}
+              customStyle="border border-primary p-1 shrink-0"
+              color="bg-bg-main"
+              onClick={toggleEdit}
+            />
+
+            <Button
+              circle
+              icon={cancel}
+              customStyle="border border-danger p-1 shrink-0"
+              color="bg-bg-main"
+              disabled={deleteComment.isPending}
+              onClick={() => deleteComment.mutate(id)}
+            />
+          </div>
+        )}
+
         {!isReply && (
           <div className="flex justify-center gap-5">
             <Button

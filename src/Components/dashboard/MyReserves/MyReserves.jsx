@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Skeleton } from "@heroui/react";
 import { useFavoriteCourses } from "../../../hooks/dashboard/useFavoriteCourses";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
@@ -69,22 +70,6 @@ export default function MyReserves({ showHeader = true }) {
     });
   }, [reserves]);
 
-  if (isLoading) {
-    return (
-      <div className="mt-6 w-full rounded-[24px] bg-bg-light p-10 text-center text-sm font-medium text-text-muted dark:bg-bg-field">
-        در حال دریافت اطلاعات رزروها...
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="mt-6 w-full rounded-[24px] bg-bg-light p-10 text-center text-sm font-medium text-danger dark:bg-bg-field">
-        خطا در دریافت اطلاعات.
-      </div>
-    );
-  }
-
   return (
     <div
       className="mt-6 w-full min-w-0 rounded-[24px] bg-bg-light p-4 text-right lg:flex-[2] md:p-6"
@@ -108,7 +93,6 @@ export default function MyReserves({ showHeader = true }) {
         </div>
       )}
 
-      {/* عنوان ستون‌ها؛ فقط در دسکتاپ */}
       <div className="mb-4 hidden items-center rounded-2xl bg-bg-main px-4 py-3 text-center text-xs font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1fr_1fr_80px]">
         <span>#</span>
         <span>نام</span>
@@ -118,7 +102,55 @@ export default function MyReserves({ showHeader = true }) {
       </div>
 
       <div className="flex flex-col gap-4">
-        {reserves.length === 0 ? (
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="flex min-w-0 flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1fr_1fr_80px] lg:items-center lg:gap-0 lg:border-none lg:p-0 lg:px-4 lg:text-center lg:shadow-none"
+            >
+              <div className="flex min-w-0 items-center gap-3 lg:contents">
+                <Skeleton className="flex h-14 w-14 shrink-0 rounded-[14px] lg:mx-auto lg:h-12 lg:w-12">
+                  <div className="h-full w-full rounded-[14px] bg-default-200"></div>
+                </Skeleton>
+
+                <div className="flex min-w-0 flex-col gap-2 lg:contents">
+                  <Skeleton className="h-4 w-3/4 rounded-lg lg:mx-auto">
+                    <div className="h-4 w-full rounded-lg bg-default-200"></div>
+                  </Skeleton>
+
+                  <Skeleton className="h-3 w-1/2 rounded-lg lg:hidden">
+                    <div className="h-3 w-full rounded-lg bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+
+              <Skeleton className="hidden h-4 w-3/4 rounded-lg lg:mx-auto lg:block">
+                <div className="h-4 w-full rounded-lg bg-default-200"></div>
+              </Skeleton>
+
+              <div className="flex items-center justify-between gap-3 border-t border-gray-50 pt-3 lg:contents lg:border-none lg:pt-0">
+                <div className="flex items-center justify-center lg:mx-auto">
+                  <Skeleton className="h-6 w-16 rounded-full">
+                    <div className="h-6 w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+
+                <div className="flex items-center justify-end gap-3 lg:justify-center">
+                  <Skeleton className="h-[24px] w-[24px] rounded-full">
+                    <div className="h-full w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                  <Skeleton className="h-[20px] w-[20px] rounded-full">
+                    <div className="h-full w-full rounded-full bg-default-200"></div>
+                  </Skeleton>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : isError ? (
+          <div className="py-4 text-center text-sm font-medium text-danger">
+            خطا در دریافت اطلاعات.
+          </div>
+        ) : reserves.length === 0 ? (
           <div className="py-4 text-center text-sm text-text-muted">
             رزروی برای نمایش وجود ندارد.
           </div>
@@ -173,7 +205,7 @@ export default function MyReserves({ showHeader = true }) {
 
                 <div className="flex items-center justify-between gap-3 border-t border-gray-50 pt-3 lg:contents lg:border-none lg:pt-0">
                   <div className="flex items-center justify-center lg:mx-auto">
-                    <span className="rounded-full bg-red-500 px-4 py-1.5 text-[11px] font-medium tracking-wide text-text-white">
+                    <span className="rounded-full bg-red-500 px-4 py-1.5 text-[11px] font-medium tracking-wide text-text-light">
                       تایید نشده
                     </span>
                   </div>

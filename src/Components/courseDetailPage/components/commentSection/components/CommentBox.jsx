@@ -1,10 +1,10 @@
 import Button from "../../../../common/Button";
 import blackLike from "../../../../../assets/icons/details/blackLike.svg";
-import whiteLike from '../../../../../assets/icons/details/whiteLike.svg'
-import whiteDislike from '../../../../../assets/icons/details/whiteDislike.svg'
+import whiteLike from "../../../../../assets/icons/details/whiteLike.svg";
+import whiteDislike from "../../../../../assets/icons/details/whiteDislike.svg";
 import blackDislike from "../../../../../assets/icons/details/blackDislike.svg";
 import { useCommentActions } from "../../../../hooks/useCommentActionCourse";
-import accountIcon from "../../../../../assets/icons/account.svg"
+import accountIcon from "../../../../../assets/icons/account.svg";
 
 const CommentBox = ({
   id,
@@ -36,7 +36,7 @@ const CommentBox = ({
         <div className="cursor-default flex flex-row gap-2 w-43.6 overflow-hidden">
           <img
             src={authorImage}
-                        onError={(e) => {
+            onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = accountIcon;
             }}
@@ -65,7 +65,9 @@ const CommentBox = ({
                 }
               }}
             />
-            <span className="text-base font-medium text-text-dark">{likes}</span>
+            <span className="text-base font-medium text-text-dark">
+              {likes}
+            </span>
           </div>
           <div className="flex flex-row items-center gap-2">
             <Button
@@ -79,7 +81,9 @@ const CommentBox = ({
                 }
               }}
             />
-            <span className="text-base font-medium text-text-dark">{dislikes}</span>
+            <span className="text-base font-medium text-text-dark">
+              {dislikes}
+            </span>
           </div>
         </div>
       </div>
