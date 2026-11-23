@@ -58,7 +58,7 @@ export default function MyComments() {
   return (
     <>
       <div
-        className="mt-6 flex w-full flex-col rounded-[24px] bg-bg-light p-4 text-right md:p-6 lg:w-[35%] dark:bg-bg-field"
+        className="mt-6 flex w-full flex-col rounded-[24px] bg-bg-light p-4 text-right md:p-6 lg:w-[35%]"
         dir="rtl"
       >
         <div className="mb-4 flex items-center justify-between">
