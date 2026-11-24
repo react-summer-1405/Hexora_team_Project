@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import bahrLogo from "../../../assets/images/login/bahrlogo.webp";
 import bahrlogotext from "../../../assets/images/login/bahrlogotext.webp";
@@ -8,6 +8,8 @@ import myreserveIcon from "../../../assets/images/dashboard/myreserve-icon.png";
 import favoriteIcon from "../../../assets/images/dashboard/favorite-icon.png";
 import favoriteblogIcon from "../../../assets/images/dashboard/favoriteblog-icon.png";
 import profileIcon from "../../../assets/images/dashboard/profile-icon.png";
+import calendar from "../../../assets/icons/dashboard/Calendar_Days.svg"
+import job from "../../../assets/icons/dashboard/notes.svg"
 import LogoutModal from "../LogoutModal/LogoutModal";
 
 const sidebarLinks = [
@@ -37,6 +39,8 @@ const sidebarLinks = [
     icon: favoriteblogIcon,
   },
   { id: 6, title: "پروفایل", href: "/dashboard/profile", icon: profileIcon },
+  { id: 6, title: "برنامه کلاسی", href: "/dashboard/schedule", icon: calendar },
+  { id: 6, title: "سوابق کاری", href: "/dashboard/jobs", icon: job },
 ];
 
 export default function Sidebar({ isOpen, closeSidebar }) {
@@ -76,7 +80,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
         </div>
         <ul className="mt-[53px] w-full space-y-7 pr-4 text-right text-lg font-medium">
           {sidebarLinks.map((item) => (
-            <li key={item.id}>
+            <li key={item.id} onClick={closeSidebar}>
               <Link
                 to={item.href}
                 className="flex cursor-pointer items-center gap-3 transition-colors hover:text-text-light/70"

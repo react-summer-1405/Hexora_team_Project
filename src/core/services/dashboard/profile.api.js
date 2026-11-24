@@ -1,5 +1,8 @@
 import Api_client from "../../interceptor/interceptor";
 
+const baseURL = import.meta.env.VITE_BASE_URL
+
+
 export const getProfileInfo = async () => {
   const response = await Api_client.get("/SharePanel/GetProfileInfo");
   return response.data;
@@ -45,3 +48,27 @@ export const deleteProfileImage = async (imageId) => {
   });
   return response.data;
 };
+
+
+export const changingPassword = async (payload)=>{
+
+    const response = await Api_client.post("/SharePanel/ChangePassword", payload);
+  return response.data;
+}
+
+
+export const getSecurityInfo = async () => {
+  const response = await Api_client.get("/SharePanel/GetSecurityInfo");
+  return response.data;
+};
+
+
+
+export const ChangeSecurityInfo = async ({twoStepAuth,recoveryEmail}) => {
+  const response = await Api_client.put("/SharePanel/EditSecurity" ,
+     { twoStepAuth, recoveryEmail, baseUrl:baseURL }
+    
+  );
+  return response.data;
+};
+

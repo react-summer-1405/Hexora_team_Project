@@ -21,6 +21,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useDispatch, useSelector } from "react-redux";
 import { selectThemeMode, toggleTheme } from "../../features/theme/themeSlice";
+import { useUnseenAlerts } from "../../hooks/useNotification";
+import {
+  openNotification,
+} from "../../features/notification/notificationSlice";
 
 const Header = () => {
   const containerRef = useRef();
@@ -28,6 +32,9 @@ const Header = () => {
   const menuTl = useRef(null);
   const dispatch = useDispatch();
   const mode = useSelector(selectThemeMode);
+
+  const { data: unseenAlerts = [] } = useUnseenAlerts();
+  const unseenCount = unseenAlerts.length;
 
   const navItems = [
     { name: "خانه", link: "/" },
@@ -41,6 +48,7 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 639.98);
 
   const [isOpen, setIsOpen] = useState(false);
+
 
   useEffect(() => {
     if (!isMobile) setIsOpen(false);
@@ -125,7 +133,10 @@ const Header = () => {
             onClick={() => setIsOpen(true)}
           />
         </div>
-        <Toolbar />
+        <Toolbar
+          unseenCount={unseenCount}
+          onBellClick={() => dispatch(openNotification())}
+        />
       </div>
 
       {isMobile && (
@@ -153,10 +164,16 @@ const Header = () => {
                 icon={bellIcon}
                 customStyle="p-3 border border-border"
                 color="bg-bg-field"
+                onClick={() => {
+                  setIsOpen(false);
+                  dispatch(openNotification());
+                }}
                 content={
-                  <div className="absolute -bottom-0.5 -right-0.5  w-4 h-4 rounded-full bg-danger border-white text-white text-[12px] leading-[20px]">
-                    2
-                  </div>
+                  unseenCount > 0 ? (
+                    <div className="absolute -bottom-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[11px] leading-none text-white">
+                      {unseenCount > 9 ? "9+" : unseenCount}
+                    </div>
+                  ) : null
                 }
               />
               <Button
@@ -193,6 +210,8 @@ const Header = () => {
           </div>
         </div>
       )}
+
+
     </Fragment>
   );
 };
