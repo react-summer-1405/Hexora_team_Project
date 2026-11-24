@@ -91,7 +91,7 @@ export default function DetailModal({ isOpen, onClose, data, type }) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       dir="rtl"
     >
-      <div className="relative w-full max-w-3xl overflow-hidden rounded-[24px] bg-white shadow-2xl">
+      <div className="relative w-full max-w-3xl overflow-hidden rounded-[24px] bg-bg-light shadow-2xl">
         <button
           onClick={onClose}
           className="absolute left-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-gray-600 shadow-sm backdrop-blur-md transition-colors hover:bg-gray-100 hover:text-red-500"
@@ -117,7 +117,7 @@ export default function DetailModal({ isOpen, onClose, data, type }) {
 
         <div className="flex max-h-[55vh] flex-col gap-5 overflow-y-auto p-6 md:p-8">
           <div className="flex items-start justify-between gap-4">
-            <h2 className="text-xl font-bold text-gray-800 md:text-2xl">
+            <h2 className="text-xl font-bold text-text-dark md:text-2xl">
               {title}
             </h2>
             <span className="shrink-0 rounded-full bg-blue-50 px-4 py-1.5 text-xs font-bold text-blue-600">
@@ -125,12 +125,12 @@ export default function DetailModal({ isOpen, onClose, data, type }) {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-y-4 gap-x-6 rounded-2xl bg-gray-50 p-5 text-sm md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-y-4 gap-x-6 rounded-2xl bg-bg-main p-5 text-sm md:grid-cols-3">
             <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-text-dark">
                 {isCourse ? "مدرس:" : "نویسنده:"}
               </span>
-              <span className="font-bold text-gray-800">
+              <span className="font-bold text-text-dark">
                 {author || "نامشخص"}
               </span>
             </div>
@@ -138,20 +138,20 @@ export default function DetailModal({ isOpen, onClose, data, type }) {
             {isCourse && (
               <>
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-gray-500">قیمت دوره:</span>
+                  <span className="text-xs text-text-dark">قیمت دوره:</span>
                   <span className="font-bold text-green-600">
                     {price ? `${price.toLocaleString()} تومان` : "رایگان"}
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-gray-500">ظرفیت:</span>
-                  <span className="font-bold text-gray-800">
+                  <span className="text-xs text-text-dark">ظرفیت:</span>
+                  <span className="font-bold text-text-dark">
                     {capacity ? `${capacity} نفر` : "نامشخص"}
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-gray-500">سطح دوره:</span>
-                  <span className="font-bold text-gray-800">{level}</span>
+                  <span className="text-xs text-text-dark">سطح دوره:</span>
+                  <span className="font-bold text-text-dark">{level}</span>
                 </div>
               </>
             )}
@@ -170,10 +170,10 @@ export default function DetailModal({ isOpen, onClose, data, type }) {
             )}
 
             <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-text-dark">
                 {isCourse ? "تاریخ شروع:" : "تاریخ انتشار:"}
               </span>
-              <span className="font-bold text-gray-800">
+              <span className="font-bold text-text-dark">
                 {startDate
                   ? new Date(startDate).toLocaleDateString("fa-IR")
                   : "نامشخص"}
@@ -181,10 +181,10 @@ export default function DetailModal({ isOpen, onClose, data, type }) {
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-text-dark">
                 {isCourse ? "تاریخ پایان:" : "آخرین ویرایش:"}
               </span>
-              <span className="font-bold text-gray-800">
+              <span className="font-bold text-text-dark">
                 {endDate
                   ? new Date(endDate).toLocaleDateString("fa-IR")
                   : "نامشخص"}
@@ -193,24 +193,26 @@ export default function DetailModal({ isOpen, onClose, data, type }) {
 
             {!isCourse && keywords && (
               <div className="col-span-2 flex flex-col gap-1 md:col-span-3">
-                <span className="text-xs text-gray-500">کلمات کلیدی:</span>
+                <span className="text-xs text-text-dark">کلمات کلیدی:</span>
                 <span className="font-bold text-blue-500">{keywords}</span>
               </div>
             )}
           </div>
 
           <div className="mt-2 border-t border-gray-100 pt-5">
-            <h3 className="mb-3 text-base font-bold text-gray-800">توضیحات:</h3>
-            <p className="text-sm leading-8 text-gray-600 text-justify">
+            <h3 className="mb-3 text-base font-bold text-text-dark">
+              توضیحات:
+            </h3>
+            <p className="text-sm leading-8 text-text-dark text-justify">
               {description}
             </p>
           </div>
         </div>
 
-        <div className="border-t border-gray-100 bg-white p-4 md:px-8 md:py-5">
+        <div className="border-t border-gray-100 bg-bg-light p-4 md:px-8 md:py-5">
           <button
             onClick={onClose}
-            className="w-full rounded-xl bg-blue-500 py-3.5 text-sm font-bold text-white transition-colors hover:bg-blue-600"
+            className="w-full rounded-xl bg-blue-500 py-3.5 text-sm font-bold text-text-dark transition-colors hover:bg-blue-600"
           >
             بستن و بازگشت
           </button>

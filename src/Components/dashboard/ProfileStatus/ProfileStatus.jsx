@@ -43,7 +43,7 @@ export default function ProfileStatus() {
       dir="rtl"
     >
       <div className="mb-8 flex w-full items-center justify-between gap-2">
-        <span className="text-sm font-bold text-gray-800">
+        <span className="text-sm font-bold text-primary">
           وضعیت اطلاعات حساب کاربری
         </span>
 

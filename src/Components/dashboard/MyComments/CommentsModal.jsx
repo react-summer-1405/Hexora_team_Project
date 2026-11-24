@@ -14,18 +14,18 @@ export default function CommentsModal({ isOpen, onClose, comments }) {
       dir="rtl"
     >
       <div
-        className="flex w-full flex-col max-h-[85vh] rounded-[32px] bg-white p-6 shadow-2xl md:p-8"
+        className="flex w-full flex-col max-h-[85vh] rounded-[32px] bg-bg-light p-6 shadow-2xl md:p-8"
         style={{ maxWidth: "850px" }}
       >
         <div className="mb-8 flex items-center justify-between shrink-0">
-          <h2 className="text-2xl font-bold text-gray-800">نظرات شما</h2>
+          <h2 className="text-2xl font-bold text-text-dark">نظرات شما</h2>
 
           <div className="flex h-12 items-center overflow-hidden rounded-full bg-gray-100">
             <button
               onClick={() => setActiveTab("courses")}
               className={`flex h-full items-center justify-center px-6 text-sm font-bold transition-all ${
                 activeTab === "courses"
-                  ? "rounded-full bg-blue-500 text-white"
+                  ? "rounded-full bg-blue-500 text-text-dark"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -35,7 +35,7 @@ export default function CommentsModal({ isOpen, onClose, comments }) {
               onClick={() => setActiveTab("blogs")}
               className={`flex h-full items-center justify-center px-6 text-sm font-bold transition-all ${
                 activeTab === "blogs"
-                  ? "rounded-full bg-blue-500 text-white"
+                  ? "rounded-full bg-blue-500 text-text-dark"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -78,7 +78,7 @@ export default function CommentsModal({ isOpen, onClose, comments }) {
                     <span className="text-sm font-bold text-gray-800">
                       {comment.author}
                     </span>
-                    <span className="text-[10px] font-medium text-gray-400">
+                    <span className="text-[10px] font-medium text-text-dark">
                       {comment.date}
                     </span>
                   </div>
@@ -90,15 +90,15 @@ export default function CommentsModal({ isOpen, onClose, comments }) {
                 </div>
 
                 <div className="flex flex-col gap-2 text-right">
-                  <h4 className="text-base font-bold text-gray-800">
+                  <h4 className="text-base font-bold text-text-dark">
                     {comment.title}
                   </h4>
-                  <p className="text-justify text-sm font-medium leading-7 text-gray-600">
+                  <p className="text-justify text-sm font-medium leading-7 text-text-dark">
                     {comment.content}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-end gap-6 text-gray-600">
+                <div className="flex items-center justify-end gap-6 text-text-dark">
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-bold">{comment.likes}</span>
                     <svg
@@ -154,7 +154,7 @@ export default function CommentsModal({ isOpen, onClose, comments }) {
                       placeholder="عنوان نظر خود را بنویسید"
                       value={replyTitle}
                       onChange={(e) => setReplyTitle(e.target.value)}
-                      className="w-full border-b border-gray-100 bg-transparent px-4 py-3 text-sm outline-none placeholder:text-gray-400"
+                      className="w-full border-b border-gray-100 bg-transparent px-4 py-3 text-sm outline-none placeholder:text-text-dark"
                     />
                     <div className="flex items-center justify-between">
                       <input
@@ -162,7 +162,7 @@ export default function CommentsModal({ isOpen, onClose, comments }) {
                         placeholder="متن نظر خود را بنویسید"
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
-                        className="flex-1 bg-transparent px-4 py-3 text-sm outline-none placeholder:text-gray-400"
+                        className="flex-1 bg-transparent px-4 py-3 text-sm outline-none placeholder:text-text-dark"
                       />
                       <div className="flex items-center gap-2">
                         <button className="p-2 text-blue-500 opacity-50 transition-opacity hover:opacity-100">

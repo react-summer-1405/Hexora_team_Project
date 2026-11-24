@@ -90,7 +90,7 @@ export default function MyCourses() {
         </Link>
       </div>
 
-      <div className="mb-4 hidden grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] items-center rounded-2xl bg-bg-field px-4 py-3 text-center text-xs font-medium text-text-muted md:grid dark:bg-bg-light">
+      <div className="mb-4 hidden grid-cols-[60px_1fr_1fr_1.2fr_90px_40px] items-center rounded-2xl bg-bg-main px-4 py-3 text-center text-xs font-medium text-text-muted md:grid">
         <span>#</span>
         <span>نام</span>
         <span>مدرس</span>
