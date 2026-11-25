@@ -1,21 +1,85 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@heroui/react";
-import { useFavoriteCourses } from "../../../hooks/dashboard/useFavoriteCourses";
+import { getMyCoursesReserve } from "../../../core/services/dashboard/reserve.api";
 import arrowLeftIcon from "../../../assets/icons/dashboard/arrow-left-01.png";
 import viewIcon from "../../../assets/icons/dashboard/view.png";
 import cancelIcon from "../../../assets/icons/dashboard/cancel-01.png";
 import DetailModal from "../../common/DetailModal/DetailModal";
 import defaultReactImg from "../../../assets/images/react.png";
 
-export default function MyReserves({ showHeader = true }) {
-  const { data, isLoading, isError } = useFavoriteCourses();
+export default function MyReserves({
+  showHeader = true,
+  searchText = "",
+  filterStatus = null,
+  dateRange = [],
+}) {
+  const [rawReserves, setRawReserves] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [imageStates, setImageStates] = useState({});
 
-  const reserves = data?.favoriteCourseDto || [];
+  const fetchReserves = useCallback(async () => {
+    setIsLoading(true);
+    setIsError(false);
+    try {
+      const res = await getMyCoursesReserve();
+      const list = Array.isArray(res)
+        ? res
+        : Array.isArray(res?.data)
+          ? res.data
+          : [];
+      setRawReserves(list);
+    } catch (err) {
+      console.error("خطا در دریافت رزروهای من:", err);
+      setIsError(true);
+      setRawReserves([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchReserves();
+  }, [fetchReserves]);
+
+  const reserves = rawReserves.filter((item) => {
+    const title = (item.courseName || "").toLowerCase();
+    const teacher = (item.teacher || "").toLowerCase();
+    const query = searchText.trim().toLowerCase();
+
+    if (query && !title.includes(query) && !teacher.includes(query)) {
+      return false;
+    }
+
+    if (filterStatus === "approved" && !item.accept) {
+      return false;
+    }
+    if (filterStatus === "unapproved" && item.accept) {
+      return false;
+    }
+
+    if (Array.isArray(dateRange) && dateRange.length > 0) {
+      const start = dateRange[0]?.toDate
+        ? dateRange[0].toDate().getTime()
+        : null;
+      const end = dateRange[1]?.toDate
+        ? dateRange[1].toDate().getTime()
+        : start;
+      const itemStart = item.startDate
+        ? new Date(item.startDate).getTime()
+        : null;
+
+      if (start && itemStart && (itemStart < start || itemStart > end)) {
+        return false;
+      }
+    }
+
+    return true;
+  });
 
   const handleOpenModal = (item) => {
     setSelectedItem(item);
@@ -24,55 +88,55 @@ export default function MyReserves({ showHeader = true }) {
 
   useEffect(() => {
     reserves.forEach((reserve) => {
-      const currentId = reserve.favoriteId;
-      const imageUrl = reserve.imageAddress || "/default-placeholder.png";
+      const currentId = reserve.id || reserve.reserveId;
+      const imageUrl = reserve.image || defaultReactImg;
 
-      if (!imageStates[currentId]) {
+      if (!currentId || imageStates[currentId]) return;
+
+      setImageStates((prev) => ({
+        ...prev,
+        [currentId]: { isLoading: true, hasError: false, src: "" },
+      }));
+
+      const img = new window.Image();
+      img.src = imageUrl;
+
+      const timeoutId = setTimeout(() => {
         setImageStates((prev) => ({
           ...prev,
-          [currentId]: { isLoading: true, hasError: false, src: "" },
+          [currentId]: {
+            isLoading: false,
+            hasError: true,
+            src: defaultReactImg,
+          },
         }));
+      }, 1500);
 
-        const img = new window.Image();
-        img.src = imageUrl;
+      img.onload = () => {
+        clearTimeout(timeoutId);
+        setImageStates((prev) => ({
+          ...prev,
+          [currentId]: { isLoading: false, hasError: false, src: imageUrl },
+        }));
+      };
 
-        const timeoutId = setTimeout(() => {
-          setImageStates((prev) => ({
-            ...prev,
-            [currentId]: {
-              isLoading: false,
-              hasError: true,
-              src: defaultReactImg,
-            },
-          }));
-        }, 1500);
-
-        img.onload = () => {
-          clearTimeout(timeoutId);
-          setImageStates((prev) => ({
-            ...prev,
-            [currentId]: { isLoading: false, hasError: false, src: imageUrl },
-          }));
-        };
-
-        img.onerror = () => {
-          clearTimeout(timeoutId);
-          setImageStates((prev) => ({
-            ...prev,
-            [currentId]: {
-              isLoading: false,
-              hasError: true,
-              src: defaultReactImg,
-            },
-          }));
-        };
-      }
+      img.onerror = () => {
+        clearTimeout(timeoutId);
+        setImageStates((prev) => ({
+          ...prev,
+          [currentId]: {
+            isLoading: false,
+            hasError: true,
+            src: defaultReactImg,
+          },
+        }));
+      };
     });
-  }, [reserves]);
+  }, [reserves, imageStates]);
 
   return (
     <div
-      className="mt-6 w-full min-w-0 rounded-[24px] bg-bg-light p-4 text-right lg:flex-[2] md:p-6"
+      className="w-full min-w-0 rounded-[24px] bg-bg-light p-4 text-right lg:flex-[2] md:p-6"
       dir="rtl"
     >
       {showHeader && (
@@ -156,15 +220,17 @@ export default function MyReserves({ showHeader = true }) {
           </div>
         ) : (
           reserves.map((reserve) => {
-            const imgState = imageStates[reserve.favoriteId] || {
-              isLoading: true,
+            const currentId = reserve.id || reserve.reserveId;
+            const isAccepted = Boolean(reserve.accept);
+            const imgState = imageStates[currentId] || {
+              isLoading: false,
               hasError: false,
-              src: "",
+              src: reserve.image || defaultReactImg,
             };
 
             return (
               <div
-                key={reserve.favoriteId}
+                key={currentId}
                 className="flex min-w-0 flex-col gap-4 rounded-2xl border border-gray-100 p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1fr_1fr_80px] lg:items-center lg:gap-0 lg:border-none lg:p-0 lg:px-4 lg:text-center lg:shadow-none"
               >
                 <div className="flex min-w-0 items-center gap-3 lg:contents">
@@ -178,7 +244,7 @@ export default function MyReserves({ showHeader = true }) {
                     ) : (
                       <img
                         src={imgState.src}
-                        alt={reserve.courseTitle}
+                        alt={reserve.courseName || "دوره"}
                         className={`h-full w-full rounded-[14px] ${
                           imgState.hasError
                             ? "object-contain p-2"
@@ -190,23 +256,27 @@ export default function MyReserves({ showHeader = true }) {
 
                   <div className="flex min-w-0 flex-col gap-1 lg:contents">
                     <span className="truncate text-sm font-bold text-text-dark">
-                      {reserve.courseTitle}
+                      {reserve.courseName || "بدون عنوان"}
                     </span>
 
                     <span className="text-xs font-medium text-text-muted lg:hidden">
-                      {reserve.teacheName}
+                      {reserve.teacher || "-"}
                     </span>
                   </div>
                 </div>
 
                 <span className="hidden text-sm font-medium text-text-muted lg:block">
-                  {reserve.teacheName}
+                  {reserve.teacher || "-"}
                 </span>
 
                 <div className="flex items-center justify-between gap-3 border-t border-gray-50 pt-3 lg:contents lg:border-none lg:pt-0">
                   <div className="flex items-center justify-center lg:mx-auto">
-                    <span className="rounded-full bg-red-500 px-4 py-1.5 text-[11px] font-medium tracking-wide text-text-light">
-                      تایید نشده
+                    <span
+                      className={`rounded-full px-4 py-1.5 text-[11px] font-medium tracking-wide text-text-light ${
+                        isAccepted ? "bg-emerald-500" : "bg-red-500"
+                      }`}
+                    >
+                      {isAccepted ? "تایید شده" : "تایید نشده"}
                     </span>
                   </div>
 
@@ -224,7 +294,11 @@ export default function MyReserves({ showHeader = true }) {
                       />
                     </button>
 
-                    <button className="transition-opacity hover:opacity-75">
+                    <button
+                      type="button"
+                      className="transition-opacity hover:opacity-75"
+                      aria-label="حذف"
+                    >
                       <img
                         src={cancelIcon}
                         alt="حذف"

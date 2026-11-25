@@ -15,56 +15,64 @@ export default function CourseList({ courses, isLoading, isError }) {
   };
 
   useEffect(() => {
-    if (courses && courses.length > 0) {
-      courses.forEach((item, index) => {
-        const currentId = item.favoriteId || item.courseId || item.id || index;
-        const imageUrl =
-          item.imageAddress ||
-          item.tumbImageAddress ||
-          "/default-placeholder.png";
+    if (!Array.isArray(courses) || courses.length === 0) return;
 
-        if (!imageStates[currentId]) {
-          setImageStates((prev) => ({
-            ...prev,
-            [currentId]: { isLoading: true, hasError: false, src: "" },
+    courses.forEach((item, index) => {
+      const currentId = item.id || item.courseId || index;
+      const imageUrl =
+        item.tumbImageAddress ||
+        item.course?.tumbImageAddress ||
+        item.course?.imageAddress ||
+        item.imageAddress ||
+        defaultReactImg;
+
+      setImageStates((prev) => {
+        if (prev[currentId]) return prev;
+
+        const img = new window.Image();
+        img.src = imageUrl;
+
+        const timeoutId = setTimeout(() => {
+          setImageStates((current) => ({
+            ...current,
+            [currentId]: {
+              isLoading: false,
+              hasError: true,
+              src: defaultReactImg,
+            },
           }));
+        }, 1500);
 
-          const img = new window.Image();
-          img.src = imageUrl;
+        img.onload = () => {
+          clearTimeout(timeoutId);
+          setImageStates((current) => ({
+            ...current,
+            [currentId]: {
+              isLoading: false,
+              hasError: false,
+              src: imageUrl,
+            },
+          }));
+        };
 
-          const timeoutId = setTimeout(() => {
-            setImageStates((prev) => ({
-              ...prev,
-              [currentId]: {
-                isLoading: false,
-                hasError: true,
-                src: defaultReactImg,
-              },
-            }));
-          }, 1500);
+        img.onerror = () => {
+          clearTimeout(timeoutId);
+          setImageStates((current) => ({
+            ...current,
+            [currentId]: {
+              isLoading: false,
+              hasError: true,
+              src: defaultReactImg,
+            },
+          }));
+        };
 
-          img.onload = () => {
-            clearTimeout(timeoutId);
-            setImageStates((prev) => ({
-              ...prev,
-              [currentId]: { isLoading: false, hasError: false, src: imageUrl },
-            }));
-          };
-
-          img.onerror = () => {
-            clearTimeout(timeoutId);
-            setImageStates((prev) => ({
-              ...prev,
-              [currentId]: {
-                isLoading: false,
-                hasError: true,
-                src: defaultReactImg,
-              },
-            }));
-          };
-        }
+        return {
+          ...prev,
+          [currentId]: { isLoading: true, hasError: false, src: "" },
+        };
       });
-    }
+    });
   }, [courses]);
 
   if (isError) {
@@ -77,16 +85,16 @@ export default function CourseList({ courses, isLoading, isError }) {
 
   return (
     <div
-      className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8 "
+      className="flex flex-col gap-6 rounded-[24px] bg-bg-light p-4 pb-6 lg:p-6 lg:pb-8"
       dir="rtl"
     >
-      <div className="hidden h-[44px] items-center rounded-2xl bg-bg-main px-4 text-center text-sm font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px]">
+      <div className="hidden h-[44px] items-center rounded-2xl bg-bg-main px-4 text-center text-sm font-medium text-text-muted lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_110px_40px]">
         <span>#</span>
         <span className="text-right">نام</span>
         <span>مدرس</span>
         <span>تاریخ برگزاری</span>
         <span>تاریخ اتمام</span>
-        <span>سطح</span>
+        <span>وضعیت پرداخت</span>
         <span></span>
       </div>
 
@@ -95,7 +103,7 @@ export default function CourseList({ courses, isLoading, isError }) {
           Array.from({ length: 3 }).map((_, index) => (
             <div
               key={`skeleton-${index}`}
-              className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
+              className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_110px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
             >
               <div className="hidden lg:block">
                 <Skeleton className="mx-auto h-12 w-12 rounded-[14px]">
@@ -127,7 +135,7 @@ export default function CourseList({ courses, isLoading, isError }) {
                 </Skeleton>
 
                 <div className="flex items-center justify-center lg:mx-auto">
-                  <Skeleton className="h-6 w-16 rounded-full">
+                  <Skeleton className="h-6 w-20 rounded-full">
                     <div className="h-6 w-full rounded-full bg-default-200"></div>
                   </Skeleton>
                 </div>
@@ -146,13 +154,18 @@ export default function CourseList({ courses, isLoading, isError }) {
           </div>
         ) : (
           courses.map((item, index) => {
-            const currentId =
-              item.favoriteId || item.courseId || item.id || index;
-            const title = item.courseTitle || item.title;
-            const teacher = item.teacheName || item.teacherName;
-            const startTime = item.course?.startTime || item.startTime;
-            const endTime = item.course?.endTime || item.endTime;
-            const level = item.course?.levelName || item.levelName || "پیشرفته";
+            const currentId = item.id || item.courseId || index;
+            const title =
+              item.courseTitle || item.course?.title || "بدون عنوان";
+            const teacher =
+              item.fullName ||
+              `${item.course?.teacher?.fName || ""} ${
+                item.course?.teacher?.lName || ""
+              }`.trim() ||
+              "-";
+            const startTime = item.course?.startTime;
+            const endTime = item.course?.endTime;
+            const paymentStatus = item.paymentStatus || "نامشخص";
 
             const imgState = imageStates[currentId] || {
               isLoading: true,
@@ -163,11 +176,11 @@ export default function CourseList({ courses, isLoading, isError }) {
             return (
               <div
                 key={currentId}
-                className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_100px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
+                className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm lg:grid lg:grid-cols-[60px_1.5fr_1.5fr_1fr_1fr_110px_40px] lg:items-center lg:gap-0 lg:bg-transparent lg:p-0 lg:text-center lg:shadow-none"
               >
                 <div className="hidden lg:block">
                   <div
-                    className={`flex h-12 w-12 items-center justify-center mx-auto rounded-[14px] shadow-sm ${
+                    className={`mx-auto flex h-12 w-12 items-center justify-center rounded-[14px] shadow-sm ${
                       imgState.hasError ? "bg-[#87DFFF]" : "bg-gray-100"
                     }`}
                   >
@@ -243,8 +256,8 @@ export default function CourseList({ courses, isLoading, isError }) {
 
                 <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-3 lg:mt-0 lg:contents lg:border-none lg:pt-0">
                   <div className="flex items-center justify-start lg:mx-auto lg:justify-center">
-                    <span className="rounded-full bg-[#F43DF4] px-4 py-1.5 text-[11px] font-medium tracking-wide text-white">
-                      {level}
+                    <span className="rounded-full bg-amber-500/15 px-3.5 py-1 text-[11px] font-medium text-amber-600">
+                      {paymentStatus}
                     </span>
                   </div>
 
@@ -252,6 +265,7 @@ export default function CourseList({ courses, isLoading, isError }) {
                     <button
                       type="button"
                       className="transition-opacity hover:opacity-75"
+                      aria-label="مشاهده جزئیات دوره"
                       onClick={() => handleOpenModal(item)}
                     >
                       <img
