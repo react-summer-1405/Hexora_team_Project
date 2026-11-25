@@ -9,7 +9,6 @@ import favoriteIcon from "../../../assets/images/dashboard/favorite-icon.png";
 import favoriteblogIcon from "../../../assets/images/dashboard/favoriteblog-icon.png";
 import profileIcon from "../../../assets/images/dashboard/profile-icon.png";
 import calendar from "../../../assets/icons/dashboard/Calendar_Days.svg"
-import job from "../../../assets/icons/dashboard/notes.svg"
 import LogoutModal from "../LogoutModal/LogoutModal";
 
 const sidebarLinks = [
@@ -39,8 +38,7 @@ const sidebarLinks = [
     icon: favoriteblogIcon,
   },
   { id: 6, title: "پروفایل", href: "/dashboard/profile", icon: profileIcon },
-  { id: 6, title: "برنامه کلاسی", href: "/dashboard/schedule", icon: calendar },
-  { id: 6, title: "سوابق کاری", href: "/dashboard/jobs", icon: job },
+  { id: 7, title: "برنامه کلاسی", href: "/dashboard/schedule", icon: calendar },
 ];
 
 export default function Sidebar({ isOpen, closeSidebar }) {
@@ -48,9 +46,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const handleConfirmLogout = () => {
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.clear() 
 
     setIsLogoutModalOpen(false);
     navigate("/");

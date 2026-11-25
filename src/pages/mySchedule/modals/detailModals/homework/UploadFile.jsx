@@ -6,7 +6,7 @@ import { addExerciseFile } from "../../../../../core/services/dashboard/mySchedu
 
 const homeWorkKey = ["session-allHomeWork"];
 
-const UploadFile = ({ homeWorkId, onUploaded }) => {
+const UploadFile = ({ courseUserHomeWorkId, onUploaded }) => {
   const queryClient = useQueryClient();
   const [sessionFiles, setSessionFiles] = useState([]);
   const objectUrls = useRef([]);
@@ -68,7 +68,7 @@ const UploadFile = ({ homeWorkId, onUploaded }) => {
       return;
     }
 
-    addFile({ files: sessionFiles.map((item) => item.file), homeWorkId });
+    addFile({ files: sessionFiles.map((item) => item.file), courseUserHomeWorkId });
   };
 
   return (

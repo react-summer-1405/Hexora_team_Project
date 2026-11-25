@@ -7,23 +7,33 @@ import { addHomeWork } from "../../../../../core/services/dashboard/mySchedule/s
 
 const homeWorkKey = ["session-allHomeWork"];
 
-const AddHomeWorkModal = ({ isOpen, toggle, homeWorkId, userId }) => {
+const AddHomeWorkModal = ({ isOpen, toggle, homeWorkId, courseStudentId }) => {
   const queryClient = useQueryClient();
   const [started, setStarted] = useState(false);
+  const [courseUserHomeWorkId, setCourseUserHomeWorkId] = useState(null);
 
   useEffect(() => {
-    if (isOpen) setStarted(false);
+    if (isOpen) {
+      setStarted(false);
+      setCourseUserHomeWorkId(null);
+    }
   }, [isOpen]);
-
   const { mutate: startHomeWork, isPending } = useMutation({
     mutationFn: addHomeWork,
     onSuccess: (data) => {
+      if (!data?.id) {
+        toast.error("شناسه‌ی تحویل تکلیف دریافت نشد");
+        return;
+      }
       toast.success(data?.message ?? "تحویل تکلیف آغاز شد");
       queryClient.invalidateQueries({ queryKey: homeWorkKey });
+      setCourseUserHomeWorkId(data.id);
       setStarted(true);
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message ?? "شروع تحویل تکلیف ناموفق بود");
+      toast.error(
+        error.response?.data?.message ?? "شروع تحویل تکلیف ناموفق بود",
+      );
     },
   });
 
@@ -33,9 +43,9 @@ const AddHomeWorkModal = ({ isOpen, toggle, homeWorkId, userId }) => {
   };
 
   const handleStart = () => {
-    if (isPending || !homeWorkId || !userId) return;
+    if (isPending || !homeWorkId || !courseStudentId) return;
 
-    startHomeWork({ hwid: homeWorkId, cstudentId: String(userId) });
+    startHomeWork({ hwid: homeWorkId, cstudentId: courseStudentId });
   };
 
   return (
@@ -58,7 +68,7 @@ const AddHomeWorkModal = ({ isOpen, toggle, homeWorkId, userId }) => {
             <button
               type="button"
               onClick={handleStart}
-              disabled={isPending || !homeWorkId || !userId}
+              disabled={isPending || !homeWorkId || !courseStudentId}
               className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending ? (
@@ -75,7 +85,10 @@ const AddHomeWorkModal = ({ isOpen, toggle, homeWorkId, userId }) => {
       }
     >
       {started ? (
-        <UploadFile homeWorkId={homeWorkId} onUploaded={toggle} />
+        <UploadFile
+          courseUserHomeWorkId={courseUserHomeWorkId}
+          onUploaded={toggle}
+        />
       ) : (
         <span className="text-sm text-text-dark">
           برای ارسال فایل تکلیف، ابتدا «شروع تحویل» را بزنید.

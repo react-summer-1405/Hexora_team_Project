@@ -15,8 +15,18 @@ const NotificationDrawer = ({ isOpen, onClose }) => {
   const backdropRef = useRef(null);
   const panelRef = useRef(null);
 
+  const hasOpened = useRef(false);
+
   useGSAP(
     () => {
+      if (!isOpen && !hasOpened.current) {
+        gsap.set(backdropRef.current, { opacity: 0 });
+        gsap.set(panelRef.current, { xPercent: -100, opacity: 0, scale: 0.97 });
+        return;
+      }
+
+      if (isOpen) hasOpened.current = true;
+
       const tl = gsap.timeline();
 
       if (isOpen) {

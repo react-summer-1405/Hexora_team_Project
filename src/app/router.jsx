@@ -23,7 +23,6 @@ import FavoriteCoursesPage from "../pages/FavoriteCoursesPage/FavoriteCoursesPag
 import FavoriteBlogsPage from "../pages/FavoriteBlogsPage/FavoriteBlogsPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import SchedulePage from "../pages/mySchedule/SchedulePage";
-import JobsPage from "../pages/myJobs/JobsPage";
 
 const router = createBrowserRouter([
   { path: "*", element: <NotFoundPage /> },
@@ -84,7 +83,6 @@ const router = createBrowserRouter([
       { path: "my-FavoriteBlogs", element: <FavoriteBlogsPage /> },
       { path: "profile", element: <ProfilePage /> },
       { path: "schedule", element: <SchedulePage /> },
-      { path: "jobs", element: <JobsPage /> },
     ],
   },
 ]);

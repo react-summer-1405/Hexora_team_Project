@@ -17,20 +17,22 @@ const formatJalali = (value) =>
         .format("D MMMM YYYY")
     : "-";
 
-const HomeWorkModal = ({ isOpen, toggle, sessionId, userId }) => {
+const HomeWorkModal = ({ isOpen, toggle, sessionId }) => {
   const [addOpen, setAddOpen] = useState(false);
   const [homeWorkId, setHomeWorkId] = useState(null);
+  const [courseStudentId, setCourseStudentId] = useState(null);
 
   const {
     data: allHomeWork = [],
     isLoading,
     isError,
   } = useQuery({
-    queryKey: [...homeWorkKey, sessionId],
-    queryFn: () => getSessionHomeWork(sessionId),
+    queryKey: [...homeWorkKey],
+    queryFn: getSessionHomeWork,
     enabled: isOpen && Boolean(sessionId),
   });
 
+  
   return (
     <>
       <Modal
@@ -114,6 +116,7 @@ const HomeWorkModal = ({ isOpen, toggle, sessionId, userId }) => {
                     type="button"
                     onClick={() => {
                       setHomeWorkId(homeWork.homeWorkId);
+                      setCourseStudentId(homeWork.courseStudentId);
                       setAddOpen(true);
                     }}
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover"
@@ -132,7 +135,7 @@ const HomeWorkModal = ({ isOpen, toggle, sessionId, userId }) => {
         isOpen={addOpen}
         toggle={() => setAddOpen(false)}
         homeWorkId={homeWorkId}
-        userId={userId}
+        courseStudentId={courseStudentId}
       />
     </>
   );

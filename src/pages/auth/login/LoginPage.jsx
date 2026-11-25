@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../../../core/services/auth/login";
-import { removeItem, setItem } from "../../../core/localStorage/localStorage";
+import {  setItem } from "../../../core/localStorage/localStorage";
 import { loginInputs } from "../../../core/constants/auth/login/loginInputs/loginInputs.js";
 import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
@@ -18,7 +18,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    removeItem("token")
+    localStorage.clear()
   }, [])
   
 

@@ -13,7 +13,6 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import "./app-calendar.css";
 import JalaliDateField from "./JalaliDateField";
 import {
-  getAllCourseGroups,
   getMySessions,
 } from "../../core/services/dashboard/mySchedule/schedule";
 import ScheduleDetailModal from "./modals/ScheduleDetailModal";
@@ -50,10 +49,7 @@ const CourseCalendar = () => {
     enabled: Boolean(userId),
   });
 
-  const { data: groups = [] } = useQuery({
-    queryKey: ["course-groups"],
-    queryFn: getAllCourseGroups,
-  });
+
 
   const records = allRecords.filter((item) => {
     const date = item.startDate.slice(0, 10);
@@ -67,11 +63,10 @@ const CourseCalendar = () => {
 
   const events = records.map((item) => {
     const date = item.startDate.slice(0, 10);
-    const group = groups.find((g) => g.id === item.courseGroupId);
 
     return {
       id: item.id,
-      title: group?.groupName ?? "",
+      title: "ساعت",
       start: `${date}T${item.startTime}:00`,
       end: `${date}T${item.endTime}:00`,
     };
@@ -202,7 +197,6 @@ const CourseCalendar = () => {
         isOpen={Boolean(selectedSchedule)}
         toggle={() => setSelectedId(null)}
         schedule={selectedSchedule}
-        groups={groups}
         userId={userId}
       />
     </div>

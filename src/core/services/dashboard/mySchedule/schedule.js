@@ -1,11 +1,13 @@
 import Api_Client from "../../../interceptor/interceptor";
 
 
-export const getAllCourseGroups = async () => {
-  const response = await Api_Client.get("/CourseGroup")
+export const getSessionFileAndGroup= async (sessionId) => {
+  const res = await Api_Client.get(`/Session/SessionDetail?SessionId=${sessionId}`
+  );
 
-  return response.data.courseGroupDtos;
-};
+  return res.data;
+
+}
 
 
 export const getMySessions = async () => {
@@ -16,8 +18,8 @@ export const getMySessions = async () => {
 
 }
 
-export const getSessionHomeWork = async (sessionId)=>{
-  const res = await Api_Client.get(`/Session/GetSessionHomeWork?SessionId=${sessionId}`)
+export const getSessionHomeWork = async ()=>{
+  const res = await Api_Client.get(`/Session/StudentHomeworkList`)
 
   return res.data
 }
@@ -40,11 +42,11 @@ export const addHomeWork = async(payload)=>{
 }
 
 
-export const addExerciseFile =async({homeWorkId,files})=>{
+export const addExerciseFile =async({courseUserHomeWorkId,files})=>{
 
   const formData = new FormData()
 
-  formData.append("CouresUserHomeWorkId", homeWorkId)
+  formData.append("CouresUserHomeWorkId", courseUserHomeWorkId)
 
     files.forEach((file) => {
     formData.append("ExersiceFiles", file);

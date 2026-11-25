@@ -1,6 +1,7 @@
 import CaptionOfTitle from "../Components/common/texts/CaptionOfTitle";
 import Details from "../Components/contactUsPage/components/Details";
-import ContactForm from "../Components/contactUsPage/components/ContactForm";
+import TicketPage from "../Components/contactUsPage/components/TicketPage";
+
 
 const ContactUsPage = () => {
   return (
@@ -11,8 +12,10 @@ const ContactUsPage = () => {
         </h3>
         <CaptionOfTitle content="سؤال یا پیشنهادی دارید؟ پیام بگذارید تا در کمتر از ۲۴ ساعت پاسخ بدهیم." />
       </div>
-      <div className="flex lg:flex-row flex-col justify-center lg:items-start items-center gap-10  w-full lg:px-15">
-        <ContactForm />
+      <div className="flex  lg:flex-row flex-col  lg:items-start items-center gap-10  w-full lg:px-15">
+       
+       <TicketPage/>
+        
         <Details />
       </div>
     </div>

@@ -2,10 +2,13 @@ import { useState } from "react";
 import DateObject from "react-date-object";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { BookOpen, User } from "react-feather";
+import { BookOpen, Paperclip, User } from "react-feather";
 import HomeWorkModal from "./detailModals/homework/HomeWorkModal";
 import StudentAPModal from "./detailModals/studentAP/StudentAPModal";
 import Modal from "./Modal";
+import { getSessionFileAndGroup } from "../../../core/services/dashboard/mySchedule/schedule";
+import { useQuery } from "@tanstack/react-query";
+import FilesModal from "./detailModals/fileModal/FilesModal";
 
 const formatJalali = (value) =>
   value
@@ -28,22 +31,37 @@ const actions = [
     icon: User,
     className: "border-sky-500 text-sky-600 hover:bg-sky-500 hover:text-white",
   },
+    {
+    key: "files",
+    label: "فایل‌های جلسه",
+    icon: Paperclip,
+    className:
+      "border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white",
+  },
 ];
 
-const ScheduleDetailModal = ({ isOpen, toggle, schedule, groups, userId }) => {
+const ScheduleDetailModal = ({ isOpen, toggle, schedule, userId }) => {
   const [homeWorkOpen, setHomeWorkOpen] = useState(false);
+  const [fileOpen,setFileOpen ] = useState(false);
   const [studentAPOpen, setStudentAPOpen] = useState(false);
 
   const openers = {
     homeWork: () => setHomeWorkOpen(true),
+    files: ()=> setFileOpen(true),
     status: () => setStudentAPOpen(true),
   };
 
-  const group = groups.find((g) => g.id === schedule?.courseGroupId);
+  const sessionId = schedule?.id
+
+    const { data:detail = {} , isLoading:isDetailLoading } = useQuery({
+    queryKey: ["course-groups-files",sessionId],
+    queryFn: ()=>getSessionFileAndGroup(sessionId),
+  });
+
 
   const info = schedule
     ? [
-        { label: "گروه", value: group?.groupName ?? "-" },
+        { label: "گروه", value: detail.sessionTitle ?? "-" },
         { label: "تاریخ", value: formatJalali(schedule.startDate) },
         { label: "ساعت شروع", value: schedule.startTime },
         { label: "ساعت پایان", value: schedule.endTime },
@@ -68,17 +86,17 @@ const ScheduleDetailModal = ({ isOpen, toggle, schedule, groups, userId }) => {
           </div>
         )}
 
-        <h4 className="mb-3 text-sm font-bold text-text-dark">
+        <h4 className="mb-6 text-sm font-bold text-text-dark">
           مدیریت جلسه
         </h4>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+<div className="flex flex-col  md:flex-row justify-between">
           {actions.map(({ key, label, icon: Icon, className }) => (
             <button
               key={key}
               type="button"
               onClick={openers[key]}
-              className={`flex cursor-pointer items-center justify-center gap-2 rounded-lg border bg-transparent px-4 py-2.5 text-sm font-medium transition-colors ${className}`}
+              className={` flex cursor-pointer  items-center justify-center gap-2 rounded-lg border bg-transparent px-4 py-2.5 text-sm font-medium transition-colors ${className}`}
             >
               <Icon size={16} />
               <span>{label}</span>
@@ -87,17 +105,24 @@ const ScheduleDetailModal = ({ isOpen, toggle, schedule, groups, userId }) => {
         </div>
       </Modal>
 
+      <FilesModal
+       isOpen={fileOpen}
+        toggle={() => setFileOpen(false)}
+        files = {detail?.sessionFileDtos}
+        isLoading = {isDetailLoading}
+      />
+
       <HomeWorkModal
         isOpen={homeWorkOpen}
         toggle={() => setHomeWorkOpen(false)}
-        sessionId={schedule?.id}
+        sessionId={sessionId}
         userId={userId}
       />
 
       <StudentAPModal
         isOpen={studentAPOpen}
         toggle={() => setStudentAPOpen(false)}
-        sessionId={schedule?.id}
+        sessionId={sessionId}
       />
     </>
   );
