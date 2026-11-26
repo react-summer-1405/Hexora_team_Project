@@ -9,6 +9,7 @@ import favoriteIcon from "../../../assets/images/dashboard/favorite-icon.png";
 import favoriteblogIcon from "../../../assets/images/dashboard/favoriteblog-icon.png";
 import profileIcon from "../../../assets/images/dashboard/profile-icon.png";
 import LogoutModal from "../LogoutModal/LogoutModal";
+// import PaymentsPage from "../../../pages/PaymentsPage/PaymentsPage";
 
 const sidebarLinks = [
   { id: 1, title: "داشبورد", href: "/dashboard", icon: dashIcon },
@@ -26,17 +27,23 @@ const sidebarLinks = [
   },
   {
     id: 4,
+    title: "پرداخت‌ها",
+    href: "/dashboard/payments",
+    icon: mycourseIcon,
+  },
+  {
+    id: 5,
     title: "دوره‌های مورد علاقه",
     href: "/dashboard/my-FavoriteCourses",
     icon: favoriteIcon,
   },
   {
-    id: 5,
+    id: 6,
     title: "بلاگ‌های مورد علاقه",
     href: "/dashboard/my-FavoriteBlogs",
     icon: favoriteblogIcon,
   },
-  { id: 6, title: "پروفایل", href: "/dashboard/profile", icon: profileIcon },
+  { id: 7, title: "پروفایل", href: "/dashboard/profile", icon: profileIcon },
 ];
 
 export default function Sidebar({ isOpen, closeSidebar }) {
@@ -79,6 +86,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
             <li key={item.id}>
               <Link
                 to={item.href}
+                onClick={closeSidebar}
                 className="flex cursor-pointer items-center gap-3 transition-colors hover:text-text-light/70"
               >
                 <img src={item.icon} alt={item.title} className="h-5 w-5" />

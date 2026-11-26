@@ -19,6 +19,7 @@ import DashboardLayout from "../Components/layouts/dashboard/DashboardLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import MyCoursesPage from "../pages/myCourses/MyCoursesPage";
 import MyReservationsPage from "../pages/MyReservations/MyReservationsPage";
+import PaymentsPage from "../pages/PaymentsPage/PaymentsPage";
 import FavoriteCoursesPage from "../pages/FavoriteCoursesPage/FavoriteCoursesPage";
 import FavoriteBlogsPage from "../pages/FavoriteBlogsPage/FavoriteBlogsPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
@@ -78,6 +79,7 @@ const router = createBrowserRouter([
       { index: true, element: <DashboardPage /> },
       { path: "my-courses", element: <MyCoursesPage /> },
       { path: "my-reserve", element: <MyReservationsPage /> },
+      { path: "payments", element: <PaymentsPage /> },
       { path: "my-FavoriteCourses", element: <FavoriteCoursesPage /> },
       { path: "my-FavoriteBlogs", element: <FavoriteBlogsPage /> },
       { path: "profile", element: <ProfilePage /> },
