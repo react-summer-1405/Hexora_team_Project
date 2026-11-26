@@ -24,9 +24,7 @@ const fetchMyReservesList = async () => {
       if (Array.isArray(data?.myCoursesReserves)) return data.myCoursesReserves;
       if (Array.isArray(data?.reserves)) return data.reserves;
       if (Array.isArray(data?.list)) return data.list;
-    } catch {
-      // ادامه به مسیر بعدی
-    }
+    } catch {}
   }
   return [];
 };
@@ -34,7 +32,6 @@ const fetchMyReservesList = async () => {
 const fetchPaidCourseIds = async () => {
   const paidIds = new Set();
 
-  // ۱. بررسی دوره‌های ثبت‌شده در «دوره‌های من»
   try {
     const res = await Api_client.get("/SharePanel/GetMyCourses", {
       params: { PageNumber: 1, RowsOfPage: 100 },
@@ -47,11 +44,8 @@ const fetchPaidCourseIds = async () => {
       if (c?.courseId) paidIds.add(String(c.courseId));
       if (c?.id) paidIds.add(String(c.id));
     });
-  } catch {
-    // نادیده گرفتن در صورت خطا
-  }
+  } catch {}
 
-  // ۲. بررسی لیست پرداخت‌های دانشجو
   const payEndpoints = [
     "/NewVersion/CoursePayment/StudentUserPayList",
     "/CoursePayment/StudentUserPayList",
@@ -69,9 +63,7 @@ const fetchPaidCourseIds = async () => {
         }
       });
       break;
-    } catch {
-      // ادامه به مسیر بعدی
-    }
+    } catch {}
   }
 
   return paidIds;
@@ -286,7 +278,6 @@ export default function PaymentsPage() {
         </button>
       </div>
 
-      {/* بخش ۱: انتخاب از لیست رزروها */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold text-text-dark">
@@ -382,13 +373,13 @@ export default function PaymentsPage() {
             }}
             placeholder="با انتخاب دوره تاییدشده خودکار پر می‌شود"
             dir="ltr"
-            className="w-full rounded-2xl border border-border bg-bg-dark/50 px-4 py-2.5 text-left font-mono text-xs text-text-dark outline-none focus:border-primary"
+            className="w-full rounded-2xl border border-border bg-bg-light px-4 py-2.5 text-left font-mono text-xs text-text-dark outline-none focus:border-primary"
           />
         </div>
       </div>
 
       {/* بخش ۲: مرحله اول */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg-dark/40 p-4">
+      <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg-light p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-col gap-0.5">
             <span className="text-sm font-bold text-text-dark">
@@ -432,7 +423,7 @@ export default function PaymentsPage() {
       </div>
 
       {/* بخش ۳: مرحله دوم */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg-dark/40 p-4">
+      <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg-light p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-col gap-0.5">
             <span className="text-sm font-bold text-text-dark">
@@ -460,7 +451,7 @@ export default function PaymentsPage() {
           onChange={(e) => setAuthorityCode(e.target.value)}
           placeholder="کد Authority / پیگیری (پس از بازگشت از درگاه خودکار پر می‌شود)"
           dir="ltr"
-          className="w-full rounded-xl border border-border bg-bg-dark/60 px-4 py-2.5 text-left font-mono text-xs text-text-dark outline-none placeholder:text-right placeholder:font-sans placeholder:text-text-muted focus:border-primary"
+          className="w-full rounded-xl border border-border bg-bg-main px-4 py-2.5 text-left font-mono text-xs text-text-dark outline-none placeholder:text-right placeholder:font-sans placeholder:text-text-muted focus:border-primary"
         />
       </div>
 
