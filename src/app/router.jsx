@@ -23,6 +23,7 @@ import PaymentsPage from "../pages/PaymentsPage/PaymentsPage";
 import FavoriteCoursesPage from "../pages/FavoriteCoursesPage/FavoriteCoursesPage";
 import FavoriteBlogsPage from "../pages/FavoriteBlogsPage/FavoriteBlogsPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import SchedulePage from "../pages/mySchedule/SchedulePage";
 
 const router = createBrowserRouter([
   { path: "*", element: <NotFoundPage /> },
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
       { path: "my-FavoriteCourses", element: <FavoriteCoursesPage /> },
       { path: "my-FavoriteBlogs", element: <FavoriteBlogsPage /> },
       { path: "profile", element: <ProfilePage /> },
+      { path: "schedule", element: <SchedulePage /> },
     ],
   },
 ]);

@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addProfileImage, deleteProfileImage, getProfileInfo, selectProfileImage, updateProfileInfo } from "../../core/services/dashboard/profile.api";
+import { addProfileImage, ChangeSecurityInfo, deleteProfileImage, getProfileInfo, getSecurityInfo, selectProfileImage, updateProfileInfo } from "../../core/services/dashboard/profile.api";
 import toast from "react-hot-toast";
 import { getItem } from "../../core/localStorage/localStorage";
 
 
 const profileKey = ["userProfile"];
+
+const securityKey = ["userSecurity"];
 
 export const useProfile = () => {
     const token = getItem("token");
@@ -96,3 +98,36 @@ export const useDeleteProfileImage = () => {
     },
   });
 };
+
+
+export const useSecurityInfo = () => {
+
+  return useQuery({
+    queryKey: securityKey,
+    queryFn: getSecurityInfo,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+
+  });
+};
+
+
+export const useChangeSecurityInfo = ()=>{
+
+    const queryClient = useQueryClient();
+
+
+  return useMutation({
+    mutationFn:ChangeSecurityInfo,
+        onSuccess: (data) => {
+        toast.success(data.message);
+        queryClient.invalidateQueries({ queryKey: securityKey });
+
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message);
+    },
+
+  })
+}
+

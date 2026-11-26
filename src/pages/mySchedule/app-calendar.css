@@ -1,0 +1,119 @@
+
+.app-calendar {
+  --fc-border-color: var(--color-border);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: var(--color-bg-field);
+  --fc-today-bg-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  --fc-button-text-color: var(--color-primary);
+  --fc-button-bg-color: transparent;
+  --fc-button-border-color: var(--color-primary);
+  --fc-button-hover-bg-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  --fc-button-hover-border-color: var(--color-primary);
+  --fc-button-active-bg-color: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  --fc-button-active-border-color: var(--color-primary);
+  --fc-event-bg-color: var(--color-primary);
+  --fc-event-border-color: var(--color-primary);
+  --fc-event-text-color: #ffffff;
+  --fc-list-event-hover-bg-color: var(--color-bg-field);
+  color: var(--color-text-dark);
+}
+
+.app-calendar .fc-header-toolbar {
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem !important;
+}
+
+.app-calendar .fc-toolbar-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.app-calendar .fc-button {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  text-transform: none;
+  box-shadow: none !important;
+}
+
+.app-calendar .fc-prev-button,
+.app-calendar .fc-next-button {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: inherit !important;
+}
+
+.app-calendar .fc-prev-button:hover,
+.app-calendar .fc-next-button:hover {
+  background: var(--fc-button-hover-bg-color) !important;
+}
+
+.app-calendar .fc-view-harness {
+  min-height: 650px;
+}
+
+.app-calendar .fc-daygrid-day {
+  padding: 4px;
+}
+
+.app-calendar .fc-day-past .fc-daygrid-day-number,
+.app-calendar .fc-day-future .fc-daygrid-day-number {
+  color: var(--color-text-muted);
+}
+
+.app-calendar .fc-daygrid-day-number,
+.app-calendar .fc-timegrid-slot-label-cushion,
+.app-calendar .fc-list-event-time,
+.app-calendar .fc-col-header-cell-cushion {
+  color: inherit;
+}
+
+.app-calendar .fc-daygrid-event-harness + .fc-daygrid-event-harness {
+  margin-top: 0.25rem;
+}
+
+.app-calendar .fc-event {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.app-calendar .fc-timegrid-slot {
+  height: 3rem;
+}
+
+.app-calendar .fc-timegrid-divider {
+  display: none;
+}
+
+.app-calendar .fc-list-event {
+  background: transparent;
+  cursor: pointer;
+}
+
+.app-calendar .fc-list-day-cushion {
+  background: var(--color-bg-field);
+}
+
+.app-calendar .fc-popover {
+  background: var(--color-bg-main);
+  border-color: var(--color-border);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.app-calendar .fc-popover-header {
+  background: transparent;
+}
+
+@media (max-width: 700px) {
+  .app-calendar .fc-toolbar-chunk:last-of-type {
+    margin-top: 0.5rem;
+  }
+
+  .app-calendar .fc-view-harness {
+    min-height: 500px;
+  }
+}

@@ -5,7 +5,8 @@ import bellIcon from "../../../assets/icons/notification-02.svg";
 import Button from "../../common/Button";
 import { selectThemeMode, toggleTheme } from "../../features/theme/themeSlice";
 
-const Toolbar = () => {
+
+const Toolbar = ({ unseenCount = 0, onBellClick }) => {
   const dispatch = useDispatch();
   const mode = useSelector(selectThemeMode);
 
@@ -16,12 +17,16 @@ const Toolbar = () => {
         icon={bellIcon}
         customStyle="p-3 border border-border"
         color="bg-bg-field"
+        onClick={onBellClick}
         content={
-          <div className="absolute -bottom-0.5 -right-0.5  w-4 h-4 rounded-full bg-danger border-white text-white text-[12px] leading-[20px]">
-            2
-          </div>
+          unseenCount > 0 ? (
+            <div className="absolute -bottom-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[11px] leading-none text-white">
+              {unseenCount > 9 ? "9+" : unseenCount}
+            </div>
+          ) : null
         }
       />
+
       <Button
         circle
         icon={mode === "dark" ? sunIcon : moonIcon}

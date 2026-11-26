@@ -5,6 +5,7 @@ import AccountInfo from "../../Components/dashboard/Profile/AccountInfo";
 import ProfilePhotos from "../../Components/dashboard/Profile/ProfilePhotos";
 import ProfileLocation from "../../Components/dashboard/Profile/ProfileLocation";
 import ProfileLinks from "../../Components/dashboard/Profile/ProfileLinks";
+import ChangePassword from "../../Components/dashboard/Profile/ChangePassword";
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("account");
@@ -12,6 +13,7 @@ export default function ProfilePage() {
 
   const tabs = [
     { id: "account", label: "اطلاعات حساب کاربری" },
+    { id: "password", label: "تغییر رمز حساب" },
     { id: "photos", label: "عکس ها" },
     { id: "location", label: "محل سکونت" },
     { id: "links", label: "لینک ها" },
@@ -63,6 +65,8 @@ export default function ProfilePage() {
 
       <div ref={contentRef} className="w-full flex-1 lg:pr-4">
         {activeTab === "account" && <AccountInfo />}
+
+        {activeTab === "password" && <ChangePassword />}
 
         {activeTab === "photos" && <ProfilePhotos />}
 

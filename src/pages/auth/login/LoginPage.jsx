@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../../../core/services/auth/login";
-import { setItem } from "../../../core/localStorage/localStorage";
+import {  setItem } from "../../../core/localStorage/localStorage";
 import { loginInputs } from "../../../core/constants/auth/login/loginInputs/loginInputs.js";
 import InputGroup from "../../../Components/common/auth/InputGroup.jsx";
 import Button from "../../../Components/common/auth/Button.jsx";
@@ -12,9 +12,15 @@ import { useDispatch } from "react-redux";
 import { setUserId } from "../../../Components/features/auth/authSlice.js";
 import toast from "react-hot-toast";
 import home from "../../../assets/icons/home-04.svg"
+import { useEffect } from "react";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear()
+  }, [])
+  
 
     const dispatch = useDispatch();
 
